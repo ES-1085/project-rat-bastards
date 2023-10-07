@@ -21,7 +21,8 @@ library(readr)
 hurricane_data <- read_csv("../data/hurricane_plants.csv")
 
 # reorder variables to logical order
-select(hurricane_plants, 
+
+hurricane_plants <- relocate(hurricane_data, 
        date, 
        `life form`, 
        species, 
@@ -60,11 +61,10 @@ select(hurricane_plants,
        `# ripe seed cones`,
        `# dropped/removed fruits`,
        `# cone or seed drop`,
-       notes,
-       `...15`
+       notes
        )
 
-glimpse(hurricane_data)
+glimpse(hurricane_plants)
 ```
 
 
