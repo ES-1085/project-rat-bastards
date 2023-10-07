@@ -1,6 +1,6 @@
 ---
 title: "Project proposal"
-author: "Team name"
+author: "Rat Bastards"
 output: github_document
 ---
 
@@ -14,6 +14,59 @@ library(broom)
 
 
 ## 2. Data
+
+```{r}
+library(readr)
+
+hurricane_data <- read_csv("../data/hurricane_plants.csv")
+
+# reorder variables to logical order
+select(hurricane_plants, 
+       date, 
+       `life form`, 
+       species, 
+       `initial growth (presnt/absent)`,
+       `emergence (present/absent)`,
+       `# breaking leaf buds`,
+       `leaves present/absent?`,
+       `unfolded leaves (present/absent)`,
+       `unfolded leaves? (present/absent)`,
+       `fully unfolded leaves? (present/absent)`,
+       `fully unfolded leaves (present or absent)`,
+       `% unfolded leaves`,
+       `% full size are most leaves?`,
+       `# young leaves`,
+       `# leaves unfolded`,
+       `young leaves (present/absent)`,
+       `leaves present/absent`,
+       `% full-sized leaves`,
+       `% leaves colorful (not including dried leaves retained)`,
+       `% leaves color change`,
+       `fallen leaves (present/absent)`,
+       `# leaves unfolded`, 
+       `# breaking needle buds`,
+       `# young needles`,
+       `% stalk full growth`,
+       `% fiddlehead unrolled`,
+       `# flowers or buds`,
+       `% open flowers`,
+       `pollen (little, some, lots)`,
+       `# pollen cones`,
+       `% open pollen cones`,
+       `pollen release (little, some, lots)`,
+       `# fruits`,
+       `# unripe seed cones`,
+       `% ripe fruits`,
+       `# ripe seed cones`,
+       `# dropped/removed fruits`,
+       `# cone or seed drop`,
+       notes,
+       `...15`
+       )
+
+glimpse(hurricane_data)
+```
+
 
 
 ## 3. Ethics review
