@@ -9,6 +9,7 @@ library(broom)
 
 ## 1. Introduction
 
+<<<<<<< HEAD
 Our data are a collection of phenological observations on vegetation
 from Hurricane Island. These data were gathered in the 2023 spring-fall
 field season to track the phenophases of a broad range of plant species.
@@ -36,6 +37,14 @@ that does not).
 library(readr)
 
 hurricane_data <- read_csv("../data/hurricane_plants.csv")
+=======
+## 2. Data
+
+``` r
+library(readr)
+
+hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
 ```
 
     ## New names:
@@ -59,7 +68,11 @@ hurricane_data <- read_csv("../data/hurricane_plants.csv")
 ``` r
 # reorder variables to logical order
 
+<<<<<<< HEAD
 hurricane_plants <- relocate(hurricane_data, 
+=======
+hurricane_plants <- relocate(hurricane_raw_data, 
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
        date, 
        `life form`, 
        species, 
@@ -101,6 +114,11 @@ hurricane_plants <- relocate(hurricane_data,
        notes
        )
 
+<<<<<<< HEAD
+=======
+# write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
+
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
 glimpse(hurricane_plants)
 ```
 
@@ -149,6 +167,7 @@ glimpse(hurricane_plants)
 ## 3. Ethics review
 
 ## 4. Data analysis plan
+<<<<<<< HEAD
 
 We will visualize date, breaking leaves/buds/needles, flowering, and
 fruiting phenophases of comparable species. We will also visualize these
@@ -156,3 +175,5 @@ phenophases based on records of climatic variables from this field
 season. The climatic variables will need to be sourced from the
 Worldclim database. We plan on utilizing violin plots, lollipop plots,
 ridge plots, as well as potential animations and maps.
+=======
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
