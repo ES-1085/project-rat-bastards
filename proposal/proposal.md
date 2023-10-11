@@ -9,12 +9,42 @@ library(broom)
 
 ## 1. Introduction
 
+<<<<<<< HEAD
+Our data are a collection of phenological observations on vegetation
+from Hurricane Island. These data were gathered in the 2023 spring-fall
+field season to track the phenophases of a broad range of plant species.
+The data were collected by one of our team members who visited
+individual plants each week throughout the season. Photos were taken of
+each plant on a weekly basis to identify phenophase development. The
+phenophases tracked were based on the categories described by the
+National Phenology Network. The primary goal of this research is to
+create and visualize a baseline phenological record of the vegetation on
+Hurricane Island which can be used in future analysis. Additionally, we
+plan to analyze how the phenophases develop in response to varying
+climatic factors throughout the season. We also intend to visualize
+comparisons between differing species categories such as
+fruit-bearing/non-fruit-bearing, native/introduced, etc to see how their
+development varies. The cases are each plant species and its disposition
+on the calendar day on which it was observed. The variables are date of
+data collection, species information, and phenological observations
+made. Individual species have differing phenological observations made
+depending on varying morphology. (Eg. A plant that fruits versus one
+that does not).
+
+## 2. Data
+
+``` r
+library(readr)
+
+hurricane_data <- read_csv("../data/hurricane_plants.csv")
+=======
 ## 2. Data
 
 ``` r
 library(readr)
 
 hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
 ```
 
     ## New names:
@@ -38,7 +68,11 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
 ``` r
 # reorder variables to logical order
 
+<<<<<<< HEAD
+hurricane_plants <- relocate(hurricane_data, 
+=======
 hurricane_plants <- relocate(hurricane_raw_data, 
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
        date, 
        `life form`, 
        species, 
@@ -80,8 +114,11 @@ hurricane_plants <- relocate(hurricane_raw_data,
        notes
        )
 
+<<<<<<< HEAD
+=======
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
 glimpse(hurricane_plants)
 ```
 
@@ -130,3 +167,13 @@ glimpse(hurricane_plants)
 ## 3. Ethics review
 
 ## 4. Data analysis plan
+<<<<<<< HEAD
+
+We will visualize date, breaking leaves/buds/needles, flowering, and
+fruiting phenophases of comparable species. We will also visualize these
+phenophases based on records of climatic variables from this field
+season. The climatic variables will need to be sourced from the
+Worldclim database. We plan on utilizing violin plots, lollipop plots,
+ridge plots, as well as potential animations and maps.
+=======
+>>>>>>> 76c30549952ca67f719cf7fb95cf082efa207a7d
