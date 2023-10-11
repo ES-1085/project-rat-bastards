@@ -15,7 +15,7 @@ using the following format.
 ## hurricane_plants.csv
 
 - `date`: The date that the observation of the plant was captured
-- `life_form`: The category of form that the plant takes (shrub, vine, tree, herb)
+- `life_form`: The form that the plant takes (shrub, vine, tree, herb)
 - `species`: The Latin name for the species of plant observed
 - `initial_emergence`: Logical variable that signifies the presence of an initial emergence or new growth of the plant
 - `breaking_leaf_buds_count`: A discrete count of amount of leaf buds on the plant
