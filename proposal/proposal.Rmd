@@ -64,5 +64,10 @@ glimpse(hurricane_plants)
 
 We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables  from this field season. The climatic variables will need to be sourced from the Worldclim database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
 
+```{r exploring_the_data}
+# graph the amount of buds or flowers of each plant? facet by life form?
+# graph the percent leaves unfolded 
+# summary statistics
+```
 
 
