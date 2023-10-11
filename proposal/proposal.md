@@ -39,22 +39,15 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
 ```
 
     ## New names:
-    ## • `...15` -> `...21`
-
-    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-    ## e.g.:
-    ##   dat <- vroom(...)
-    ##   problems(dat)
-
     ## Rows: 1320 Columns: 27
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (9): date, life_form, species, fallen_leaf_presence, notes, initial_eme...
-    ## dbl (12): breaking_leaf_buds_count, percent_unfolded_leaves, percent_full_si...
-    ## lgl  (6): breaking_needle_bud_count, young_needle_count, pollen_cone_count, ...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## ── Column specification
+    ## ──────────────────────────────────────────────────────── Delimiter: "," chr
+    ## (9): date, life_form, species, fallen_leaf_presence, notes, initial_eme... dbl
+    ## (12): breaking_leaf_buds_count, percent_unfolded_leaves, percent_full_si... lgl
+    ## (6): breaking_needle_bud_count, young_needle_count, pollen_cone_count, ...
+    ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+    ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
+    ## • `...15` -> `...21`
 
 ``` r
 # reorder variables to logical order
@@ -88,12 +81,17 @@ hurricane_plants <- relocate(hurricane_raw_data,
        notes
        )
 
+# Remove empty rows, where life_form is NA 
+hurricane_plants <- hurricane_plants %>% 
+  filter(!is.na(life_form))
+# drop_na(life_form) - another option for the same function
+
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
 ```
 
-    ## Rows: 1,320
+    ## Rows: 376
     ## Columns: 27
     ## $ date                        <chr> "4/14/2023", "4/26/2023", "4/29/2023", "5/…
     ## $ life_form                   <chr> "tree", "tree", "tree", "tree", "tree", "t…
@@ -133,3 +131,9 @@ phenophases based on records of climatic variables from this field
 season. The climatic variables will need to be sourced from the
 Worldclim database. We plan on utilizing violin plots, lollipop plots,
 ridge plots, as well as potential animations and maps.
+
+``` r
+# graph the amount of buds or flowers of each plant? facet by life form?
+# graph the percent leaves unfolded 
+# summary statistics
+```
