@@ -16,7 +16,7 @@ Our data are a collection of phenological observations on vegetation from Hurric
 
 ## 2. Data
 
-```{r load-data, warning=FALSE}
+```{r hurricane-phenology-data, warning=FALSE}
 library(readr)
 
 hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
@@ -70,8 +70,7 @@ library(tidyverse)
 # Note we may need to change to the geodata package
 ```
 
-<<<<<<< HEAD
-=======
+
 ```{r worldclim-data}
 worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
 gain(worldclim_data) <- 0.1
@@ -84,10 +83,6 @@ worldclim_data_df %>%
 
 ```
 
-
-
-
->>>>>>> 29dadc9be5e2eb08228ca921c3823db916c1f5ed
 ## 3. Ethics review
 
 ## 4. Data analysis plan
