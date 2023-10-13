@@ -16,7 +16,7 @@ Our data are a collection of phenological observations on vegetation from Hurric
 
 ## 2. Data
 
-```{r}
+```{r load-data, warning=FALSE}
 library(readr)
 
 hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
@@ -25,45 +25,38 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
 
 hurricane_plants <- relocate(hurricane_raw_data, 
        date, 
-       `life form`, 
+       life_form, 
        species, 
-       `initial growth (presnt/absent)`,
-       `emergence (present/absent)`,
-       `# breaking leaf buds`,
-       `leaves present/absent?`,
-       `unfolded leaves (present/absent)`,
-       `unfolded leaves? (present/absent)`,
-       `fully unfolded leaves? (present/absent)`,
-       `fully unfolded leaves (present or absent)`,
-       `% unfolded leaves`,
-       `% full size are most leaves?`,
-       `# young leaves`,
-       `# leaves unfolded`,
-       `young leaves (present/absent)`,
-       `leaves present/absent`,
-       `% full-sized leaves`,
-       `% leaves colorful (not including dried leaves retained)`,
-       `% leaves color change`,
-       `fallen leaves (present/absent)`,
-       `# leaves unfolded`, 
-       `# breaking needle buds`,
-       `# young needles`,
-       `% stalk full growth`,
-       `% fiddlehead unrolled`,
-       `# flowers or buds`,
-       `% open flowers`,
-       `pollen (little, some, lots)`,
-       `# pollen cones`,
-       `% open pollen cones`,
-       `pollen release (little, some, lots)`,
-       `# fruits`,
-       `# unripe seed cones`,
-       `% ripe fruits`,
-       `# ripe seed cones`,
-       `# dropped/removed fruits`,
-       `# cone or seed drop`,
+       initial_emergence,
+       breaking_leaf_buds_count,
+       leaf_presence,
+       percent_unfolded_leaves,
+       unfolded_leaves_count,
+       percent_full_size_leaf,
+       percent_leaves_colorful,
+       fallen_leaf_presence,
+       breaking_needle_bud_count,
+       young_needle_count,
+       percent_stalk_growth,
+       percent_fiddlehead_unrolled,
+       buds_and_flowers_count,
+       percent_open_flowers,
+       pollen_amount,
+       pollen_cone_count,
+       percent_open_pollen_cones,
+       fruit_count,
+       unripe_seed_cone_count, 
+       percent_ripe_fruits,
+       ripe_seed_cone_count,
+       dropped_fruit_count,
        notes
        )
+
+# Remove empty rows, where life_form is NA 
+hurricane_plants <- hurricane_plants %>% 
+  filter(!is.na(life_form))
+# drop_na(life_form) - another option for the same function
+
 
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
@@ -82,5 +75,10 @@ install.packages("raster")
 
 We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables  from this field season. The climatic variables will need to be sourced from the Worldclim database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
 
+```{r exploring_the_data}
+# graph the amount of buds or flowers of each plant? facet by life form?
+# graph the percent leaves unfolded 
+# summary statistics
+```
 
 
