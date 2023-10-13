@@ -67,8 +67,6 @@ glimpse(hurricane_plants)
 install.packages("raster")
 ```
 
-
-
 ## 3. Ethics review
 
 ## 4. Data analysis plan
