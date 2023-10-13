@@ -81,15 +81,12 @@ hurricane_plants <- relocate(hurricane_raw_data,
        notes
        )
 
-<<<<<<< HEAD
-=======
 # Remove empty rows, where life_form is NA 
 hurricane_plants <- hurricane_plants %>% 
   filter(!is.na(life_form))
 # drop_na(life_form) - another option for the same function
 
 
->>>>>>> bdaf1cbee390f1024c1f94f8bdb3e8a90dc4dd0a
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
@@ -132,6 +129,8 @@ install.packages("raster")
     ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
     ## (as 'lib' is unspecified)
 
+    ## also installing the dependencies 'sp', 'terra'
+
 ## 3. Ethics review
 
 ## 4. Data analysis plan
@@ -142,12 +141,9 @@ phenophases based on records of climatic variables from this field
 season. The climatic variables will need to be sourced from the
 Worldclim database. We plan on utilizing violin plots, lollipop plots,
 ridge plots, as well as potential animations and maps.
-<<<<<<< HEAD
-=======
 
 ``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
 # graph the percent leaves unfolded 
 # summary statistics
 ```
->>>>>>> bdaf1cbee390f1024c1f94f8bdb3e8a90dc4dd0a
