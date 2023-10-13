@@ -86,6 +86,7 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 # drop_na(life_form) - another option for the same function
 
+
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
