@@ -251,6 +251,43 @@ hurricane_plants %>%
 ```
 
 ``` r
+hurricane_plants %>%
+  group_by(species) %>%
+  filter(!is.na(buds_and_flowers_count)) %>%  #remove NA values
+  summarise(max_flowers_and_buds = max(buds_and_flowers_count)) #there are 24 spp, why is the code only returning 23 observations?
+```
+
+    ## # A tibble: 23 × 2
+    ##    species                max_flowers_and_buds
+    ##    <chr>                                 <dbl>
+    ##  1 Achillea millefolium                    100
+    ##  2 Aesculus hippocastanum                 1000
+    ##  3 Allium sativum                            0
+    ##  4 Aralia nudicalis                          0
+    ##  5 Brassica rapa                         10000
+    ##  6 Calendula officinalis                  5000
+    ##  7 Cirsium vulgare                          10
+    ##  8 Digitalis purpurea                      100
+    ##  9 Lathyrus japonicus                     1000
+    ## 10 Maianthemum canadense                  1000
+    ## # ℹ 13 more rows
+
+``` r
+hurricane_plants %>%
+  group_by(life_form) %>%
+  filter(!is.na(buds_and_flowers_count)) %>%
+  summarise(average_flowers_and_buds = mean(buds_and_flowers_count)) 
+```
+
+    ## # A tibble: 4 × 2
+    ##   life_form average_flowers_and_buds
+    ##   <chr>                        <dbl>
+    ## 1 herb                         259. 
+    ## 2 shrub                         67.4
+    ## 3 tree                         118. 
+    ## 4 vine                         156.
+
+``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
 ggplot(hurricane_plants, mapping = 
          aes(x = date, y = buds_and_flowers_count, color = species)) +
