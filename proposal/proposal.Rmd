@@ -93,14 +93,18 @@ Data was collected by hand by one of our group members in an noninvasive way.
 We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables  from this field season. The climatic variables will need to be sourced from the Worldclim database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
 
 ```{r flowers_and_buds}
+# graph the amount of buds or flowers of each plant? facet by life form?
 ggplot(hurricane_plants, mapping = 
          aes(x = date, y = buds_and_flowers_count, color = species)) +
   geom_density() +
   facet_wrap(~ life_form)
-
-# graph the amount of buds or flowers of each plant? facet by life form?
-# graph the percent leaves unfolded 
-# summary statistics
 ```
 
+```{r leaves_unfolding}
+# graph the percent leaves unfolded 
+ggplot(hurricane_plants, mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_density() +
+  facet_wrap(~ life_form)
+```
 
