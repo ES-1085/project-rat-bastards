@@ -156,6 +156,9 @@ library(tidyverse)
 #worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
 
 #worldclim_data_df %>%
+
+  #mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
+
 #  mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
 ```
 
@@ -172,6 +175,47 @@ phenophases based on records of climatic variables from this field
 season. The climatic variables will need to be sourced from the
 Worldclim database. We plan on utilizing violin plots, lollipop plots,
 ridge plots, as well as potential animations and maps.
+
+``` r
+distinct(hurricane_plants, species) #there are 24 individual species
+```
+
+    ## # A tibble: 24 × 1
+    ##    species                
+    ##    <chr>                  
+    ##  1 Malus sp.              
+    ##  2 Morella pensylvanica   
+    ##  3 Lathyrus japonicus     
+    ##  4 Rosa rugosa            
+    ##  5 Rubus allegheniensis   
+    ##  6 Sambucus nigra         
+    ##  7 Vaccinium angustifolium
+    ##  8 Cirsium vulgare        
+    ##  9 Calendula officinalis  
+    ## 10 calendula officinalis  
+    ## # ℹ 14 more rows
+
+``` r
+hurricane_plants %>%
+  group_by(species) %>%
+  summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
+            max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
+```
+
+    ## # A tibble: 24 × 3
+    ##    species                max_breaking_leaf max_breaking_needle
+    ##    <chr>                              <dbl>               <int>
+    ##  1 Achillea millefolium                  NA                  NA
+    ##  2 Aesculus hippocastanum             10000                  NA
+    ##  3 Allium sativum                        NA                  NA
+    ##  4 Aralia nudicalis                      NA                  NA
+    ##  5 Brassica rapa                         NA                  NA
+    ##  6 Calendula officinalis                 NA                  NA
+    ##  7 Cirsium vulgare                       NA                  NA
+    ##  8 Digitalis purpurea                    NA                  NA
+    ##  9 Lathyrus japonicus                    NA                  NA
+    ## 10 Maianthemum canadense                 NA                  NA
+    ## # ℹ 14 more rows
 
 ``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
