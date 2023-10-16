@@ -81,15 +81,12 @@ hurricane_plants <- relocate(hurricane_raw_data,
        notes
        )
 
-<<<<<<< HEAD
-=======
 # Remove empty rows, where life_form is NA 
 hurricane_plants <- hurricane_plants %>% 
   filter(!is.na(life_form))
 # drop_na(life_form) - another option for the same function
 
 
->>>>>>> bdaf1cbee390f1024c1f94f8bdb3e8a90dc4dd0a
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
@@ -126,11 +123,41 @@ glimpse(hurricane_plants)
     ## $ ...21                       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
 
 ``` r
-install.packages("raster")
+#install.packages("raster")
+library(raster)
 ```
 
-    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
-    ## (as 'lib' is unspecified)
+    ## Loading required package: sp
+
+    ## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+    ## which was just loaded, were retired in October 2023.
+    ## Please refer to R-spatial evolution reports for details, especially
+    ## https://r-spatial.org/r/2023/05/15/evolution4.html.
+    ## It may be desirable to make the sf package available;
+    ## package maintainers should consider adding sf to Suggests:.
+
+    ## 
+    ## Attaching package: 'raster'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     select
+
+``` r
+library(tidyverse)
+# Note we may need to change to the geodata package
+```
+
+``` r
+#worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
+#gain(worldclim_data) <- 0.1
+
+# Converting the raster object into a dataframe
+#worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
+
+#worldclim_data_df %>%
+  #mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
+```
 
 ## 3. Ethics review
 
@@ -142,12 +169,50 @@ phenophases based on records of climatic variables from this field
 season. The climatic variables will need to be sourced from the
 Worldclim database. We plan on utilizing violin plots, lollipop plots,
 ridge plots, as well as potential animations and maps.
-<<<<<<< HEAD
-=======
 
 ``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
 # graph the percent leaves unfolded 
 # summary statistics
 ```
->>>>>>> bdaf1cbee390f1024c1f94f8bdb3e8a90dc4dd0a
+
+``` r
+distinct(hurricane_plants, species) #there are 24 individual species
+```
+
+    ## # A tibble: 24 × 1
+    ##    species                
+    ##    <chr>                  
+    ##  1 Malus sp.              
+    ##  2 Morella pensylvanica   
+    ##  3 Lathyrus japonicus     
+    ##  4 Rosa rugosa            
+    ##  5 Rubus allegheniensis   
+    ##  6 Sambucus nigra         
+    ##  7 Vaccinium angustifolium
+    ##  8 Cirsium vulgare        
+    ##  9 Calendula officinalis  
+    ## 10 calendula officinalis  
+    ## # ℹ 14 more rows
+
+``` r
+hurricane_plants %>%
+  group_by(species) %>%
+  summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
+            max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
+```
+
+    ## # A tibble: 24 × 3
+    ##    species                max_breaking_leaf max_breaking_needle
+    ##    <chr>                              <dbl>               <int>
+    ##  1 Achillea millefolium                  NA                  NA
+    ##  2 Aesculus hippocastanum             10000                  NA
+    ##  3 Allium sativum                        NA                  NA
+    ##  4 Aralia nudicalis                      NA                  NA
+    ##  5 Brassica rapa                         NA                  NA
+    ##  6 Calendula officinalis                 NA                  NA
+    ##  7 Cirsium vulgare                       NA                  NA
+    ##  8 Digitalis purpurea                    NA                  NA
+    ##  9 Lathyrus japonicus                    NA                  NA
+    ## 10 Maianthemum canadense                 NA                  NA
+    ## # ℹ 14 more rows
