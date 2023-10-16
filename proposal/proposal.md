@@ -86,7 +86,7 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 # drop_na(life_form) - another option for the same function
 
-
+# Write dataframe to CSV file
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
@@ -123,15 +123,46 @@ glimpse(hurricane_plants)
     ## $ ...21                       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
 
 ``` r
-install.packages("raster")
+#install.packages("raster")
+library(raster)
 ```
 
-    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
-    ## (as 'lib' is unspecified)
+    ## Loading required package: sp
 
-    ## also installing the dependencies 'sp', 'terra'
+    ## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+    ## which was just loaded, were retired in October 2023.
+    ## Please refer to R-spatial evolution reports for details, especially
+    ## https://r-spatial.org/r/2023/05/15/evolution4.html.
+    ## It may be desirable to make the sf package available;
+    ## package maintainers should consider adding sf to Suggests:.
+
+    ## 
+    ## Attaching package: 'raster'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     select
+
+``` r
+library(tidyverse)
+# Note we may need to change to the geodata package
+```
+
+``` r
+#worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
+#gain(worldclim_data) <- 0.1
+
+# Converting the raster object into a dataframe
+#worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
+
+#worldclim_data_df %>%
+#  mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
+```
 
 ## 3. Ethics review
+
+Data was collected by hand by one of our group members in an noninvasive
+way.
 
 ## 4. Data analysis plan
 
@@ -144,6 +175,2762 @@ ridge plots, as well as potential animations and maps.
 
 ``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
-# graph the percent leaves unfolded 
-# summary statistics
+ggplot(hurricane_plants, mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_density() +
+  facet_wrap(~ life_form)
 ```
+
+    ## Warning: Removed 34 rows containing non-finite values (`stat_density()`).
+
+    ## Warning: Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
+
+``` r
+# graph the percent leaves unfolded 
+ggplot(hurricane_plants, mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_density() +
+  facet_wrap(~ life_form)
+```
+
+    ## Warning: Removed 34 rows containing non-finite values (`stat_density()`).
+
+    ## Warning: Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+    ## Groups with fewer than two data points have been dropped.
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+    ## Warning in max(ids, na.rm = TRUE): no non-missing arguments to max; returning
+    ## -Inf
+
+![](proposal_files/figure-gfm/leaves_unfolding-1.png)<!-- -->
