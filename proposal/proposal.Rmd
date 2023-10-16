@@ -103,8 +103,10 @@ ggplot(hurricane_plants, mapping =
 ```{r leaves_unfolding}
 # graph the percent leaves unfolded 
 ggplot(hurricane_plants, mapping = 
-         aes(x = date, y = buds_and_flowers_count, color = species)) +
+         aes(x = date, y = percent_unfolded_leaves, color = species)) +
   geom_density() +
   facet_wrap(~ life_form)
 ```
 
+Questions:
+- How do we use date on the x axis when not every observation has the same time in between?
