@@ -84,6 +84,7 @@ worldclim_data_df %>%
 ```
 
 ## 3. Ethics review
+Data was collected by hand by one of our group members in an noninvasive way.
 
 ## 4. Data analysis plan
 
