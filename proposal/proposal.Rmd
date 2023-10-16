@@ -105,6 +105,22 @@ hurricane_plants %>%
             max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
 
+```{r summary-stats-initial-emergence}
+hurricane_plants %>%
+  group_by(life_form) %>%
+  filter(initial_emergence == "present") %>%
+  summarise(initial_emergence_date_min = min(date),
+            initial_emergence_date_max = max(date))
+
+hurricane_plants %>%
+  filter(life_form == "tree",
+         breaking_leaf_buds_count > 0) %>%
+  summarise(tree_initial_emergence_date_min = min(date),
+            tree_initial_emergence_date_max = max(date))
+#breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
+#Look into why initial emergence max is all the same date so late in the season/if we even need initial emergence max
+```
+
 ```{r flowers_and_buds}
 # graph the amount of buds or flowers of each plant? facet by life form?
 ggplot(hurricane_plants, mapping = 

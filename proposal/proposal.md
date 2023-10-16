@@ -218,6 +218,39 @@ hurricane_plants %>%
     ## # ℹ 14 more rows
 
 ``` r
+hurricane_plants %>%
+  group_by(life_form) %>%
+  filter(initial_emergence == "present") %>%
+  summarise(initial_emergence_date_min = min(date),
+            initial_emergence_date_max = max(date))
+```
+
+    ## # A tibble: 3 × 3
+    ##   life_form initial_emergence_date_min initial_emergence_date_max
+    ##   <chr>     <chr>                      <chr>                     
+    ## 1 herb      4/14/2023                  9/30/2023                 
+    ## 2 shrub     5/10/2023                  9/30/2023                 
+    ## 3 vine      5/10/2023                  9/30/2023
+
+``` r
+hurricane_plants %>%
+  filter(life_form == "tree",
+         breaking_leaf_buds_count > 0) %>%
+  summarise(tree_initial_emergence_date_min = min(date),
+            tree_initial_emergence_date_max = max(date))
+```
+
+    ## # A tibble: 1 × 2
+    ##   tree_initial_emergence_date_min tree_initial_emergence_date_max
+    ##   <chr>                           <chr>                          
+    ## 1 4/14/2023                       9/30/2023
+
+``` r
+#breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
+#Look into why initial emergence max is all the same date so late in the season/if we even need initial emergence max
+```
+
+``` r
 # graph the amount of buds or flowers of each plant? facet by life form?
 ggplot(hurricane_plants, mapping = 
          aes(x = date, y = buds_and_flowers_count, color = species)) +
