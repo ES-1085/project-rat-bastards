@@ -16,7 +16,7 @@ Our data are a collection of phenological observations on vegetation from Hurric
 
 ## 2. Data
 
-```{r load-data, warning=FALSE}
+```{r hurricane-phenology-data, warning=FALSE}
 library(readr)
 
 hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
@@ -57,11 +57,13 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 # drop_na(life_form) - another option for the same function
 
-
+# Write dataframe to CSV file
 # write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
 
 glimpse(hurricane_plants)
 ```
+
+
 
 ```{r raster-package}
 #install.packages("raster")
@@ -69,6 +71,7 @@ library(raster)
 library(tidyverse)
 # Note we may need to change to the geodata package
 ```
+
 
 ```{r worldclim-data}
 #worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
@@ -78,24 +81,19 @@ library(tidyverse)
 #worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
 
 #worldclim_data_df %>%
+
   #mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
+
+#  mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
 
 ```
 
-
-
-
 ## 3. Ethics review
+Data was collected by hand by one of our group members in an noninvasive way.
 
 ## 4. Data analysis plan
 
 We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables from this field season. The climatic variables will need to be sourced from the Worldclim database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
-
-```{r exploring_the_data}
-# graph the amount of buds or flowers of each plant? facet by life form?
-# graph the percent leaves unfolded 
-# summary statistics
-```
 ```{r summary-stats-distinct}
 distinct(hurricane_plants, species) #there are 24 individual species
 ```
@@ -107,6 +105,20 @@ hurricane_plants %>%
             max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
 
+```{r flowers_and_buds}
+# graph the amount of buds or flowers of each plant? facet by life form?
+ggplot(hurricane_plants, mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_density() +
+  facet_wrap(~ life_form)
+```
 
 
+```{r leaves_unfolding}
+# graph the percent leaves unfolded 
+ggplot(hurricane_plants, mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_density() +
+  facet_wrap(~ life_form)
+```
 
