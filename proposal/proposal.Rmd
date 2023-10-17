@@ -140,10 +140,13 @@ hurricane_plants %>%
 
 ```{r flowers_and_buds}
 # Graph the amount of buds or flowers of each plant? facet by life form?
-#ggplot(hurricane_plants, mapping = 
-#         aes(x = date, y = buds_and_flowers_count, color = species)) +
-#  geom_density() +
-#  facet_wrap(~ life_form)
+hurricane_plants %>%
+  mutate(date = mdy(date)) %>%
+ggplot(mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_point() +
+  # geom_density() +
+  facet_wrap(~ life_form)
 ```
 
 

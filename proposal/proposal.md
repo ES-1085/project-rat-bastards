@@ -288,11 +288,18 @@ hurricane_plants %>%
 
 ``` r
 # Graph the amount of buds or flowers of each plant? facet by life form?
-#ggplot(hurricane_plants, mapping = 
-#         aes(x = date, y = buds_and_flowers_count, color = species)) +
-#  geom_density() +
-#  facet_wrap(~ life_form)
+hurricane_plants %>%
+  mutate(date = mdy(date)) %>%
+ggplot(mapping = 
+         aes(x = date, y = buds_and_flowers_count, color = species)) +
+  geom_point() +
+  # geom_density() +
+  facet_wrap(~ life_form)
 ```
+
+    ## Warning: Removed 34 rows containing missing values (`geom_point()`).
+
+![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
 
 ``` r
 # Graph the percent leaves unfolded 
