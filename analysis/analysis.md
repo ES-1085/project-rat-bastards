@@ -12,36 +12,14 @@ library(readr)
 hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 ```
 
-    ## New names:
-    ## • `...15` -> `...21`
-
     ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
     ## e.g.:
     ##   dat <- vroom(...)
     ##   problems(dat)
 
-    ## Rows: 1320 Columns: 27
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr  (9): date, life_form, species, fallen_leaf_presence, notes, initial_eme...
-    ## dbl (12): breaking_leaf_buds_count, percent_unfolded_leaves, percent_full_si...
-    ## lgl  (6): breaking_needle_bud_count, young_needle_count, pollen_cone_count, ...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
 ``` r
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
-
-    ## Rows: 28919 Columns: 24
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (15): station, time, mooring_site_desc, air_temperature, barometric_pres...
-    ## dbl  (9): air_temperature_qc, barometric_pressure_qc, wind_gust_qc, wind_spe...
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
 hurricane_plants <- relocate(hurricane_plants, 

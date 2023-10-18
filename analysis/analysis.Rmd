@@ -10,7 +10,7 @@ library(broom)
 library(readr)
 ```
 
-```{r read-data}
+```{r read-data, message = FALSE}
 hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
