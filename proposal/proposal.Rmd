@@ -130,9 +130,6 @@ hurricane_plants %>%
   filter(!is.na(unfolded_leaves_count)) %>%
   summarise(average_unfolded_leaves = mean(unfolded_leaves_count)) 
 ```
-```{r}
-
-```
 
 
 ```{r flowers_and_buds}
