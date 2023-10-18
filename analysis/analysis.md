@@ -31,6 +31,19 @@ hurricane_plants <- read_csv("../data/hurricane_plants.csv")
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
+weather_data <- read_csv("../data/neracoos_buoy_data.csv")
+```
+
+    ## Rows: 28919 Columns: 24
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (15): station, time, mooring_site_desc, air_temperature, barometric_pres...
+    ## dbl  (9): air_temperature_qc, barometric_pressure_qc, wind_gust_qc, wind_spe...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
 hurricane_plants <- relocate(hurricane_plants, 
        date, 
        life_form, 
