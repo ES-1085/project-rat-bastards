@@ -51,7 +51,6 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
 
 ``` r
 # reorder variables to logical order
-
 hurricane_plants <- relocate(hurricane_raw_data, 
        date, 
        life_form, 
