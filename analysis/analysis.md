@@ -10,14 +10,7 @@ library(readr)
 
 ``` r
 hurricane_plants <- read_csv("../data/hurricane_plants.csv")
-```
 
-    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-    ## e.g.:
-    ##   dat <- vroom(...)
-    ##   problems(dat)
-
-``` r
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
