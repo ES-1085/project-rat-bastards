@@ -120,32 +120,44 @@ hurricane_plants %>%
 #breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
 #Look into why initial emergence max is all the same date so late in the season/if we even need initial emergence max
 ```
-```{r summary-stats-flowers-and-buds}
+```{r summary-stats-leaf_emergence}
+# Calculate maximum breaking leaf buds
 hurricane_plants %>%
   group_by(species) %>%
-  filter(!is.na(buds_and_flowers_count)) %>%  #remove NA values
-  summarise(max_flowers_and_buds = max(buds_and_flowers_count)) #there are 24 spp, why is the code only returning 23 observations?
+  filter(!is.na(breaking_leaf_buds_count)) %>%  #remove NA values
+  summarise(max_leaves_breaking = max(breaking_leaf_buds_count)) 
+# Why are there only 9 observations?
 
 hurricane_plants %>%
   group_by(life_form) %>%
-  filter(!is.na(buds_and_flowers_count)) %>%
-  summarise(average_flowers_and_buds = mean(buds_and_flowers_count)) 
+  filter(!is.na(unfolded_leaves_count)) %>%
+  summarise(average_unfolded_leaves = mean(unfolded_leaves_count)) 
+```
+```{r}
+
 ```
 
+
 ```{r flowers_and_buds}
-# graph the amount of buds or flowers of each plant? facet by life form?
-ggplot(hurricane_plants, mapping = 
+# Graph the amount of buds or flowers of each plant? facet by life form?
+hurricane_plants %>%
+  mutate(date = mdy(date)) %>%
+ggplot(mapping = 
          aes(x = date, y = buds_and_flowers_count, color = species)) +
-  geom_density() +
+  geom_point() +
+  # geom_density() +
   facet_wrap(~ life_form)
 ```
 
 
 ```{r leaves_unfolding}
-# graph the percent leaves unfolded 
-ggplot(hurricane_plants, mapping = 
-         aes(x = date, y = buds_and_flowers_count, color = species)) +
-  geom_density() +
-  facet_wrap(~ life_form)
+# Graph the percent leaves unfolded 
+#ggplot(hurricane_plants, mapping = 
+#         aes(x = date, y = percent_unfolded_leaves, color = species)) +
+#  geom_density() +
+#  facet_wrap(~ life_form)
 ```
 
+Questions:
+- How do we use date on the x axis when not every observation has the same time in between?
+- What is causing all the warnings and the nonfunctioning of plots?
