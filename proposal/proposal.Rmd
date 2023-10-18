@@ -62,8 +62,6 @@ hurricane_plants <- hurricane_plants %>%
 glimpse(hurricane_plants)
 ```
 
-
-
 ```{r raster-package}
 #install.packages("raster")
 library(raster)
