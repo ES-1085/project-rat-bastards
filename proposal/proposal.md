@@ -39,12 +39,12 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
 ```
 
     ## New names:
-    ## Rows: 1320 Columns: 27
+    ## Rows: 1342 Columns: 27
     ## ── Column specification
     ## ──────────────────────────────────────────────────────── Delimiter: "," chr
-    ## (9): date, life_form, species, fallen_leaf_presence, notes, initial_eme... dbl
-    ## (12): breaking_leaf_buds_count, percent_unfolded_leaves, percent_full_si... lgl
-    ## (6): breaking_needle_bud_count, young_needle_count, pollen_cone_count, ...
+    ## (6): date, life_form, species, notes, pollen_amount, ...21 dbl (18):
+    ## breaking_leaf_buds_count, percent_unfolded_leaves, percent_full_si... lgl (3):
+    ## fallen_leaf_presence, initial_emergence, leaf_presence
     ## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
     ## Specify the column types or set `show_col_types = FALSE` to quiet this message.
     ## • `...15` -> `...21`
@@ -91,32 +91,32 @@ hurricane_plants <- hurricane_plants %>%
 glimpse(hurricane_plants)
 ```
 
-    ## Rows: 376
+    ## Rows: 398
     ## Columns: 27
     ## $ date                        <chr> "4/14/2023", "4/26/2023", "4/29/2023", "5/…
     ## $ life_form                   <chr> "tree", "tree", "tree", "tree", "tree", "t…
     ## $ species                     <chr> "Malus sp.", "Malus sp.", "Malus sp.", "Ma…
-    ## $ initial_emergence           <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ initial_emergence           <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ breaking_leaf_buds_count    <dbl> 0, 10, 10, 1000, 10000, 10000, 10000, 1000…
-    ## $ leaf_presence               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ leaf_presence               <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ percent_unfolded_leaves     <dbl> 0.00, 0.00, 0.00, 0.00, 0.75, 1.00, 1.00, …
     ## $ unfolded_leaves_count       <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ percent_full_size_leaf      <dbl> 0.00, 0.00, 0.00, 0.00, 0.75, 1.00, 1.00, …
     ## $ percent_leaves_colorful     <dbl> 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.…
-    ## $ fallen_leaf_presence        <chr> "absent", "absent", "absent", "absent", "a…
-    ## $ breaking_needle_bud_count   <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-    ## $ young_needle_count          <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ fallen_leaf_presence        <lgl> FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, …
+    ## $ breaking_needle_bud_count   <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ young_needle_count          <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ percent_stalk_growth        <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ percent_fiddlehead_unrolled <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ buds_and_flowers_count      <dbl> 0, 0, 0, 0, 1000, 1000, 0, 0, 0, 0, 0, 0, …
     ## $ percent_open_flowers        <dbl> 0.00, 0.00, 0.00, 0.00, 0.05, 1.00, 0.00, …
     ## $ pollen_amount               <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-    ## $ pollen_cone_count           <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-    ## $ percent_open_pollen_cones   <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ pollen_cone_count           <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ percent_open_pollen_cones   <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ fruit_count                 <dbl> 0, 0, 0, 0, 0, 0, 1000, 1000, 1000, 1000, …
-    ## $ unripe_seed_cone_count      <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ unripe_seed_cone_count      <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ percent_ripe_fruits         <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, …
-    ## $ ripe_seed_cone_count        <lgl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
+    ## $ ripe_seed_cone_count        <dbl> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
     ## $ dropped_fruit_count         <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 25, 25…
     ## $ notes                       <chr> NA, NA, NA, "other apple trees, perhaps wi…
     ## $ ...21                       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
@@ -179,7 +179,7 @@ ridge plots, as well as potential animations and maps.
 distinct(hurricane_plants, species) #there are 24 individual species
 ```
 
-    ## # A tibble: 24 × 1
+    ## # A tibble: 23 × 1
     ##    species                
     ##    <chr>                  
     ##  1 Malus sp.              
@@ -191,8 +191,8 @@ distinct(hurricane_plants, species) #there are 24 individual species
     ##  7 Vaccinium angustifolium
     ##  8 Cirsium vulgare        
     ##  9 Calendula officinalis  
-    ## 10 calendula officinalis  
-    ## # ℹ 14 more rows
+    ## 10 Maianthemum canadense  
+    ## # ℹ 13 more rows
 
 ``` r
 hurricane_plants %>%
@@ -201,9 +201,9 @@ hurricane_plants %>%
             max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
 
-    ## # A tibble: 24 × 3
+    ## # A tibble: 23 × 3
     ##    species                max_breaking_leaf max_breaking_needle
-    ##    <chr>                              <dbl>               <int>
+    ##    <chr>                              <dbl>               <dbl>
     ##  1 Achillea millefolium                  NA                  NA
     ##  2 Aesculus hippocastanum             10000                  NA
     ##  3 Allium sativum                        NA                  NA
@@ -214,7 +214,7 @@ hurricane_plants %>%
     ##  8 Digitalis purpurea                    NA                  NA
     ##  9 Lathyrus japonicus                    NA                  NA
     ## 10 Maianthemum canadense                 NA                  NA
-    ## # ℹ 14 more rows
+    ## # ℹ 13 more rows
 
 ``` r
 hurricane_plants %>%
@@ -224,12 +224,16 @@ hurricane_plants %>%
             initial_emergence_date_max = max(date))
 ```
 
-    ## # A tibble: 3 × 3
-    ##   life_form initial_emergence_date_min initial_emergence_date_max
-    ##   <chr>     <chr>                      <chr>                     
-    ## 1 herb      4/14/2023                  9/30/2023                 
-    ## 2 shrub     5/10/2023                  9/30/2023                 
-    ## 3 vine      5/10/2023                  9/30/2023
+    ## Warning: There were 2 warnings in `summarise()`.
+    ## The first warning was:
+    ## ℹ In argument: `initial_emergence_date_min = min(date)`.
+    ## Caused by warning in `min()`:
+    ## ! no non-missing arguments, returning NA
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+    ## # A tibble: 0 × 3
+    ## # ℹ 3 variables: life_form <chr>, initial_emergence_date_min <chr>,
+    ## #   initial_emergence_date_max <chr>
 
 ``` r
 hurricane_plants %>%
@@ -242,7 +246,7 @@ hurricane_plants %>%
     ## # A tibble: 1 × 2
     ##   tree_initial_emergence_date_min tree_initial_emergence_date_max
     ##   <chr>                           <chr>                          
-    ## 1 4/14/2023                       9/30/2023
+    ## 1 10/15/2023                      9/30/2023
 
 ``` r
 #breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
@@ -296,7 +300,7 @@ ggplot(mapping =
   facet_wrap(~ life_form)
 ```
 
-    ## Warning: Removed 34 rows containing missing values (`geom_point()`).
+    ## Warning: Removed 37 rows containing missing values (`geom_point()`).
 
 ![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
 
