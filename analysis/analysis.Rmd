@@ -8,6 +8,7 @@ output: github_document
 library(tidyverse)
 library(broom)
 library(readr)
+library(dplyr)
 ```
 
 ```{r read-data, message = FALSE}
@@ -50,4 +51,18 @@ hurricane_plants <- relocate(hurricane_plants,
 hurricane_plants <- hurricane_plants %>% 
   filter(!is.na(life_form))
 ```
+
+```{r weather-initial-analysis}
+glimpse(weather_data)
+
+ggplot(weather_data, aes(x=time, y=air_temperature)) +
+  geom_line() #attempting to make a line plot
+
+weather_data %>%
+  tail(100) %>%
+  ggplot( aes(x=time, y=air_temperature)) +
+    geom_line() +
+    geom_point() #attempting a scatterplot instead. She's messy. Help her.
+```
+
 
