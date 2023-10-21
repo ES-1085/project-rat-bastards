@@ -58,6 +58,11 @@ hurricane_raw_data <- read_csv("../data/hurricane_plants.csv")
     ## • `...15` -> `...21`
 
 ``` r
+# remove empty rows, where life_form is NA 
+hurricane_raw_data <- hurricane_raw_data %>% 
+  filter(!is.na(life_form))
+# another option for the same function: drop_na(life_form)
+
 # reorder variables to logical order
 hurricane_plants <- relocate(hurricane_raw_data, 
        date, 
@@ -88,13 +93,8 @@ hurricane_plants <- relocate(hurricane_raw_data,
        notes
        )
 
-# Remove empty rows, where life_form is NA 
-hurricane_plants <- hurricane_plants %>% 
-  filter(!is.na(life_form))
-# drop_na(life_form) - another option for the same function
-
-# Write dataframe to CSV file
-# write_csv(hurricane_plants, file = "hurricane_plants_reordered.csv")
+# write dataframe to CSV file
+# write_csv(hurricane_plants, file = "hurricane_plants_clean.csv")
 
 glimpse(hurricane_plants)
 ```
@@ -319,7 +319,3 @@ ggplot(mapping =
 #  geom_density() +
 #  facet_wrap(~ life_form)
 ```
-
-Questions: - How do we use date on the x axis when not every observation
-has the same time in between? - What is causing all the warnings and the
-nonfunctioning of plots?
