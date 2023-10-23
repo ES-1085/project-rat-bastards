@@ -65,4 +65,3 @@ weather_data %>%
     geom_point() #attempting a scatterplot instead. She's messy. Help her.
 ```
 
-
