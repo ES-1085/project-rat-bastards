@@ -70,19 +70,9 @@ library(tidyverse)
 ```
 
 
-```{r worldclim-data}
-#worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
-#gain(worldclim_data) <- 0.1
-
-# Converting the raster object into a dataframe
-#worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
-
-#worldclim_data_df %>%
-
-  #mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
-
-#  mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
-
+```{r neracoos_buoy_data}
+# load weather data from neracoos
+weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
 ## 3. Ethics review

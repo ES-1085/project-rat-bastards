@@ -156,18 +156,18 @@ library(tidyverse)
 ```
 
 ``` r
-#worldclim_data <- getData(name = "worldclim", var = "tmax", res = 10)
-#gain(worldclim_data) <- 0.1
-
-# Converting the raster object into a dataframe
-#worldclim_data_df <- as.data.frame(worldclim_data, xy = TRUE, na.rm = TRUE)
-
-#worldclim_data_df %>%
-
-  #mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
-
-#  mutate(lat_dist = y-44.034109, lon_dist = x + 68.889076)
+# load weather data from neracoos
+weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
+
+    ## Rows: 28919 Columns: 24
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (15): station, time, mooring_site_desc, air_temperature, barometric_pres...
+    ## dbl  (9): air_temperature_qc, barometric_pressure_qc, wind_gust_qc, wind_spe...
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ## 3. Ethics review
 
