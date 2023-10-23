@@ -119,6 +119,23 @@ hurricane_plants <- hurricane_plants %>%
     pollen_amount != "none" ~ T,
     .default = F
   ))
+
+# create fruiting phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(fruiting = case_when(
+    fruit_count > 0 ~ T,
+    unripe_seed_cone_count > 0 ~ T,
+    .default = F
+  ))
+
+# create dispersal phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(dispersal = case_when(
+    percent_ripe_fruits > 0 ~ T,
+    ripe_seed_cone_count > 1 ~ T,
+    dropped_fruit_count > 0 ~ T,
+    .default = F
+  ))
 ```
 
 ``` r

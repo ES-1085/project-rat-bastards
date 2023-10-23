@@ -122,6 +122,15 @@ hurricane_plants <- hurricane_plants %>%
     unripe_seed_cone_count > 0 ~ T,
     .default = F
   ))
+
+# create dispersal phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(dispersal = case_when(
+    percent_ripe_fruits > 0 ~ T,
+    ripe_seed_cone_count > 1 ~ T,
+    dropped_fruit_count > 0 ~ T,
+    .default = F
+  ))
 ```
 
 
