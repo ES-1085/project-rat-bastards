@@ -71,15 +71,16 @@ hurricane_plants <- hurricane_plants %>%
 # 4 = fruiting
 # 5 = ripe fruits/seeds
 # 6 = seed dispersal
-hurricane_plants <- hurricane_plants %>%
-  mutate(phenophase = case_when(
-    initial_emergence == T        ~ "1",
-    buds_and_flowers_count > 0    ~ "2",
-    pollen_cone_count > 0         ~ "2",
-    percent_open_flowers > 0      ~ "3",
-    pollen_amount != "none"       ~ "3",
-    fruit_count > 0               ~ "4"))
+# hurricane_plants <- hurricane_plants %>%
+#   mutate(phenophase = case_when(
+#     initial_emergence == T        ~ "1",
+#     buds_and_flowers_count > 0    ~ "2",
+#     pollen_cone_count > 0         ~ "2",
+#     percent_open_flowers > 0      ~ "3",
+#     pollen_amount != "none"       ~ "3",
+#     fruit_count > 0               ~ "4"))
 
+# first emergence column creation
 hurricane_plants_join <- hurricane_plants %>%
   # mutate(date = as.Date(date)) %>%
   group_by(species, initial_emergence) %>% 
@@ -91,6 +92,17 @@ hurricane_plants_join <- hurricane_plants %>%
 
 hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
+```
+
+``` r
+# create leafing out phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(leaf_out = case_when(
+    breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
+    breaking_needle_bud_count > 0 ~ T,
+    percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
+    .default = F
+  ))
 ```
 
 ``` r
