@@ -114,6 +114,14 @@ hurricane_plants <- hurricane_plants %>%
     pollen_amount != "none" ~ T,
     .default = F
   ))
+
+# create fruiting phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(fruiting = case_when(
+    fruit_count > 0 ~ T,
+    unripe_seed_cone_count > 0 ~ T,
+    .default = F
+  ))
 ```
 
 
