@@ -103,6 +103,22 @@ hurricane_plants <- hurricane_plants %>%
     percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
     .default = F
   ))
+  
+# create budding phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(budding = case_when(
+    buds_and_flowers_count > 0 & percent_open_flowers < 1 ~ T,
+    pollen_cone_count > 0 ~ T,
+    .default = F
+  ))
+
+# create flowering phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(flowering = case_when(
+    percent_open_flowers > 0 & buds_and_flowers_count > 0 ~ T,
+    pollen_amount != "none" ~ T,
+    .default = F
+  ))
 ```
 
 ``` r
