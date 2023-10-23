@@ -54,6 +54,25 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 ```
 
+```{r create-phenophase-factor}
+# new variable of a string of numbers for observed phases
+# 1 = leafing out
+# 2 = budding
+# 3 = flowering
+# 4 = fruiting
+# 5 = ripe fruits/seeds
+# 6 = seed dispersal
+hurricane_plants <- hurricane_plants %>%
+  mutate(phenophase = case_when(
+    initial_emergence == T        ~ "1",
+    buds_and_flowers_count > 0    ~ "2",
+    pollen_cone_count > 0         ~ "2",
+    percent_open_flowers > 0      ~ "3",
+    pollen_amount != "none"       ~ "3",
+    fruit_count > 0               ~ "4"))
+```
+
+
 ```{r weather-initial-analysis, warning=FALSE}
 # lubridate weather entries, calculate useful daily temperatures
 weather_data <- weather_data %>%
