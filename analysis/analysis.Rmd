@@ -9,6 +9,7 @@ library(tidyverse)
 library(broom)
 library(readr)
 library(dplyr)
+library(forcats)
 ```
 
 ```{r read-data, message = FALSE}
