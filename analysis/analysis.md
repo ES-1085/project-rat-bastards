@@ -8,11 +8,22 @@ library(broom)
 library(readr)
 library(dplyr)
 library(forcats)
+library(lubridate)
 ```
 
 ``` r
 hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 
+hurricane_plants <- read_csv("../data/hurricane_plants.csv", 
+    col_types = cols(date = col_date(format = "%m/%d/%Y")))
+```
+
+    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
+    ## e.g.:
+    ##   dat <- vroom(...)
+    ##   problems(dat)
+
+``` r
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
@@ -68,6 +79,18 @@ hurricane_plants <- hurricane_plants %>%
     percent_open_flowers > 0      ~ "3",
     pollen_amount != "none"       ~ "3",
     fruit_count > 0               ~ "4"))
+
+hurricane_plants_join <- hurricane_plants %>%
+  # mutate(date = as.Date(date)) %>%
+  group_by(species, initial_emergence) %>% 
+  filter(date == min(date)) %>% 
+  slice(1) %>% # takes the first occurrence if there is a tie
+  ungroup() %>%
+  filter(initial_emergence == "TRUE") %>%
+  select(date, species, first_emergence=initial_emergence)
+
+hurricane_plants <- hurricane_plants %>%
+  full_join(hurricane_plants_join, join_by(date, species))
 ```
 
 ``` r
