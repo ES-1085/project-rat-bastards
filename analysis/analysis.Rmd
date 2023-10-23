@@ -99,7 +99,12 @@ hurricane_plants <- hurricane_plants %>%
     .default = F
   ))
   
-
+hurricane_plants <- hurricane_plants %>%
+  mutate(budding = case_when(
+    buds_and_flowers_count > 0 & percent_open_flowers < 1 ~ T,
+    pollen_cone_count > 0 ~ T,
+    .default = F
+  ))
 ```
 
 
