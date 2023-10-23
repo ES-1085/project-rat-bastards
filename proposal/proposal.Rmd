@@ -88,6 +88,8 @@ distinct(hurricane_plants, species) #there are 24 individual species
 ```{r summary-stats-max-min-breaking-leaf-and-needle}
 hurricane_plants %>%
   group_by(species) %>%
+  filter(!is.na(breaking_leaf_buds_count),
+         !is.na(breaking_needle_bud_count)) %>%
   summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
             max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
