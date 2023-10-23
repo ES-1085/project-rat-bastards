@@ -17,7 +17,8 @@ hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
-```{r reorder-data}
+```{r clean-plants-data}
+# arrage variables in logical order
 hurricane_plants <- relocate(hurricane_plants, 
        date, 
        life_form, 
@@ -47,14 +48,12 @@ hurricane_plants <- relocate(hurricane_plants,
        notes
        )
 
-# Remove empty rows, where life_form is NA 
+# remove empty rows, where life_form is NA 
 hurricane_plants <- hurricane_plants %>% 
   filter(!is.na(life_form))
 ```
 
-```{r weather-initial-analysis}
-# rerun above code if error
-
+```{r weather-initial-analysis, warning=FALSE}
 # lubridate weather entries, calculate useful daily temperatures
 weather_data <- weather_data %>%
   mutate(time = ymd_hms(time),
@@ -67,11 +66,16 @@ weather_data <- weather_data %>%
             daily_min_temp = min(air_temperature, na.rm = TRUE),
             daily_max_temp = max(air_temperature, na.rm = TRUE),
             daily_sd_temp = sd(air_temperature, na.rm = TRUE))
-  
-# set species minimums for tempuratures and calculate totaldays above "frosts"
+
+# glimpse weather data
+glimpse(weather_data)
+```
+
+```{r species-temperature-specifications}
+# set species minimums for temperatures and calculate total days above "frosts"
 weather_data %>%
   group_by(date) %>%
-  mutate(yarrow_temp_above = case_when(daily_mean_temp > 10 ~ 1, 
+  mutate(yarrow_temp_above = case_when(daily_mean_temp > 5 ~ 1, 
                                        TRUE ~ 0),
          apple_temp_above = case_when(daily_mean_temp > 12 ~ 1, 
                                        TRUE ~ 0)) %>% #find relevant temperatures, name by species, and join to hurricane_plants by this variable (dates after critical period)
@@ -79,22 +83,21 @@ weather_data %>%
   filter(germination_possible == 1) %>% #earliest non-frost or favourable germination date
   group_by(species_germ) %>%
   slice_min(date, n = 1)
+```
 
-
-# line plot daily mean tempurature
+```{r daily-mean-temp}
+# line plot daily mean temperature
 ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
   geom_line() 
+```
 
-# plot ribbon of daily tempurature readings
+```{r plot-temperature-ranges}
+# plot ribbon of daily temperature readings
 weather_data %>%
   ggplot(aes(x = date)) +
     geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
     geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "pink") 
- 
-#attempting a scatterplot instead. She's messy. Help her. <3
-
-# glimpse weather data
-glimpse(weather_data)
 ```
+
 
