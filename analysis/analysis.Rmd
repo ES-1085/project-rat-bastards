@@ -53,15 +53,48 @@ hurricane_plants <- hurricane_plants %>%
 ```
 
 ```{r weather-initial-analysis}
-glimpse(weather_data)
+# rerun above code if error
 
-ggplot(weather_data, aes(x=time, y=air_temperature)) +
-  geom_line() #attempting to make a line plot
-
+# lubridate weather entries, calculate useful daily temperatures
+weather_data <- weather_data %>%
+  mutate(time = ymd_hms(time),
+         month = month(time),
+         day = day(time),
+         date = as_date(round_date(time, unit = "day"))) %>%
+  mutate(air_temperature = as.numeric(air_temperature)) %>%
+  group_by(date) %>%
+  summarize(daily_mean_temp = mean(air_temperature, na.rm = TRUE),
+            daily_min_temp = min(air_temperature, na.rm = TRUE),
+            daily_max_temp = max(air_temperature, na.rm = TRUE),
+            daily_sd_temp = sd(air_temperature, na.rm = TRUE))
+  
+# set species minimums for tempuratures and calculate totaldays above "frosts"
 weather_data %>%
-  tail(100) %>%
-  ggplot( aes(x=time, y=air_temperature)) +
-    geom_line() +
-    geom_point() #attempting a scatterplot instead. She's messy. Help her.
+  group_by(date) %>%
+  mutate(yarrow_temp_above = case_when(daily_mean_temp > 10 ~ 1, 
+                                       TRUE ~ 0),
+         apple_temp_above = case_when(daily_mean_temp > 12 ~ 1, 
+                                       TRUE ~ 0)) %>% #find relevant temperatures, name by species, and join to hurricane_plants by this variable (dates after critical period)
+  pivot_longer(cols = c(yarrow_temp_above, apple_temp_above), names_to = "species_germ", values_to = "germination_possible") %>%
+  filter(germination_possible == 1) %>% #earliest non-frost or favourable germination date
+  group_by(species_germ) %>%
+  slice_min(date, n = 1)
+
+
+# line plot daily mean tempurature
+ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
+  geom_line() 
+
+# plot ribbon of daily tempurature readings
+weather_data %>%
+  ggplot(aes(x = date)) +
+    geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
+    geom_line(aes(y = daily_mean_temp), color = "blue") +
+    geom_line(aes(y = daily_min_temp), color = "pink") 
+ 
+#attempting a scatterplot instead. She's messy. Help her. <3
+
+# glimpse weather data
+glimpse(weather_data)
 ```
 
