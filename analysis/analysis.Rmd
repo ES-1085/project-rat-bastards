@@ -9,6 +9,7 @@ library(tidyverse)
 library(broom)
 library(readr)
 library(dplyr)
+library(forcats)
 ```
 
 ```{r read-data, message = FALSE}
@@ -97,4 +98,3 @@ weather_data %>%
 # glimpse weather data
 glimpse(weather_data)
 ```
-
