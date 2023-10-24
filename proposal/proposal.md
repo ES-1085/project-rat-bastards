@@ -160,7 +160,7 @@ library(tidyverse)
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
-    ## Rows: 28919 Columns: 24
+    ## Rows: 36852 Columns: 24
     ## ── Column specification ────────────────────────────────────────────────────────
     ## Delimiter: ","
     ## chr (15): station, time, mooring_site_desc, air_temperature, barometric_pres...
@@ -205,24 +205,22 @@ distinct(hurricane_plants, species) #there are 24 individual species
 ``` r
 hurricane_plants %>%
   group_by(species) %>%
+  filter(!is.na(breaking_leaf_buds_count),
+         !is.na(breaking_needle_bud_count)) %>%
   summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
             max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
 
-    ## # A tibble: 23 × 3
-    ##    species                max_breaking_leaf max_breaking_needle
-    ##    <chr>                              <dbl>               <dbl>
-    ##  1 Achillea millefolium                  NA                  NA
-    ##  2 Aesculus hippocastanum             10000                  NA
-    ##  3 Allium sativum                        NA                  NA
-    ##  4 Aralia nudicalis                      NA                  NA
-    ##  5 Brassica rapa                         NA                  NA
-    ##  6 Calendula officinalis                 NA                  NA
-    ##  7 Cirsium vulgare                       NA                  NA
-    ##  8 Digitalis purpurea                    NA                  NA
-    ##  9 Lathyrus japonicus                    NA                  NA
-    ## 10 Maianthemum canadense                 NA                  NA
-    ## # ℹ 13 more rows
+    ## Warning: There were 2 warnings in `summarise()`.
+    ## The first warning was:
+    ## ℹ In argument: `max_breaking_leaf = max(breaking_leaf_buds_count)`.
+    ## Caused by warning in `max()`:
+    ## ! no non-missing arguments to max; returning -Inf
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+
+    ## # A tibble: 0 × 3
+    ## # ℹ 3 variables: species <chr>, max_breaking_leaf <dbl>,
+    ## #   max_breaking_needle <dbl>
 
 ``` r
 hurricane_plants %>%
@@ -313,9 +311,16 @@ ggplot(mapping =
 ![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
 
 ``` r
-# Graph the percent leaves unfolded 
-#ggplot(hurricane_plants, mapping = 
-#         aes(x = date, y = percent_unfolded_leaves, color = species)) +
-#  geom_density() +
-#  facet_wrap(~ life_form)
+# Graph total fruits over time
+hurricane_plants %>%
+  mutate(date = mdy(date)) %>%
+#   mutate(total_fruits, group_by(date(sum(fruit_count)))
+  ggplot(aes(
+    x = date,
+    y = fruit_count)) +
+ geom_point()
 ```
+
+    ## Warning: Removed 39 rows containing missing values (`geom_point()`).
+
+![](proposal_files/figure-gfm/total_fruits-1.png)<!-- -->

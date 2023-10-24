@@ -136,11 +136,14 @@ ggplot(mapping =
 ```
 
 
-```{r leaves_unfolding}
-# Graph the percent leaves unfolded 
-#ggplot(hurricane_plants, mapping = 
-#         aes(x = date, y = percent_unfolded_leaves, color = species)) +
-#  geom_density() +
-#  facet_wrap(~ life_form)
+```{r total_fruits}
+# Graph total fruits over time
+hurricane_plants %>%
+  mutate(date = mdy(date)) %>%
+#   mutate(total_fruits, group_by(date(sum(fruit_count)))
+  ggplot(aes(
+    x = date,
+    y = fruit_count)) +
+ geom_point()
 ```
 
