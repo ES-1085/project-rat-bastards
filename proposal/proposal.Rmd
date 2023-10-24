@@ -136,14 +136,19 @@ ggplot(mapping =
 ```
 
 
-```{r total_fruits}
+```{r total_fruits, warning=FALSE}
 # Graph total fruits over time
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
-#   mutate(total_fruits, group_by(date(sum(fruit_count)))
+  group_by(date) %>%
+  summarise(total_fruits = sum(fruit_count, na.rm = T)) %>%
   ggplot(aes(
     x = date,
-    y = fruit_count)) +
- geom_point()
+    y = total_fruits)) +
+ geom_point() +
+  labs(x = "date",
+       y = "total fruits") +
+  geom_line()
+
 ```
 

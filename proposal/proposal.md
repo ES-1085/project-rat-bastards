@@ -314,13 +314,15 @@ ggplot(mapping =
 # Graph total fruits over time
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
-#   mutate(total_fruits, group_by(date(sum(fruit_count)))
+  group_by(date) %>%
+  summarise(total_fruits = sum(fruit_count, na.rm = T)) %>%
   ggplot(aes(
     x = date,
-    y = fruit_count)) +
- geom_point()
+    y = total_fruits)) +
+ geom_point() +
+  labs(x = "date",
+       y = "total fruits") +
+  geom_line()
 ```
-
-    ## Warning: Removed 39 rows containing missing values (`geom_point()`).
 
 ![](proposal_files/figure-gfm/total_fruits-1.png)<!-- -->
