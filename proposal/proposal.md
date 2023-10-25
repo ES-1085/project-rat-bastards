@@ -350,12 +350,11 @@ hurricane_plants %>%
     ## 1 10/15/2023                      9/30/2023
 
 ``` r
-#breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
-#Look into why initial emergence max is all the same date so late in the season/if we even need initial emergence max
+# more detailed initial growth data located in analysis file
 ```
 
 ``` r
-# Calculate maximum breaking leaf buds
+# calculate maximum breaking leaf buds
 hurricane_plants %>%
   group_by(species) %>%
   filter(!is.na(breaking_leaf_buds_count)) %>%  #remove NA values
@@ -376,7 +375,7 @@ hurricane_plants %>%
     ## 9 Vaccinium angustifolium               10000
 
 ``` r
-# Why are there only 9 observations?
+# why are there only 9 observations?
 
 hurricane_plants %>%
   group_by(life_form) %>%
@@ -391,22 +390,22 @@ hurricane_plants %>%
     ## 2 shrub                       688.
 
 ``` r
-# Graph the amount of buds or flowers of each plant? facet by life form?
+# graph the amount of buds or flowers of each plant? facet by life form?
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
 ggplot(mapping = 
          aes(x = date, y = buds_and_flowers_count, color = species)) +
   geom_point() +
   # geom_density() +
-  facet_wrap(~ life_form)
+  facet_wrap(~ life_form) +
+  labs (y = "flowers and buds",
+        title = "amount of buds and flowers by life form over time")
 ```
-
-    ## Warning: Removed 37 rows containing missing values (`geom_point()`).
 
 ![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
 
 ``` r
-# Graph total fruits over time
+# graph total fruits over time
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
   group_by(date) %>%
@@ -416,8 +415,13 @@ hurricane_plants %>%
     y = total_fruits)) +
  geom_point() +
   labs(x = "date",
-       y = "total fruits") +
+       y = "total fruits",
+       title = "cumulative fruits with seasonal progression") +
   geom_line()
 ```
 
 ![](proposal_files/figure-gfm/total_fruits-1.png)<!-- -->
+
+The dips in late June and early July are interesting. We suspect that
+perhaps not all species were accounted for on these dates but will need
+to look deeper into our data.
