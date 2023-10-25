@@ -133,6 +133,33 @@ hurricane_plants <- hurricane_plants %>%
   ))
 ```
 
+```{r phenophase-lolipop}
+# pivot longer
+hurricane_plants_long <- hurricane_plants %>%
+  pivot_longer(
+    cols = c(leaf_out : dispersal), 
+    names_to = "phenophase"
+  ) %>%
+  filter(value == "TRUE") %>%
+  group_by(species, phenophase) %>%
+  summarize(start_date = min(date), 
+            end_date = max(date))
+
+# plot
+ggplot(hurricane_plants_long) +
+  geom_segment( aes(x=phenophase, xend=phenophase, y=start_date, yend=end_date), color="grey") +
+  geom_point( aes(x=phenophase, y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
+  geom_point( aes(x=phenophase, y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  coord_flip()+
+  facet_wrap(~ species)
+  theme_ipsum() +
+  theme(
+    legend.position = "none",
+  ) +
+  xlab("date") +
+  ylab("phenophase")
+```
+
 
 ```{r weather-initial-analysis, warning=FALSE}
 # lubridate weather entries, calculate useful daily temperatures
