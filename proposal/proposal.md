@@ -397,7 +397,9 @@ ggplot(mapping =
          aes(x = date, y = buds_and_flowers_count, color = species)) +
   geom_point() +
   # geom_density() +
-  facet_wrap(~ life_form)
+  facet_wrap(~ life_form) +
+  labs (y = "flowers and buds",
+        title = "amount of buds and flowers by life form over time")
 ```
 
 ![](proposal_files/figure-gfm/flowers_and_buds-1.png)<!-- -->
@@ -413,7 +415,8 @@ hurricane_plants %>%
     y = total_fruits)) +
  geom_point() +
   labs(x = "date",
-       y = "total fruits") +
+       y = "total fruits",
+       title = "cumulative fruits with seasonal progression") +
   geom_line()
 ```
 
