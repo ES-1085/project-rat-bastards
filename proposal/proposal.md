@@ -421,3 +421,7 @@ hurricane_plants %>%
 ```
 
 ![](proposal_files/figure-gfm/total_fruits-1.png)<!-- -->
+
+The dips in late June and early July are interesting. We suspect that
+perhaps not all species were accounted for on these dates but will need
+to look deeper into our data.
