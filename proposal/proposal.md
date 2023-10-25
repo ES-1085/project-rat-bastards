@@ -205,22 +205,34 @@ distinct(hurricane_plants, species) #there are 24 individual species
 ``` r
 hurricane_plants %>%
   group_by(species) %>%
-  filter(!is.na(breaking_leaf_buds_count),
-         !is.na(breaking_needle_bud_count)) %>%
-  summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
-            max_breaking_needle = max(breaking_needle_bud_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
+   # filter(!is.na(breaking_leaf_buds_count),
+   #        !is.na(breaking_needle_bud_count)) %>%
+  summarise(max_breaking_leaf = max(breaking_leaf_buds_count, na.rm = T),
+            max_breaking_needle = max(breaking_needle_bud_count, na.rm = T)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
 ```
 
-    ## Warning: There were 2 warnings in `summarise()`.
+    ## Warning: There were 36 warnings in `summarise()`.
     ## The first warning was:
-    ## ℹ In argument: `max_breaking_leaf = max(breaking_leaf_buds_count)`.
+    ## ℹ In argument: `max_breaking_leaf = max(breaking_leaf_buds_count, na.rm = T)`.
+    ## ℹ In group 1: `species = "Achillea millefolium"`.
     ## Caused by warning in `max()`:
     ## ! no non-missing arguments to max; returning -Inf
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 35 remaining warnings.
 
-    ## # A tibble: 0 × 3
-    ## # ℹ 3 variables: species <chr>, max_breaking_leaf <dbl>,
-    ## #   max_breaking_needle <dbl>
+    ## # A tibble: 23 × 3
+    ##    species                max_breaking_leaf max_breaking_needle
+    ##    <chr>                              <dbl>               <dbl>
+    ##  1 Achillea millefolium                -Inf                -Inf
+    ##  2 Aesculus hippocastanum             10000                -Inf
+    ##  3 Allium sativum                      -Inf                -Inf
+    ##  4 Aralia nudicalis                    -Inf                -Inf
+    ##  5 Brassica rapa                       -Inf                -Inf
+    ##  6 Calendula officinalis               -Inf                -Inf
+    ##  7 Cirsium vulgare                     -Inf                -Inf
+    ##  8 Digitalis purpurea                  -Inf                -Inf
+    ##  9 Lathyrus japonicus                  -Inf                -Inf
+    ## 10 Maianthemum canadense               -Inf                -Inf
+    ## # ℹ 13 more rows
 
 ``` r
 hurricane_plants %>%
