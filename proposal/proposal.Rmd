@@ -127,7 +127,7 @@ hurricane_plants %>%
    # filter(!is.na(breaking_leaf_buds_count),
    #        !is.na(breaking_needle_bud_count)) %>%
   summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
-            max_breaking_needle = max(breaking_needle_bud_count))
+            max_breaking_needle = max(breaking_needle_bud_count)) #some species do not have any values for max breaking leaf or max breaking needle, removing NAs creates a strange output in the code that is not representitive of the data, so we are keeping the NAs in.
 ```
 
 ```{r summary-stats-initial-emergence}
