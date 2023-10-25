@@ -136,16 +136,15 @@ hurricane_plants %>%
          breaking_leaf_buds_count > 0) %>%
   summarise(tree_initial_emergence_date_min = min(date),
             tree_initial_emergence_date_max = max(date))
-#breaking leaf buds is the equivalent to initial emergence for trees. Figure out how to combine them into the same table?
-#Look into why initial emergence max is all the same date so late in the season/if we even need initial emergence max
+# more detailed initial growth data located in analysis file
 ```
 ```{r summary-stats-leaf_emergence}
-# Calculate maximum breaking leaf buds
+# calculate maximum breaking leaf buds
 hurricane_plants %>%
   group_by(species) %>%
   filter(!is.na(breaking_leaf_buds_count)) %>%  #remove NA values
   summarise(max_leaves_breaking = max(breaking_leaf_buds_count)) 
-# Why are there only 9 observations?
+# why are there only 9 observations?
 
 hurricane_plants %>%
   group_by(life_form) %>%
@@ -154,8 +153,8 @@ hurricane_plants %>%
 ```
 
 
-```{r flowers_and_buds}
-# Graph the amount of buds or flowers of each plant? facet by life form?
+```{r flowers_and_buds, warning=FALSE}
+# graph the amount of buds or flowers of each plant? facet by life form?
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
 ggplot(mapping = 
@@ -167,7 +166,7 @@ ggplot(mapping =
 
 
 ```{r total_fruits, warning=FALSE}
-# Graph total fruits over time
+# graph total fruits over time
 hurricane_plants %>%
   mutate(date = mdy(date)) %>%
   group_by(date) %>%
