@@ -290,35 +290,28 @@ hurricane_plants %>%
     ## 11 Achillea millefolium
 
 ``` r
+# how many new leaves and needles unfolded for each plant within the 2023 season?
 hurricane_plants %>%
   group_by(species) %>%
    # filter(!is.na(breaking_leaf_buds_count),
    #        !is.na(breaking_needle_bud_count)) %>%
-  summarise(max_breaking_leaf = max(breaking_leaf_buds_count, na.rm = T),
-            max_breaking_needle = max(breaking_needle_bud_count, na.rm = T)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
+  summarise(max_breaking_leaf = max(breaking_leaf_buds_count),
+            max_breaking_needle = max(breaking_needle_bud_count)) #some species do not have any values for max breaking leaf or max breaking needle, removing NAs creates a strange output in the code that is not representitive of the data, so we are keeping the NAs in.
 ```
-
-    ## Warning: There were 36 warnings in `summarise()`.
-    ## The first warning was:
-    ## ℹ In argument: `max_breaking_leaf = max(breaking_leaf_buds_count, na.rm = T)`.
-    ## ℹ In group 1: `species = "Achillea millefolium"`.
-    ## Caused by warning in `max()`:
-    ## ! no non-missing arguments to max; returning -Inf
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 35 remaining warnings.
 
     ## # A tibble: 23 × 3
     ##    species                max_breaking_leaf max_breaking_needle
     ##    <chr>                              <dbl>               <dbl>
-    ##  1 Achillea millefolium                -Inf                -Inf
-    ##  2 Aesculus hippocastanum             10000                -Inf
-    ##  3 Allium sativum                      -Inf                -Inf
-    ##  4 Aralia nudicalis                    -Inf                -Inf
-    ##  5 Brassica rapa                       -Inf                -Inf
-    ##  6 Calendula officinalis               -Inf                -Inf
-    ##  7 Cirsium vulgare                     -Inf                -Inf
-    ##  8 Digitalis purpurea                  -Inf                -Inf
-    ##  9 Lathyrus japonicus                  -Inf                -Inf
-    ## 10 Maianthemum canadense               -Inf                -Inf
+    ##  1 Achillea millefolium                  NA                  NA
+    ##  2 Aesculus hippocastanum             10000                  NA
+    ##  3 Allium sativum                        NA                  NA
+    ##  4 Aralia nudicalis                      NA                  NA
+    ##  5 Brassica rapa                         NA                  NA
+    ##  6 Calendula officinalis                 NA                  NA
+    ##  7 Cirsium vulgare                       NA                  NA
+    ##  8 Digitalis purpurea                    NA                  NA
+    ##  9 Lathyrus japonicus                    NA                  NA
+    ## 10 Maianthemum canadense                 NA                  NA
     ## # ℹ 13 more rows
 
 ``` r

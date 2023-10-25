@@ -116,12 +116,7 @@ hurricane_plants %>%
 
 
 ```{r summary-stats-max-min-breaking-leaf-and-needle}
-hurricane_plants %>%
-  group_by(species) %>%
-   # filter(!is.na(breaking_leaf_buds_count),
-   #        !is.na(breaking_needle_bud_count)) %>%
-  summarise(max_breaking_leaf = max(breaking_leaf_buds_count)) #not returning breaking needle count for the red spruce. Something wrong with dataset?
-
+# how many new leaves and needles unfolded for each plant within the 2023 season?
 hurricane_plants %>%
   group_by(species) %>%
    # filter(!is.na(breaking_leaf_buds_count),
@@ -144,6 +139,7 @@ hurricane_plants %>%
             tree_initial_emergence_date_max = max(date))
 # more detailed initial growth data located in analysis file
 ```
+
 ```{r summary-stats-leaf_emergence}
 # calculate maximum breaking leaf buds
 hurricane_plants %>%
