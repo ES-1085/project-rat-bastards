@@ -130,7 +130,7 @@ glimpse(hurricane_plants)
     ## $ ...21                       <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
 
 ``` r
-#install.packages("raster")
+# install.packages("raster")
 library(raster)
 ```
 
@@ -152,7 +152,7 @@ library(raster)
 
 ``` r
 library(tidyverse)
-# Note we may need to change to the geodata package
+# note we may need to change to the geodata package
 ```
 
 ``` r
@@ -179,11 +179,12 @@ way.
 We will visualize date, breaking leaves/buds/needles, flowering, and
 fruiting phenophases of comparable species. We will also visualize these
 phenophases based on records of climatic variables from this field
-season. The climatic variables will need to be sourced from the
-Worldclim database. We plan on utilizing violin plots, lollipop plots,
-ridge plots, as well as potential animations and maps.
+season. The climatic variables will need to be sourced from the NERACOOS
+database. We plan on utilizing violin plots, lollipop plots, ridge
+plots, as well as potential animations and maps.
 
 ``` r
+# how many plants (total)
 distinct(hurricane_plants, species) #there are 24 individual species
 ```
 
@@ -201,6 +202,92 @@ distinct(hurricane_plants, species) #there are 24 individual species
     ##  9 Calendula officinalis  
     ## 10 Maianthemum canadense  
     ## # ℹ 13 more rows
+
+There are 24 individual species. This is a large number to see
+individual values on a plot. Next, we will see how many individuals are
+classified in each life form group:
+
+``` r
+# how many life forms?
+distinct(hurricane_plants, life_form) #there are 4 life form types 
+```
+
+    ## # A tibble: 4 × 1
+    ##   life_form
+    ##   <chr>    
+    ## 1 tree     
+    ## 2 shrub    
+    ## 3 vine     
+    ## 4 herb
+
+``` r
+# types are tree,   shrub, vine, and herb
+
+# how many trees?
+hurricane_plants %>%
+  filter(life_form == "tree") %>%
+  distinct(species) # there are 3 trees
+```
+
+    ## # A tibble: 3 × 1
+    ##   species               
+    ##   <chr>                 
+    ## 1 Malus sp.             
+    ## 2 Aesculus hippocastanum
+    ## 3 Picea rubens
+
+``` r
+# how many shrubs?
+hurricane_plants %>%
+  filter(life_form == "shrub") %>%
+  distinct(species) # there are 8 shrubs
+```
+
+    ## # A tibble: 8 × 1
+    ##   species                
+    ##   <chr>                  
+    ## 1 Morella pensylvanica   
+    ## 2 Rosa rugosa            
+    ## 3 Rubus allegheniensis   
+    ## 4 Sambucus nigra         
+    ## 5 Vaccinium angustifolium
+    ## 6 Cirsium vulgare        
+    ## 7 Rubus idaeus           
+    ## 8 Sambuscus racemosa
+
+``` r
+# how many vines?
+hurricane_plants %>%
+  filter(life_form == "vine") %>%
+  distinct(species) # there is 1 vine
+```
+
+    ## # A tibble: 1 × 1
+    ##   species           
+    ##   <chr>             
+    ## 1 Lathyrus japonicus
+
+``` r
+# how many herbs?
+hurricane_plants %>%
+  filter(life_form == "herb") %>%
+  distinct(species) # there are 11 herbs
+```
+
+    ## # A tibble: 11 × 1
+    ##    species                 
+    ##    <chr>                   
+    ##  1 Calendula officinalis   
+    ##  2 Maianthemum canadense   
+    ##  3 Osmundastrum cinnamomeum
+    ##  4 Digitalis purpurea      
+    ##  5 Allium sativum          
+    ##  6 Brassica rapa           
+    ##  7 Paeonia lactiflora      
+    ##  8 Aralia nudicalis        
+    ##  9 Trientalis borealis     
+    ## 10 Nymphaea odorata        
+    ## 11 Achillea millefolium
 
 ``` r
 hurricane_plants %>%
@@ -237,21 +324,17 @@ hurricane_plants %>%
 ``` r
 hurricane_plants %>%
   group_by(life_form) %>%
-  filter(initial_emergence == "present") %>%
+  filter(initial_emergence == T) %>%
   summarise(initial_emergence_date_min = min(date),
             initial_emergence_date_max = max(date))
 ```
 
-    ## Warning: There were 2 warnings in `summarise()`.
-    ## The first warning was:
-    ## ℹ In argument: `initial_emergence_date_min = min(date)`.
-    ## Caused by warning in `min()`:
-    ## ! no non-missing arguments, returning NA
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 1 remaining warning.
-
-    ## # A tibble: 0 × 3
-    ## # ℹ 3 variables: life_form <chr>, initial_emergence_date_min <chr>,
-    ## #   initial_emergence_date_max <chr>
+    ## # A tibble: 3 × 3
+    ##   life_form initial_emergence_date_min initial_emergence_date_max
+    ##   <chr>     <chr>                      <chr>                     
+    ## 1 herb      10/15/2023                 9/30/2023                 
+    ## 2 shrub     10/15/2023                 9/30/2023                 
+    ## 3 vine      10/15/2023                 9/30/2023
 
 ``` r
 hurricane_plants %>%

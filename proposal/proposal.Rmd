@@ -63,10 +63,10 @@ glimpse(hurricane_plants)
 ```
 
 ```{r raster-package}
-#install.packages("raster")
+# install.packages("raster")
 library(raster)
 library(tidyverse)
-# Note we may need to change to the geodata package
+# note we may need to change to the geodata package
 ```
 
 
@@ -80,10 +80,40 @@ Data was collected by hand by one of our group members in an noninvasive way.
 
 ## 4. Data analysis plan
 
-We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables from this field season. The climatic variables will need to be sourced from the Worldclim database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
+We will visualize date, breaking leaves/buds/needles, flowering, and fruiting phenophases of comparable species. We will also visualize these phenophases based on records of climatic variables from this field season. The climatic variables will need to be sourced from the NERACOOS database. We plan on utilizing violin plots, lollipop plots, ridge plots, as well as potential animations and maps.
 ```{r summary-stats-distinct}
+# how many plants (total)
 distinct(hurricane_plants, species) #there are 24 individual species
 ```
+
+There are 24 individual species. This is a large number to see individual values on a plot. Next, we will see how many individuals are classified in each life form group:
+
+```{r distinct-life-forms}
+# how many life forms?
+distinct(hurricane_plants, life_form) #there are 4 life form types 
+# types are tree,	shrub, vine, and herb
+
+# how many trees?
+hurricane_plants %>%
+  filter(life_form == "tree") %>%
+  distinct(species) # there are 3 trees
+
+# how many shrubs?
+hurricane_plants %>%
+  filter(life_form == "shrub") %>%
+  distinct(species) # there are 8 shrubs
+
+# how many vines?
+hurricane_plants %>%
+  filter(life_form == "vine") %>%
+  distinct(species) # there is 1 vine
+
+# how many herbs?
+hurricane_plants %>%
+  filter(life_form == "herb") %>%
+  distinct(species) # there are 11 herbs
+```
+
 
 ```{r summary-stats-max-min-breaking-leaf-and-needle}
 hurricane_plants %>%
@@ -97,7 +127,7 @@ hurricane_plants %>%
 ```{r summary-stats-initial-emergence}
 hurricane_plants %>%
   group_by(life_form) %>%
-  filter(initial_emergence == "present") %>%
+  filter(initial_emergence == T) %>%
   summarise(initial_emergence_date_min = min(date),
             initial_emergence_date_max = max(date))
 
