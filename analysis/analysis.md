@@ -12,7 +12,7 @@ library(lubridate)
 ```
 
 ``` r
-hurricane_plants <- read_csv("../data/hurricane_plants.csv")
+# hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 
 hurricane_plants <- read_csv("../data/hurricane_plants.csv", 
     col_types = cols(date = col_date(format = "%m/%d/%Y")))
@@ -28,7 +28,7 @@ weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
 ``` r
-# arrage variables in logical order
+# arrange variables in logical order
 hurricane_plants <- relocate(hurricane_plants, 
        date, 
        life_form, 
@@ -99,6 +99,7 @@ hurricane_plants <- hurricane_plants %>%
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
+    percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
     breaking_needle_bud_count > 0 ~ T,
     percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
     .default = F
