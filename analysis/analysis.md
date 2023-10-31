@@ -139,6 +139,10 @@ hurricane_plants <- hurricane_plants %>%
 ```
 
 ``` r
+# join first emergence to phenophase dataframe
+# hurricane_plants <- hurricane_plants %>%
+#   full_join(hurricane_plants_join, join_by(species))
+
 # pivot longer
 hurricane_plants_long <- hurricane_plants %>%
   pivot_longer(
@@ -156,8 +160,6 @@ hurricane_plants_long <- hurricane_plants %>%
 
 ``` r
 # plot
-#f <- factor(c("budding", "dispersal", "flowering", "fruiting", "leaf_out"), levels = c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))
-
 as.data.frame(hurricane_plants_long) %>%
   #fct_relevel(f) 
   # mutate(phenophase = as.character(phenophase)) %>%
