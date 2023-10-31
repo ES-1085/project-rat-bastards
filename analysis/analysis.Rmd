@@ -169,6 +169,18 @@ ggplot() +
        y = "date range",
        title = "phenophase date ranges by species")
 ```
+```{r berry-comparison}
+#comparisons with raspberry, blackberry, and blueberry
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus"),
+         percent_ripe_fruits >= 0) %>%
+  ggplot(
+    aes(x = date, color = species, fill = species,)) +
+    geom_density(alpha = 0.3)
+   # scale_color_viridis(discrete = TRUE) +
+   # scale_fill_viridis(discrete = TRUE)
+#This isn't quite what I want here. not sure it should be a density plot cuz i wanna specify that the y axis should be percent ripe fruit. Maybe it should be a histogram instead? R is hard.
+```
 
 
 ```{r weather-initial-analysis, warning=FALSE}
