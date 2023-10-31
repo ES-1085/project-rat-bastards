@@ -76,7 +76,7 @@ weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
 ## 3. Ethics review
-Data was collected by hand by one of our group members in an noninvasive way.
+Data was collected by hand by one of our group members in an noninvasive way. 
 
 ## 4. Data analysis plan
 
