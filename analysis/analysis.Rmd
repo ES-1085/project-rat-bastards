@@ -208,3 +208,7 @@ weather_data %>%
     geom_line(aes(y = daily_min_temp), color = "pink") 
 ```
 
+```{r}
+hurricane_climate <- read_file("../data/hurricane_climate.sdb")
+```
+
