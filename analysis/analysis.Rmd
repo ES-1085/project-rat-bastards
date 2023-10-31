@@ -146,18 +146,23 @@ hurricane_plants_long <- hurricane_plants %>%
             end_date = max(date))
 
 # plot
-ggplot(hurricane_plants_long) +
+#f <- factor(c("budding", "dispersal", "flowering", "fruiting", "leaf_out"), levels = c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))
+hurricane_plants_long %>%
+  #fct_relevel(f) %>%
+  #fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
+ggplot() +
   geom_segment( aes(x=phenophase, xend=phenophase, y=start_date, yend=end_date), color="grey") +
-  geom_point( aes(x=phenophase, y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
-  geom_point( aes(x=phenophase, y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  geom_point(aes(x=phenophase, y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
+  geom_point(aes(x=phenophase, y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
   coord_flip()+
-  facet_wrap(~ species)
-  theme_ipsum() +
+  facet_wrap(~ species) +
+  theme_minimal() +
   theme(
     legend.position = "none",
   ) +
-  xlab("date") +
-  ylab("phenophase")
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
 ```
 
 

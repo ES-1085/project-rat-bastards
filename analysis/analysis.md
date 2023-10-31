@@ -139,6 +139,45 @@ hurricane_plants <- hurricane_plants %>%
 ```
 
 ``` r
+# pivot longer
+hurricane_plants_long <- hurricane_plants %>%
+  pivot_longer(
+    cols = c(leaf_out : dispersal), 
+    names_to = "phenophase"
+  ) %>%
+  filter(value == "TRUE") %>%
+  group_by(species, phenophase) %>%
+  summarize(start_date = min(date), 
+            end_date = max(date))
+```
+
+    ## `summarise()` has grouped output by 'species'. You can override using the
+    ## `.groups` argument.
+
+``` r
+# plot
+#f <- factor(c("budding", "dispersal", "flowering", "fruiting", "leaf_out"), levels = c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))
+hurricane_plants_long %>%
+  #fct_relevel(f) %>%
+  #fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
+ggplot() +
+  geom_segment( aes(x=phenophase, xend=phenophase, y=start_date, yend=end_date), color="grey") +
+  geom_point(aes(x=phenophase, y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
+  geom_point(aes(x=phenophase, y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  coord_flip()+
+  facet_wrap(~ species) +
+  theme_minimal() +
+  theme(
+    legend.position = "none",
+  ) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
+
+``` r
 # lubridate weather entries, calculate useful daily temperatures
 weather_data <- weather_data %>%
   mutate(time = ymd_hms(time),

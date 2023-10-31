@@ -76,7 +76,7 @@ weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
 ## 3. Ethics review
-Data was collected by hand by one of our group members in an noninvasive way.
+Data was collected by hand by one of our group members in an noninvasive way. 
 
 There was bias in data collection for this project. Species selections were based on a list of species which would be easy for a beginner to identify and which could reliably show phenological changes. From that list individuals were then selected on Hurricane island based on ease of access. The sample observed cannot represent overall species abundance or density on Hurricane Island. The research was limited to only a few months out of a single season. Additionally, there was heightened precipitation this season compared to the typical weather patterns for region in previous years. This further limits the broad application of this data, however this dataset is intended to be the first observation in a continued series of vegetation monitoring on the island, so the inherent limitations in one season of monitoring have a minimal impact on the overall intended use and application of the data. 
 
