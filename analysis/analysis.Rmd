@@ -169,6 +169,7 @@ ggplot() +
        y = "date range",
        title = "phenophase date ranges by species")
 ```
+
 ```{r berry-comparison}
 #comparisons with raspberry, blackberry, and blueberry
 hurricane_plants %>%

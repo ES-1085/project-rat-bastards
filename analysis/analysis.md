@@ -183,6 +183,24 @@ ggplot() +
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
 
 ``` r
+#comparisons with raspberry, blackberry, and blueberry
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus"),
+         percent_ripe_fruits >= 0) %>%
+  ggplot(
+    aes(x = date, color = species, fill = species,)) +
+    geom_density(alpha = 0.3)
+```
+
+![](analysis_files/figure-gfm/berry-comparison-1.png)<!-- -->
+
+``` r
+   # scale_color_viridis(discrete = TRUE) +
+   # scale_fill_viridis(discrete = TRUE)
+#This isn't quite what I want here. not sure it should be a density plot cuz i wanna specify that the y axis should be percent ripe fruit. Maybe it should be a histogram instead? R is hard.
+```
+
+``` r
 # lubridate weather entries, calculate useful daily temperatures
 weather_data <- weather_data %>%
   mutate(time = ymd_hms(time),
