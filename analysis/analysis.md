@@ -157,13 +157,15 @@ hurricane_plants_long <- hurricane_plants %>%
 ``` r
 # plot
 #f <- factor(c("budding", "dispersal", "flowering", "fruiting", "leaf_out"), levels = c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))
-hurricane_plants_long %>%
-  #fct_relevel(f) %>%
-  #fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
+
+as.data.frame(hurricane_plants_long) %>%
+  #fct_relevel(f) 
+  # mutate(phenophase = as.character(phenophase)) %>%
+  # fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
 ggplot() +
-  geom_segment( aes(x=phenophase, xend=phenophase, y=start_date, yend=end_date), color="grey") +
-  geom_point(aes(x=phenophase, y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
-  geom_point(aes(x=phenophase, y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  geom_segment( aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), xend=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date, yend=end_date), color="grey") +
+  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
+  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
