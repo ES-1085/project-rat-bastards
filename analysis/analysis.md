@@ -88,7 +88,7 @@ hurricane_plants_join <- hurricane_plants %>%
   slice(1) %>% # takes the first occurrence if there is a tie
   ungroup() %>%
   filter(initial_emergence == "TRUE") %>%
-  select(date, species, first_emergence=initial_emergence)
+  dplyr::select(date, species, first_emergence=initial_emergence)
 
 hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
@@ -248,3 +248,7 @@ weather_data %>%
     ## Removed 1 row containing missing values (`geom_line()`).
 
 ![](analysis_files/figure-gfm/plot-temperature-ranges-1.png)<!-- -->
+
+``` r
+hurricane_climate <- read_file("../data/hurricane_climate.sdb")
+```

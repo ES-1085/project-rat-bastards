@@ -83,7 +83,7 @@ hurricane_plants_join <- hurricane_plants %>%
   slice(1) %>% # takes the first occurrence if there is a tie
   ungroup() %>%
   filter(initial_emergence == "TRUE") %>%
-  select(date, species, first_emergence=initial_emergence)
+  dplyr::select(date, species, first_emergence=initial_emergence)
 
 hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
