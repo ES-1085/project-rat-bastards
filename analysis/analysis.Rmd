@@ -171,8 +171,7 @@ ggplot() +
 ```{r berry-comparison}
 #comparisons with raspberry, blackberry, and blueberry
 hurricane_plants %>%
-  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus"),
-         percent_ripe_fruits >= 0) %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
   ggplot(
     aes(x = date, color = species, fill = species,)) +
     geom_density(alpha = 0.3)
