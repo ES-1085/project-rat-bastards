@@ -126,8 +126,8 @@ hurricane_plants <- hurricane_plants %>%
 
 ``` r
 # join first emergence to phenophase dataframe
-# hurricane_plants <- hurricane_plants %>%
-#   full_join(hurricane_plants_join, join_by(species))
+#hurricane_plants <- hurricane_plants %>%
+# full_join(hurricane_plants_join, join_by(species))
 
 # pivot longer
 hurricane_plants_long <- hurricane_plants %>%
@@ -146,20 +146,43 @@ hurricane_plants_long <- hurricane_plants %>%
 
 ``` r
 # plot
-as.data.frame(hurricane_plants_long) %>%
-  #fct_relevel(f) 
-  # mutate(phenophase = as.character(phenophase)) %>%
-  # fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
+hurricane_plants_long %>%
 ggplot() +
-  geom_segment( aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), xend=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date, yend=end_date), color="grey") +
-  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
-  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))), 
+                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersal"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
-  theme(
-    legend.position = "none",
-  ) +
+  theme(legend.position = "none",) +
   labs(x = "phenophase",
        y = "date range",
        title = "phenophase date ranges by species")
