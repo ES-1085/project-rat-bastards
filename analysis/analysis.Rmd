@@ -181,14 +181,15 @@ ggplot() +
 
 ```{r berry-comparison}
 #comparisons with raspberry, blackberry, and blueberry
+
 hurricane_plants %>%
   filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
   ggplot(
-    aes(x = date, color = species, fill = species,)) +
-    geom_density(alpha = 0.3)
+    aes(aes(x = date, y = percent_ripe_fruits), color = species, fill = species)) +
+    geom_violin()
    # scale_color_viridis(discrete = TRUE) +
    # scale_fill_viridis(discrete = TRUE)
-#This isn't quite what I want here. not sure it should be a density plot cuz i wanna specify that the y axis should be percent ripe fruit. Maybe it should be a histogram instead? R is hard.
+#Laurie says "doa violin plot, or a scatterplot, or a bar plot. Literally anything but this."
 ```
 
 
