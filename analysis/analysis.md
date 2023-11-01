@@ -12,7 +12,7 @@ library(lubridate)
 ```
 
 ``` r
-hurricane_plants <- read_csv("../data/hurricane_plants.csv")
+# hurricane_plants <- read_csv("../data/hurricane_plants.csv")
 
 hurricane_plants <- read_csv("../data/hurricane_plants.csv", 
     col_types = cols(date = col_date(format = "%m/%d/%Y")))
@@ -28,11 +28,12 @@ weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
 ``` r
-# arrage variables in logical order
+# arrange variables in logical order
 hurricane_plants <- relocate(hurricane_plants, 
        date, 
        life_form, 
        species, 
+      # common_name,
        initial_emergence,
        breaking_leaf_buds_count,
        leaf_presence,
@@ -64,22 +65,6 @@ hurricane_plants <- hurricane_plants %>%
 ```
 
 ``` r
-# new variable of a string of numbers for observed phases
-# 1 = leafing out
-# 2 = budding
-# 3 = flowering
-# 4 = fruiting
-# 5 = ripe fruits/seeds
-# 6 = seed dispersal
-# hurricane_plants <- hurricane_plants %>%
-#   mutate(phenophase = case_when(
-#     initial_emergence == T        ~ "1",
-#     buds_and_flowers_count > 0    ~ "2",
-#     pollen_cone_count > 0         ~ "2",
-#     percent_open_flowers > 0      ~ "3",
-#     pollen_amount != "none"       ~ "3",
-#     fruit_count > 0               ~ "4"))
-
 # first emergence column creation
 hurricane_plants_join <- hurricane_plants %>%
   # mutate(date = as.Date(date)) %>%
@@ -99,6 +84,7 @@ hurricane_plants <- hurricane_plants %>%
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
+    percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
     breaking_needle_bud_count > 0 ~ T,
     percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
     .default = F
@@ -140,8 +126,8 @@ hurricane_plants <- hurricane_plants %>%
 
 ``` r
 # join first emergence to phenophase dataframe
-# hurricane_plants <- hurricane_plants %>%
-#   full_join(hurricane_plants_join, join_by(species))
+#hurricane_plants <- hurricane_plants %>%
+# full_join(hurricane_plants_join, join_by(species))
 
 # pivot longer
 hurricane_plants_long <- hurricane_plants %>%
@@ -160,26 +146,67 @@ hurricane_plants_long <- hurricane_plants %>%
 
 ``` r
 # plot
-as.data.frame(hurricane_plants_long) %>%
-  #fct_relevel(f) 
-  # mutate(phenophase = as.character(phenophase)) %>%
-  # fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal")) %>%
+hurricane_plants_long %>%
 ggplot() +
-  geom_segment( aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), xend=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date, yend=end_date), color="grey") +
-  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=start_date), color=rgb(0.2,0.7,0.1,0.5), size=3 ) +
-  geom_point(aes(x=(fct_relevel(phenophase, c("leaf_out", "budding", "flowering", "fruiting", "dispersal"))), y=end_date), color=rgb(0.7,0.2,0.1,0.5), size=3 ) +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))), 
+                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersal"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
-  theme(
-    legend.position = "none",
-  ) +
+  theme(legend.position = "none",) +
   labs(x = "phenophase",
        y = "date range",
        title = "phenophase date ranges by species")
 ```
 
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
+
+``` r
+#comparisons with raspberry, blackberry, and blueberry
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus"),
+         percent_ripe_fruits >= 0) %>%
+  ggplot(
+    aes(x = date, color = species, fill = species,)) +
+    geom_density(alpha = 0.3)
+```
+
+![](analysis_files/figure-gfm/berry-comparison-1.png)<!-- -->
+
+``` r
+   # scale_color_viridis(discrete = TRUE) +
+   # scale_fill_viridis(discrete = TRUE)
+#This isn't quite what I want here. not sure it should be a density plot cuz i wanna specify that the y axis should be percent ripe fruit. Maybe it should be a histogram instead? R is hard.
+```
 
 ``` r
 # lubridate weather entries, calculate useful daily temperatures
