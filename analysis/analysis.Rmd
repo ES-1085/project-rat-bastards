@@ -185,7 +185,7 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-```{r berry-comparison}
+```{r berry-comparisons}
 #comparisons with raspberry, blackberry, and blueberry
 
 hurricane_plants %>%
@@ -200,10 +200,18 @@ hurricane_plants %>%
        color = "Species") +
   scale_color_viridis_d()
 
-
-   # scale_color_viridis(discrete = TRUE) +
-   # scale_fill_viridis(discrete = TRUE)
-#Laurie says "do a violin plot, or a scatterplot, or a bar plot. Literally anything but this."
+#Fruit numbers throughout the season
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
+  ggplot(aes(x = date, y = fruit_count, color = species)) +
+  geom_line() +
+  labs(title = "Fruit count over time",
+       subtitle = "Total visible fruits on three individuals in the 2023 season",
+       x = "Month",
+       y = "Fruit count",
+       color = "Species") +
+  scale_color_viridis_d()
+#note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
 
 
