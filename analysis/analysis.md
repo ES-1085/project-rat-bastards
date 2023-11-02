@@ -33,7 +33,7 @@ hurricane_plants <- relocate(hurricane_plants,
        date, 
        life_form, 
        species, 
-      # common_name,
+       common_name,
        initial_emergence,
        breaking_leaf_buds_count,
        leaf_presence,
@@ -179,6 +179,7 @@ ggplot() +
                  y = end_date), 
              color = "firebrick3", 
              size = 3 ) +
+  
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
@@ -193,8 +194,7 @@ ggplot() +
 ``` r
 #comparisons with raspberry, blackberry, and blueberry
 hurricane_plants %>%
-  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus"),
-         percent_ripe_fruits >= 0) %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
   ggplot(
     aes(x = date, color = species, fill = species,)) +
     geom_density(alpha = 0.3)
