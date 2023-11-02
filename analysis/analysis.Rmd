@@ -5,9 +5,9 @@ output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
-# devtools::install_github("datastorm-open/suncalc")
 # install.packages("devtools")
 # install.packages("suncalc")  #install these in the console
+# devtools::install_github("datastorm-open/suncalc")
 
 library(tidyverse)
 library(broom)
