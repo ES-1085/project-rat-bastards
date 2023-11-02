@@ -184,12 +184,20 @@ ggplot() +
 
 hurricane_plants %>%
   filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
-  ggplot(
-    aes(aes(x = date, y = percent_ripe_fruits), color = species, fill = species)) +
-    geom_violin()
+  filter(!is.na(percent_ripe_fruits)) %>%
+  ggplot(aes(x = date, y = percent_ripe_fruits, color = species)) +
+  geom_line() +
+  labs(title = "Percent ripe fruit coverage over time",
+       subtitle = "Coverage in three fruit-bearing individuals in the 2023 season",
+       x = "Month",
+       y = "Percent of ripe fruit",
+       color = "Species") +
+  scale_color_viridis_d()
+
+
    # scale_color_viridis(discrete = TRUE) +
    # scale_fill_viridis(discrete = TRUE)
-#Laurie says "doa violin plot, or a scatterplot, or a bar plot. Literally anything but this."
+#Laurie says "do a violin plot, or a scatterplot, or a bar plot. Literally anything but this."
 ```
 
 
