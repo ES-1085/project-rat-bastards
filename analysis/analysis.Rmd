@@ -5,9 +5,9 @@ output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
-# install.packages("devtools")
-# install.packages("suncalc")  #install these in the console
-# devtools::install_github("datastorm-open/suncalc")
+ # install.packages("devtools")
+ # install.packages("suncalc")  #install these in the console
+ # devtools::install_github("datastorm-open/suncalc")
 
 library(tidyverse)
 library(broom)
@@ -254,4 +254,18 @@ weather_data %>%
     geom_line(aes(y = daily_min_temp), color = "pink") +
     geom_line(aes(y = daily_max_temp), color = "red")
 ```
+
+```{r plot-day-length}
+# plot line of daily day lengths throughout the season
+getSunlightTimes(
+date = as.date(2023-01-01),
+lat = 44.0348,
+lon = -68.895,
+data = NULL,
+keep = c("solarNoon", "sunrise", "sunset",  "goldenHourEnd", "goldenHour"),
+tz = "EST"
+)
+
+```
+
 
