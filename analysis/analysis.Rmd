@@ -5,12 +5,18 @@ output: github_document
 ---
 
 ```{r load-packages, message = FALSE}
+# devtools::install_github("datastorm-open/suncalc")
+# install.packages("devtools")
+# install.packages("suncalc")  #install these in the console
+
 library(tidyverse)
 library(broom)
 library(readr)
 library(dplyr)
 library(forcats)
 library(lubridate)
+library(devtools)
+library(suncalc)
 ```
 
 ```{r read-data, message = FALSE}
@@ -244,11 +250,8 @@ ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
 weather_data %>%
   ggplot(aes(x = date)) +
     geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
-    geom_line(aes(y = daily_mean_temp), color = "blue") +
-    geom_line(aes(y = daily_min_temp), color = "pink") 
-```
-
-```{r}
-hurricane_climate <- read_file("../data/hurricane_climate.sdb")
+    # geom_line(aes(y = daily_mean_temp), color = "blue") +
+    geom_line(aes(y = daily_min_temp), color = "pink") +
+    geom_line(aes(y = daily_max_temp), color = "red")
 ```
 
