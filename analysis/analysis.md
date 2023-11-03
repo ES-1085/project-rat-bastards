@@ -3,12 +3,22 @@ Project analysis
 Rat Bastards
 
 ``` r
+ # install.packages("devtools")
+ # install.packages("suncalc")  #install these in the console
+ # devtools::install_github("datastorm-open/suncalc")
+#install.packages("visdat")
+#install.packages("naniar")
+
 library(tidyverse)
 library(broom)
 library(readr)
 library(dplyr)
 library(forcats)
 library(lubridate)
+library(devtools)
+library(suncalc)
+library(visdat)
+library(naniar)
 ```
 
 ``` r
@@ -192,20 +202,61 @@ ggplot() +
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
 
 ``` r
-#comparisons with raspberry, blackberry, and blueberry
+#do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
+
 hurricane_plants %>%
-  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
-  ggplot(
-    aes(x = date, color = species, fill = species,)) +
-    geom_density(alpha = 0.3)
+  filter(species %in% c("Malus sp.")) %>%
+  ggplot(aes(x = date)) +
+  geom_line(aes(y = breaking_leaf_buds_count, color = "green")) +
+  geom_line(aes(y = buds_and_flowers_count, color = "pink"))+
+  geom_line(aes(y = fruit_count, color = "blue"))+
+  geom_line(aes(y = dropped_fruit_count, color = "orange"))
 ```
 
-![](analysis_files/figure-gfm/berry-comparison-1.png)<!-- -->
+![](analysis_files/figure-gfm/overall-count-for-apple-1.png)<!-- -->
 
 ``` r
-   # scale_color_viridis(discrete = TRUE) +
-   # scale_fill_viridis(discrete = TRUE)
-#This isn't quite what I want here. not sure it should be a density plot cuz i wanna specify that the y axis should be percent ripe fruit. Maybe it should be a histogram instead? R is hard.
+#ask laurie how to make this good and normal
+```
+
+``` r
+#comparisons with raspberry, blackberry, and blueberry
+
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
+  filter(!is.na(percent_ripe_fruits)) %>%
+  ggplot(aes(x = date, y = percent_ripe_fruits, color = species)) +
+  geom_line() +
+  labs(title = "Percent ripe fruit coverage over time",
+       subtitle = "Coverage in three fruit-bearing individuals in the 2023 season",
+       x = "Month",
+       y = "Percent of ripe fruit",
+       color = "Species") +
+  scale_color_viridis_d()
+```
+
+![](analysis_files/figure-gfm/berry-comparisons-1.png)<!-- -->
+
+``` r
+#Fruit numbers throughout the season
+hurricane_plants %>%
+  filter(species %in% c("Rubus allegheniensis", "Vaccinium angustifolium", "Rubus idaeus")) %>%
+  ggplot(aes(x = date, y = fruit_count, color = species)) +
+  geom_line() +
+  labs(title = "Fruit count over time",
+       subtitle = "Total visible fruits on three individuals in the 2023 season",
+       x = "Month",
+       y = "Fruit count",
+       color = "Species") +
+  scale_color_viridis_d()
+```
+
+    ## Warning: Removed 1 row containing missing values (`geom_line()`).
+
+![](analysis_files/figure-gfm/berry-comparisons-2.png)<!-- -->
+
+``` r
+#note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
 
 ``` r
@@ -271,8 +322,9 @@ ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
 weather_data %>%
   ggplot(aes(x = date)) +
     geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
-    geom_line(aes(y = daily_mean_temp), color = "blue") +
-    geom_line(aes(y = daily_min_temp), color = "pink") 
+    # geom_line(aes(y = daily_mean_temp), color = "blue") +
+    geom_line(aes(y = daily_min_temp), color = "pink") +
+    geom_line(aes(y = daily_max_temp), color = "red")
 ```
 
     ## Warning: Removed 1 row containing missing values (`geom_line()`).
@@ -281,5 +333,21 @@ weather_data %>%
 ![](analysis_files/figure-gfm/plot-temperature-ranges-1.png)<!-- -->
 
 ``` r
-hurricane_climate <- read_file("../data/hurricane_climate.sdb")
+# plot line of daily day lengths throughout the season
+# getSunlightTimes(
+# date = date(2023-01-01),
+# lat = 44.0348,
+# lon = -68.895,
+# data = NULL,
+# keep = c("solarNoon", "sunrise", "sunset",  "goldenHourEnd", "goldenHour"),
+# tz = "EST"
+# )
+
+#suncalc might suck. stand by
 ```
+
+``` r
+visdat::vis_dat(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
