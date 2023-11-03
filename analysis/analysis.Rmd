@@ -294,8 +294,10 @@ weather_data %>%
 #suncalc might suck. stand by
 ```
 
-```{r}
+```{r visualize-missing-values}
 visdat::vis_dat(hurricane_plants)
 visdat::vis_miss(hurricane_plants)
+
+naniar::gg_miss_var(hurricane_plants)
 ```
 
