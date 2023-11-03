@@ -350,10 +350,16 @@ weather_data %>%
 visdat::vis_dat(hurricane_plants)
 ```
 
-![](analysis_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
 
 ``` r
 visdat::vis_miss(hurricane_plants)
 ```
 
-![](analysis_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
+![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
+
+``` r
+naniar::gg_miss_var(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
