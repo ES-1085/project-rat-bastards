@@ -299,5 +299,15 @@ visdat::vis_dat(hurricane_plants)
 visdat::vis_miss(hurricane_plants)
 
 naniar::gg_miss_var(hurricane_plants)
+
+ggplot(hurricane_plants,
+       aes(x = percent_unfolded_leaves,
+           y = breaking_leaf_buds_count)) +
+  geom_miss_point(alpha = 0.5)
+
+ggplot(hurricane_plants,
+       aes(x = buds_and_flowers_count,
+           y = percent_open_flowers)) +
+  geom_miss_point(alpha = 0.5)
 ```
 

@@ -363,3 +363,21 @@ naniar::gg_miss_var(hurricane_plants)
 ```
 
 ![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
+
+``` r
+ggplot(hurricane_plants,
+       aes(x = percent_unfolded_leaves,
+           y = breaking_leaf_buds_count)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
+
+``` r
+ggplot(hurricane_plants,
+       aes(x = buds_and_flowers_count,
+           y = percent_open_flowers)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
