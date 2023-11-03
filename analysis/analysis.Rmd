@@ -295,16 +295,22 @@ weather_data %>%
 ```
 
 ```{r visualize-missing-values}
+# show columns with color coded NAs and datatypes
 visdat::vis_dat(hurricane_plants)
+
+# show percent missing values of each column
 visdat::vis_miss(hurricane_plants)
 
+# create lolipop graph of NAs by column
 naniar::gg_miss_var(hurricane_plants)
 
+# plot missing and recorded data of percent unfolded by breaking leaf buds
 ggplot(hurricane_plants,
        aes(x = percent_unfolded_leaves,
            y = breaking_leaf_buds_count)) +
   geom_miss_point(alpha = 0.5)
 
+# plot missing and recorded data of flowers and buds by percent open
 ggplot(hurricane_plants,
        aes(x = buds_and_flowers_count,
            y = percent_open_flowers)) +
