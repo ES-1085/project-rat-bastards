@@ -296,5 +296,6 @@ weather_data %>%
 
 ```{r}
 visdat::vis_dat(hurricane_plants)
+visdat::vis_miss(hurricane_plants)
 ```
 

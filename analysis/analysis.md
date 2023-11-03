@@ -6,8 +6,8 @@ Rat Bastards
  # install.packages("devtools")
  # install.packages("suncalc")  #install these in the console
  # devtools::install_github("datastorm-open/suncalc")
-#install.packages("visdat")
-#install.packages("naniar")
+# install.packages("visdat")
+# install.packages("naniar")
 
 library(tidyverse)
 library(broom)
@@ -351,3 +351,9 @@ visdat::vis_dat(hurricane_plants)
 ```
 
 ![](analysis_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
+visdat::vis_miss(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/unnamed-chunk-1-2.png)<!-- -->
