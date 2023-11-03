@@ -8,6 +8,8 @@ output: github_document
  # install.packages("devtools")
  # install.packages("suncalc")  #install these in the console
  # devtools::install_github("datastorm-open/suncalc")
+#install.packages("visdat")
+#install.packages("naniar")
 
 library(tidyverse)
 library(broom)
@@ -17,6 +19,8 @@ library(forcats)
 library(lubridate)
 library(devtools)
 library(suncalc)
+library(visdat)
+library(naniar)
 ```
 
 ```{r read-data, message = FALSE}
