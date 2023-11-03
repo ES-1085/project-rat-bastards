@@ -294,4 +294,7 @@ weather_data %>%
 #suncalc might suck. stand by
 ```
 
+```{r}
+visdat::vis_dat(hurricane_plants)
+```
 
