@@ -71,7 +71,7 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 ```
 
-```{r create-phenophase-factor}
+```{r find-initial-emergence}
 # first emergence column creation
 hurricane_plants_join <- hurricane_plants %>%
   # mutate(date = as.Date(date)) %>%
