@@ -157,6 +157,7 @@ hurricane_plants_long <- hurricane_plants %>%
 ``` r
 # plot
 hurricane_plants_long %>%
+  #filter(species == "Achillea millefolium") %>%
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
                                                    "budding",
@@ -189,7 +190,7 @@ ggplot() +
                  y = end_date), 
              color = "firebrick3", 
              size = 3 ) +
-  
+  #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
@@ -386,3 +387,9 @@ ggplot(hurricane_plants,
 ```
 
 ![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
+
+``` r
+gg_miss_fct(hurricane_plants, fct = common_name)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-6.png)<!-- -->
