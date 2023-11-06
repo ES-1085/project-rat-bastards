@@ -26,14 +26,7 @@ library(naniar)
 
 hurricane_plants <- read_csv("../data/hurricane_plants.csv", 
     col_types = cols(date = col_date(format = "%m/%d/%Y")))
-```
 
-    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-    ## e.g.:
-    ##   dat <- vroom(...)
-    ##   problems(dat)
-
-``` r
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
@@ -56,6 +49,8 @@ hurricane_plants <- relocate(hurricane_plants,
        young_needle_count,
        percent_stalk_growth,
        percent_fiddlehead_unrolled,
+       sporangia_presence,
+       releasing_spores,
        buds_and_flowers_count,
        percent_open_flowers,
        pollen_amount,
