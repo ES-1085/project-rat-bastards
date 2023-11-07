@@ -178,16 +178,16 @@ date,life_form,species,common_name,breaking_leaf_buds_count,percent_unfolded_lea
 5/20/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,0,0,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,0.75,0.25,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
 6/12/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
 6/19/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,TRUE,NA,NA,NA,NA,NA,NA,NA
-6/27/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,most spores/pieces of fertile leaves are falling off!,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-7/3/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-7/10/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-7/17/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,all fertile (spore bearing) parts past ripe,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-7/30/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-8/7/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-8/16/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-8/22/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-9/30/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,not yellowing yet,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
-10/15/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0.25,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA
+6/27/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,most spores/pieces of fertile leaves are falling off!,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+7/3/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+7/10/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+7/17/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,all fertile (spore bearing) parts past ripe,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+7/30/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+8/7/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+8/16/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+8/22/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+9/30/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0,FALSE,NA,NA,NA,NA,NA,not yellowing yet,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
+10/15/2023,herb,Osmundastrum cinnamomeum,cinnamon fern,NA,1,1,0.25,FALSE,NA,NA,NA,NA,NA,NA,NA,TRUE,NA,1,1,FALSE,FALSE,NA,NA,NA,NA,NA,NA,NA
 5/19/2023,herb,Digitalis purpurea,foxglove,NA,NA,NA,NA,NA,0,0,0,0,0,NA,NA,TRUE,FALSE,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 6/22/2023,herb,Digitalis purpurea,foxglove,NA,NA,NA,NA,NA,10,0,0,0,0,NA,NA,TRUE,TRUE,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 6/27/2023,herb,Digitalis purpurea,foxglove,NA,NA,NA,NA,NA,30,0.05,0,0,0,NA,NA,TRUE,TRUE,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA

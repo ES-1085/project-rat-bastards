@@ -90,6 +90,8 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
+    initial_emergence == T & buds_and_flowers_count == 0  ~ T,
+    leaf_presence == T ~ F,
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
     percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
     breaking_needle_bud_count > 0 ~ T,
@@ -101,6 +103,7 @@ hurricane_plants <- hurricane_plants %>%
 hurricane_plants <- hurricane_plants %>%
   mutate(budding = case_when(
     buds_and_flowers_count > 0 & percent_open_flowers < 1 ~ T,
+    # sporangia_presence == T ~ T,
     pollen_cone_count > 0 ~ T,
     .default = F
   ))
