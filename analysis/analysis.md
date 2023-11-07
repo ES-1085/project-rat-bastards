@@ -214,7 +214,7 @@ hurricane_plants_long <- hurricane_plants %>%
 ``` r
 # plot
 hurricane_plants_long %>%
-  filter(species == "Achillea millefolium") %>%
+  # filter(species == "Achillea millefolium") %>%
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
                                                    "budding",
@@ -257,7 +257,64 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
+    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
+
+    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
+    ## Removed 1 rows containing missing values (`geom_point()`).
+
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
+
+``` r
+hurricane_plants_long %>%
+  # filter(species == "Achillea millefolium") %>%
+ggplot() +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))), 
+                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersal"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ species) +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
+
+    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
+    ## Removed 1 rows containing missing values (`geom_point()`).
+
+![](analysis_files/figure-gfm/faceted-lolipop-plot-1.png)<!-- -->
 
 ``` r
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
