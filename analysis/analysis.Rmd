@@ -71,14 +71,16 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 ```
 
-```{r create-bar-chart}
+```{r bar-chart-observations}
 hurricane_plants %>%
-  ggplot(aes(x= common_name)) +
+  ggplot(aes(x = fct_infreq(common_name), fill = life_form)) +
+  
   geom_bar() +
   coord_flip() +
   labs(title = "amount of observations by species") +
   xlab("") +
-  ylab("")
+  ylab("") +
+  scale_fill_viridis_d()
 ```
 
 ```{r visualize-missing-values}

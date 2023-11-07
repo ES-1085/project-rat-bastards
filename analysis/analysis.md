@@ -71,15 +71,17 @@ hurricane_plants <- hurricane_plants %>%
 
 ``` r
 hurricane_plants %>%
-  ggplot(aes(x= common_name)) +
+  ggplot(aes(x = fct_infreq(common_name), fill = life_form)) +
+  
   geom_bar() +
   coord_flip() +
   labs(title = "amount of observations by species") +
   xlab("") +
-  ylab("")
+  ylab("") +
+  scale_fill_viridis_d()
 ```
 
-![](analysis_files/figure-gfm/create-bar-chart-1.png)<!-- -->
+![](analysis_files/figure-gfm/bar-chart-observations-1.png)<!-- -->
 
 ``` r
 # show columns with color coded NAs and datatypes
