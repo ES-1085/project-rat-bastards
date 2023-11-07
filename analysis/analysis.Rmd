@@ -71,6 +71,17 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 ```
 
+```{r create-bar-chart}
+hurricane_plants %>%
+  ggplot(aes(x= common_name)) +
+  geom_bar() +
+  coord_flip() +
+  labs(title = "amount of observations by species") +
+  xlab("") +
+  ylab("")
+```
+
+
 ```{r find-initial-emergence}
 # first emergence column creation
 hurricane_plants_join <- hurricane_plants %>%
@@ -90,7 +101,7 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
-    initial_emergence == T & buds_and_flowers_count == 0  ~ T,
+    initial_emergence == T & buds_and_flowers_count == 0  ~ T, # some reason not turning F, HELP!
     leaf_presence == T ~ F,
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
     percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
@@ -152,7 +163,7 @@ hurricane_plants_long <- hurricane_plants %>%
 
 # plot
 hurricane_plants_long %>%
-  #filter(species == "Achillea millefolium") %>%
+  filter(species == "Achillea millefolium") %>%
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
                                                    "budding",
