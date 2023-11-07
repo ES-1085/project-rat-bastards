@@ -1,6 +1,6 @@
-Project title
+Hurricane Island Baseline Phenology
 ================
-by Team name
+by Alex Pesek & Asher Panikian
 
 ## Summary
 
