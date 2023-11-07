@@ -8,6 +8,7 @@ Rat Bastards
  # devtools::install_github("datastorm-open/suncalc")
 # install.packages("visdat")
 # install.packages("naniar")
+# install.packages("gganimate")
 
 library(tidyverse)
 library(broom)
@@ -16,9 +17,10 @@ library(dplyr)
 library(forcats)
 library(lubridate)
 library(devtools)
-library(suncalc)
+#library(suncalc)
 library(visdat)
-library(naniar)
+library(naniar)                                 
+library(gganimate)
 ```
 
 ``` r
@@ -374,6 +376,58 @@ hurricane_plants %>%
 
 ``` r
 #note that the blackberry bush was apparently huge so would have way more fruits than the other two
+```
+
+``` r
+my_anim <- hurricane_plants_long %>%
+ggplot(aes(group = species)) +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))), 
+                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersal"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species") +
+  transition_states(states = species)
+library(gifski)
+animate(my_anim, duration = 20, fps = 20, width = 200, height = 200, renderer = gifski_renderer())
+```
+
+![](analysis_files/figure-gfm/lolipop-animation-1.gif)<!-- -->
+
+``` r
+anim_save(filename = "lollipop.gif")
 ```
 
 ``` r
