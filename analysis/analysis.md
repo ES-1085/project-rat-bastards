@@ -28,14 +28,7 @@ library(gganimate)
 
 hurricane_plants <- read_csv("../data/hurricane_plants.csv", 
     col_types = cols(date = col_date(format = "%m/%d/%Y")))
-```
 
-    ## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-    ## e.g.:
-    ##   dat <- vroom(...)
-    ##   problems(dat)
-
-``` r
 weather_data <- read_csv("../data/neracoos_buoy_data.csv")
 ```
 
@@ -58,6 +51,8 @@ hurricane_plants <- relocate(hurricane_plants,
        young_needle_count,
        percent_stalk_growth,
        percent_fiddlehead_unrolled,
+       sporangia_presence,
+       releasing_spores,
        buds_and_flowers_count,
        percent_open_flowers,
        pollen_amount,
@@ -75,6 +70,67 @@ hurricane_plants <- relocate(hurricane_plants,
 hurricane_plants <- hurricane_plants %>% 
   filter(!is.na(life_form))
 ```
+
+``` r
+hurricane_plants %>%
+  ggplot(aes(x = fct_infreq(common_name), fill = life_form)) +
+  
+  geom_bar() +
+  coord_flip() +
+  labs(title = "amount of observations by species") +
+  xlab("") +
+  ylab("") +
+  scale_fill_viridis_d()
+```
+
+![](analysis_files/figure-gfm/bar-chart-observations-1.png)<!-- -->
+
+``` r
+# show columns with color coded NAs and datatypes
+visdat::vis_dat(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
+
+``` r
+# show percent missing values of each column
+visdat::vis_miss(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
+
+``` r
+# create lolipop graph of NAs by column
+naniar::gg_miss_var(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
+
+``` r
+# plot missing and recorded data of percent unfolded by breaking leaf buds
+ggplot(hurricane_plants,
+       aes(x = percent_unfolded_leaves,
+           y = breaking_leaf_buds_count)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
+
+``` r
+# plot missing and recorded data of flowers and buds by percent open
+ggplot(hurricane_plants,
+       aes(x = buds_and_flowers_count,
+           y = percent_open_flowers)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
+
+``` r
+gg_miss_fct(hurricane_plants, fct = common_name)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-6.png)<!-- -->
 
 ``` r
 # first emergence column creation
@@ -95,6 +151,8 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
+    initial_emergence == T & buds_and_flowers_count == 0  ~ T, # some reason not turning F, HELP!
+    leaf_presence == T ~ F,
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
     percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
     breaking_needle_bud_count > 0 ~ T,
@@ -106,6 +164,7 @@ hurricane_plants <- hurricane_plants %>%
 hurricane_plants <- hurricane_plants %>%
   mutate(budding = case_when(
     buds_and_flowers_count > 0 & percent_open_flowers < 1 ~ T,
+    # sporangia_presence == T ~ T,
     pollen_cone_count > 0 ~ T,
     .default = F
   ))
@@ -159,6 +218,7 @@ hurricane_plants_long <- hurricane_plants %>%
 ``` r
 # plot
 hurricane_plants_long %>%
+  # filter(species == "Achillea millefolium") %>%
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
                                                    "budding",
@@ -191,7 +251,7 @@ ggplot() +
                  y = end_date), 
              color = "firebrick3", 
              size = 3 ) +
-  
+  #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
@@ -201,7 +261,64 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
+    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
+
+    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
+    ## Removed 1 rows containing missing values (`geom_point()`).
+
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
+
+``` r
+hurricane_plants_long %>%
+  # filter(species == "Achillea millefolium") %>%
+ggplot() +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))), 
+                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersal"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersal"))),
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ species) +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
+
+    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
+    ## Removed 1 rows containing missing values (`geom_point()`).
+
+![](analysis_files/figure-gfm/faceted-lolipop-plot-1.png)<!-- -->
 
 ``` r
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
@@ -399,44 +516,3 @@ weather_data %>%
 
 #suncalc might suck. stand by
 ```
-
-``` r
-# show columns with color coded NAs and datatypes
-visdat::vis_dat(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
-
-``` r
-# show percent missing values of each column
-visdat::vis_miss(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
-
-``` r
-# create lolipop graph of NAs by column
-naniar::gg_miss_var(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
-
-``` r
-# plot missing and recorded data of percent unfolded by breaking leaf buds
-ggplot(hurricane_plants,
-       aes(x = percent_unfolded_leaves,
-           y = breaking_leaf_buds_count)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
-
-``` r
-# plot missing and recorded data of flowers and buds by percent open
-ggplot(hurricane_plants,
-       aes(x = buds_and_flowers_count,
-           y = percent_open_flowers)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
