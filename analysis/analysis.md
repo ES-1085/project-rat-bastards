@@ -82,6 +82,53 @@ hurricane_plants %>%
 ![](analysis_files/figure-gfm/create-bar-chart-1.png)<!-- -->
 
 ``` r
+# show columns with color coded NAs and datatypes
+visdat::vis_dat(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
+
+``` r
+# show percent missing values of each column
+visdat::vis_miss(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
+
+``` r
+# create lolipop graph of NAs by column
+naniar::gg_miss_var(hurricane_plants)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
+
+``` r
+# plot missing and recorded data of percent unfolded by breaking leaf buds
+ggplot(hurricane_plants,
+       aes(x = percent_unfolded_leaves,
+           y = breaking_leaf_buds_count)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
+
+``` r
+# plot missing and recorded data of flowers and buds by percent open
+ggplot(hurricane_plants,
+       aes(x = buds_and_flowers_count,
+           y = percent_open_flowers)) +
+  geom_miss_point(alpha = 0.5)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
+
+``` r
+gg_miss_fct(hurricane_plants, fct = common_name)
+```
+
+![](analysis_files/figure-gfm/visualize-missing-values-6.png)<!-- -->
+
+``` r
 # first emergence column creation
 hurricane_plants_join <- hurricane_plants %>%
   # mutate(date = as.Date(date)) %>%
@@ -356,50 +403,3 @@ weather_data %>%
 
 #suncalc might suck. stand by
 ```
-
-``` r
-# show columns with color coded NAs and datatypes
-visdat::vis_dat(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
-
-``` r
-# show percent missing values of each column
-visdat::vis_miss(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
-
-``` r
-# create lolipop graph of NAs by column
-naniar::gg_miss_var(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
-
-``` r
-# plot missing and recorded data of percent unfolded by breaking leaf buds
-ggplot(hurricane_plants,
-       aes(x = percent_unfolded_leaves,
-           y = breaking_leaf_buds_count)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
-
-``` r
-# plot missing and recorded data of flowers and buds by percent open
-ggplot(hurricane_plants,
-       aes(x = buds_and_flowers_count,
-           y = percent_open_flowers)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
-
-``` r
-gg_miss_fct(hurricane_plants, fct = common_name)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-6.png)<!-- -->
