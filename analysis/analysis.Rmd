@@ -505,7 +505,7 @@ leaflet(data = plant_points) %>%
   addProviderTiles(providers$OpenStreetMap) %>%
    setView(lng = -68.895, #<<
            lat = 44.0348, #<<
-           zoom = 14.45) %>%
-  addCircleMarkers()#<<
+           zoom = 14.45) %>% #<<
+  addCircleMarkers(~x, ~y)
 ```
 
