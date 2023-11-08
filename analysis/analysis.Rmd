@@ -455,20 +455,6 @@ weather_data %>%
     geom_line(aes(y = daily_max_temp), color = "red")
 ```
 
-```{r plot-day-length}
-# plot line of daily day lengths throughout the season
-# getSunlightTimes(
-# date = date(2023-01-01),
-# lat = 44.0348,
-# lon = -68.895,
-# data = NULL,
-# keep = c("solarNoon", "sunrise", "sunset",  "goldenHourEnd", "goldenHour"),
-# tz = "EST"
-# )
-
-#suncalc might suck. stand by
-```
-
 ```{r hurricane-leaflet}
 # #install.packages(leaflet)
 library(leaflet) ## For leaflet interactive maps
@@ -507,4 +493,3 @@ leaflet(data = plant_points) %>%
            zoom = 14.45) %>% #<<
   addCircleMarkers(~x, ~y)
 ```
-
