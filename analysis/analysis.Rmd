@@ -241,6 +241,35 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
+```{r}
+hurricane_plants_long %>%
+ggplot() +
+  geom_segment(aes(x = species,
+                    y = start_date, 
+                    xend = species,
+                 yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = species,
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = species,
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ phenophase, scales = "free_y", ncol = 1) +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+
 ```{r faceted-lolipop-plot}
 hurricane_plants_long %>%
   # filter(species == "Achillea millefolium") %>%
