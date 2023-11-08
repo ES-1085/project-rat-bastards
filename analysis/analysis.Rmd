@@ -189,42 +189,45 @@ hurricane_plants_long <- hurricane_plants %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 
+# reformat phenophase labels
+hurricane_plants_long <- hurricane_plants_long %>%
+  mutate(phenophase = case_when(
+    phenophase == "leaf_out"           ~ "leafing out",
+    phenophase == "dispersal"          ~ "dispersing",
+    TRUE                                           ~ phenophase
+  ))
+
 # plot
 hurricane_plants_long %>%
-  group_by(fct_relevel(phenophase, c("leaf_out",
-                                                   "budding",
-                                                   "flowering",
-                                                   "fruiting",
-                                                   "dispersal"))))
 ggplot() +
-  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
                                                    "budding",
                                                    "flowering",
                                                    "fruiting",
-                                                   "dispersal"))), 
-                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                   "dispersing"))), 
+                    xend = (fct_relevel(phenophase, c("leafing out",
                                                       "budding",
                                                       "flowering",
                                                       "fruiting",
-                                                      "dispersal"))),
+                                                      "dispersing"))),
                     y = start_date, 
                     yend=end_date), 
                 color = "grey") +
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
-                                                "dispersal"))),
+                                                "dispersing"))),
                  y = start_date), 
              color = "aquamarine3", 
              size = 3 ) +
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
-                                                "dispersal"))),
+                                                "dispersing"))),
                  y = end_date), 
              color = "firebrick3", 
              size = 3 ) +
@@ -476,4 +479,3 @@ leaflet(data = plant_points) %>%
            zoom = 14.45) %>% #<<
   addCircleMarkers(~x, ~y)
 ```
-
