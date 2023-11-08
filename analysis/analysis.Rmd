@@ -41,6 +41,7 @@ hurricane_plants <- relocate(hurricane_plants,
        life_form, 
        species, 
        common_name,
+       # angiosperm data
        initial_emergence,
        breaking_leaf_buds_count,
        leaf_presence,
@@ -49,22 +50,25 @@ hurricane_plants <- relocate(hurricane_plants,
        percent_full_size_leaf,
        percent_leaves_colorful,
        fallen_leaf_presence,
-       breaking_needle_bud_count,
-       young_needle_count,
+       buds_and_flowers_count,
+       percent_open_flowers,
+       pollen_amount,
+       fruit_count,
+       unripe_seed_cone_count, 
+       percent_ripe_fruits,
+       dropped_fruit_count,
+       # fern data
        percent_stalk_growth,
        percent_fiddlehead_unrolled,
        sporangia_presence,
        releasing_spores,
-       buds_and_flowers_count,
-       percent_open_flowers,
-       pollen_amount,
-       pollen_cone_count,
+       # gymnosperm data
+       breaking_needle_bud_count,
+       young_needle_count,
        percent_open_pollen_cones,
-       fruit_count,
-       unripe_seed_cone_count, 
-       percent_ripe_fruits,
+       pollen_cone_count,
        ripe_seed_cone_count,
-       dropped_fruit_count,
+       
        notes
        )
 
@@ -89,23 +93,8 @@ hurricane_plants %>%
 # show columns with color coded NAs and datatypes
 visdat::vis_dat(hurricane_plants)
 
-# show percent missing values of each column
-visdat::vis_miss(hurricane_plants)
-
 # create lolipop graph of NAs by column
 naniar::gg_miss_var(hurricane_plants)
-
-# plot missing and recorded data of percent unfolded by breaking leaf buds
-ggplot(hurricane_plants,
-       aes(x = percent_unfolded_leaves,
-           y = breaking_leaf_buds_count)) +
-  geom_miss_point(alpha = 0.5)
-
-# plot missing and recorded data of flowers and buds by percent open
-ggplot(hurricane_plants,
-       aes(x = buds_and_flowers_count,
-           y = percent_open_flowers)) +
-  geom_miss_point(alpha = 0.5)
 
 gg_miss_fct(hurricane_plants, fct = common_name)
 ```
@@ -129,12 +118,14 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
-    initial_emergence == T & buds_and_flowers_count == 0  ~ T, # some reason not turning F, HELP!
-    leaf_presence == T ~ F,
-    breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
-    percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
-    breaking_needle_bud_count > 0 ~ T,
-    percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
+    initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") ~ T,
+     initial_emergence == T & buds_and_flowers_count > 0 & species %in% c("Brassica rapa") ~ F, # some reason not turning F, HELP!
+     initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") & date >  ~ F,
+    # leaf_presence == T ~ F,
+    # breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
+    # percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
+    # breaking_needle_bud_count > 0 ~ T,
+    # percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
     .default = F
   ))
   
@@ -171,12 +162,6 @@ hurricane_plants <- hurricane_plants %>%
     dropped_fruit_count > 0 ~ T,
     .default = F
   ))
-```
-
-```{r phenophase-lolipop}
-# join first emergence to phenophase dataframe
-#hurricane_plants <- hurricane_plants %>%
-# full_join(hurricane_plants_join, join_by(species))
 
 # pivot longer
 hurricane_plants_long <- hurricane_plants %>%
@@ -196,6 +181,48 @@ hurricane_plants_long <- hurricane_plants_long %>%
     phenophase == "dispersal"          ~ "dispersing",
     TRUE                                           ~ phenophase
   ))
+```
+
+```{r}
+hurricane_plants_long %>%
+ggplot() +
+  geom_segment(aes(x = species,
+                    y = start_date, 
+                    xend = species,
+                 yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = species,
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = species,
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out")), 
+             scales = "free_y", 
+             ncol = 1, strip.position = "left") +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+```{r phenophase-lolipop}
+# join first emergence to phenophase dataframe
+#hurricane_plants <- hurricane_plants %>%
+# full_join(hurricane_plants_join, join_by(species))
+
+
 
 # plot
 hurricane_plants_long %>%
@@ -234,34 +261,6 @@ ggplot() +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
-  theme_minimal() +
-  theme(legend.position = "none",) +
-  labs(x = "phenophase",
-       y = "date range",
-       title = "phenophase date ranges by species")
-```
-
-```{r}
-hurricane_plants_long %>%
-ggplot() +
-  geom_segment(aes(x = species,
-                    y = start_date, 
-                    xend = species,
-                 yend=end_date), 
-                color = "grey") +
-  
-  geom_point(aes(x = species,
-                 y = start_date), 
-             color = "aquamarine3", 
-             size = 3 ) +
-  
-  geom_point(aes(x = species,
-                 y = end_date), 
-             color = "firebrick3", 
-             size = 3 ) +
-  #geom_line(y = min(date)) +
-  coord_flip()+
-  facet_wrap(~ phenophase, scales = "free_y", ncol = 1) +
   theme_minimal() +
   theme(legend.position = "none",) +
   labs(x = "phenophase",
