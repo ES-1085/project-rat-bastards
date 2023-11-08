@@ -191,7 +191,11 @@ hurricane_plants_long <- hurricane_plants %>%
 
 # plot
 hurricane_plants_long %>%
-  # filter(species == "Achillea millefolium") %>%
+  group_by(fct_relevel(phenophase, c("leaf_out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersal"))))
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
                                                    "budding",
