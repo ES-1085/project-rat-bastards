@@ -468,11 +468,12 @@ library(sp)
 plant_points <- read_csv("../data/hurricane_points.csv")
 plant_zones <- read_csv("../data/hurricane_zones.csv")
 # create map
-leaflet(data = hurricane_plants) %>%
+leaflet(data = plant_points) %>%
    addTiles() %>%
   addProviderTiles(providers$OpenStreetMap) %>%
    setView(lng = -68.895, #<<
            lat = 44.0348, #<<
-           zoom = 14.45) #<<
+           zoom = 14.45) %>%
+  addCircleMarkers()#<<
 ```
 
