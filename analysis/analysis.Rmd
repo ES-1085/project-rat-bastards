@@ -461,8 +461,8 @@ library(sp)
 # library(rgdal)
 
 # read points
-plant_points <- st_read("../data/point_locations.shp")
-
+plant_points <- read_csv("../data/hurricane_points.csv")
+plant_zones <- read_csv("../data/hurricane_zones.csv")
 # create map
 leaflet(data = hurricane_plants) %>%
    addTiles() %>%
