@@ -39,6 +39,7 @@ hurricane_plants <- relocate(hurricane_plants,
        life_form, 
        species, 
        common_name,
+       # angiosperm data
        initial_emergence,
        breaking_leaf_buds_count,
        leaf_presence,
@@ -47,22 +48,25 @@ hurricane_plants <- relocate(hurricane_plants,
        percent_full_size_leaf,
        percent_leaves_colorful,
        fallen_leaf_presence,
-       breaking_needle_bud_count,
-       young_needle_count,
+       buds_and_flowers_count,
+       percent_open_flowers,
+       pollen_amount,
+       fruit_count,
+       unripe_seed_cone_count, 
+       percent_ripe_fruits,
+       dropped_fruit_count,
+       # fern data
        percent_stalk_growth,
        percent_fiddlehead_unrolled,
        sporangia_presence,
        releasing_spores,
-       buds_and_flowers_count,
-       percent_open_flowers,
-       pollen_amount,
-       pollen_cone_count,
+       # gymnosperm data
+       breaking_needle_bud_count,
+       young_needle_count,
        percent_open_pollen_cones,
-       fruit_count,
-       unripe_seed_cone_count, 
-       percent_ripe_fruits,
+       pollen_cone_count,
        ripe_seed_cone_count,
-       dropped_fruit_count,
+       
        notes
        )
 
@@ -93,44 +97,17 @@ visdat::vis_dat(hurricane_plants)
 ![](analysis_files/figure-gfm/visualize-missing-values-1.png)<!-- -->
 
 ``` r
-# show percent missing values of each column
-visdat::vis_miss(hurricane_plants)
+# create lolipop graph of NAs by column
+naniar::gg_miss_var(hurricane_plants)
 ```
 
 ![](analysis_files/figure-gfm/visualize-missing-values-2.png)<!-- -->
 
 ``` r
-# create lolipop graph of NAs by column
-naniar::gg_miss_var(hurricane_plants)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
-
-``` r
-# plot missing and recorded data of percent unfolded by breaking leaf buds
-ggplot(hurricane_plants,
-       aes(x = percent_unfolded_leaves,
-           y = breaking_leaf_buds_count)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-4.png)<!-- -->
-
-``` r
-# plot missing and recorded data of flowers and buds by percent open
-ggplot(hurricane_plants,
-       aes(x = buds_and_flowers_count,
-           y = percent_open_flowers)) +
-  geom_miss_point(alpha = 0.5)
-```
-
-![](analysis_files/figure-gfm/visualize-missing-values-5.png)<!-- -->
-
-``` r
 gg_miss_fct(hurricane_plants, fct = common_name)
 ```
 
-![](analysis_files/figure-gfm/visualize-missing-values-6.png)<!-- -->
+![](analysis_files/figure-gfm/visualize-missing-values-3.png)<!-- -->
 
 ``` r
 # first emergence column creation
@@ -151,7 +128,9 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
-    initial_emergence == T & buds_and_flowers_count == 0  ~ T, # some reason not turning F, HELP!
+    initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") ~ T,
+     initial_emergence == T & buds_and_flowers_count > 0 & species %in% c("Brassica rapa") ~ F, # some reason not turning F, HELP!
+     # initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") & date >  ~ F,
     leaf_presence == T ~ F,
     breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
     percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
@@ -193,12 +172,6 @@ hurricane_plants <- hurricane_plants %>%
     dropped_fruit_count > 0 ~ T,
     .default = F
   ))
-```
-
-``` r
-# join first emergence to phenophase dataframe
-#hurricane_plants <- hurricane_plants %>%
-# full_join(hurricane_plants_join, join_by(species))
 
 # pivot longer
 hurricane_plants_long <- hurricane_plants %>%
@@ -216,38 +189,89 @@ hurricane_plants_long <- hurricane_plants %>%
     ## `.groups` argument.
 
 ``` r
-# plot
+# reformat phenophase labels
+hurricane_plants_long <- hurricane_plants_long %>%
+  mutate(phenophase = case_when(
+    phenophase == "leaf_out"           ~ "leafing out",
+    phenophase == "dispersal"          ~ "dispersing",
+    TRUE                                           ~ phenophase
+  ))
+```
+
+``` r
 hurricane_plants_long %>%
-  # filter(species == "Achillea millefolium") %>%
 ggplot() +
-  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
-                                                   "budding",
-                                                   "flowering",
-                                                   "fruiting",
-                                                   "dispersal"))), 
-                    xend = (fct_relevel(phenophase, c("leaf_out",
-                                                      "budding",
-                                                      "flowering",
-                                                      "fruiting",
-                                                      "dispersal"))),
+  geom_segment(aes(x = species,
                     y = start_date, 
-                    yend=end_date), 
+                    xend = species,
+                 yend=end_date), 
                 color = "grey") +
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
-                                                "budding", 
-                                                "flowering", 
-                                                "fruiting",
-                                                "dispersal"))),
+  geom_point(aes(x = species,
                  y = start_date), 
              color = "aquamarine3", 
              size = 3 ) +
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+  geom_point(aes(x = species,
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out")), 
+             scales = "free_y", 
+             ncol = 1, strip.position = "left") +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
+
+![](analysis_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
+
+``` r
+# join first emergence to phenophase dataframe
+#hurricane_plants <- hurricane_plants %>%
+# full_join(hurricane_plants_join, join_by(species))
+
+
+
+# plot
+hurricane_plants_long %>%
+ggplot() +
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))), 
+                    xend = (fct_relevel(phenophase, c("leafing out",
+                                                      "budding",
+                                                      "flowering",
+                                                      "fruiting",
+                                                      "dispersing"))),
+                    y = start_date, 
+                    yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
-                                                "dispersal"))),
+                                                "dispersing"))),
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
+                                                "budding", 
+                                                "flowering", 
+                                                "fruiting",
+                                                "dispersing"))),
                  y = end_date), 
              color = "firebrick3", 
              size = 3 ) +
@@ -260,11 +284,6 @@ ggplot() +
        y = "date range",
        title = "phenophase date ranges by species")
 ```
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
 
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
 
@@ -313,10 +332,11 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
+    ## Warning: 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
 
 ![](analysis_files/figure-gfm/faceted-lolipop-plot-1.png)<!-- -->
 
@@ -331,6 +351,8 @@ hurricane_plants %>%
   geom_line(aes(y = fruit_count, color = "blue"))+
   geom_line(aes(y = dropped_fruit_count, color = "orange"))
 ```
+
+    ## Warning: Removed 12 rows containing missing values (`geom_line()`).
 
 ![](analysis_files/figure-gfm/overall-count-for-apple-1.png)<!-- -->
 
@@ -370,7 +392,7 @@ hurricane_plants %>%
   scale_color_viridis_d()
 ```
 
-    ## Warning: Removed 1 row containing missing values (`geom_line()`).
+    ## Warning: Removed 7 rows containing missing values (`geom_line()`).
 
 ![](analysis_files/figure-gfm/berry-comparisons-2.png)<!-- -->
 
@@ -424,100 +446,11 @@ library(gifski)
 animate(my_anim, duration = 20, fps = 20, width = 200, height = 200, renderer = gifski_renderer())
 ```
 
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
+    ## Warning: 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
+    ## 2 unknown levels in `f`: leaf_out and dispersal
 
 ![](analysis_files/figure-gfm/lolipop-animation-1.gif)<!-- -->
 
@@ -599,23 +532,14 @@ weather_data %>%
 ![](analysis_files/figure-gfm/plot-temperature-ranges-1.png)<!-- -->
 
 ``` r
-# plot line of daily day lengths throughout the season
-# getSunlightTimes(
-# date = date(2023-01-01),
-# lat = 44.0348,
-# lon = -68.895,
-# data = NULL,
-# keep = c("solarNoon", "sunrise", "sunset",  "goldenHourEnd", "goldenHour"),
-# tz = "EST"
-# )
-
-#suncalc might suck. stand by
+# #install.packages(leaflet)
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
 ```
 
+    ## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+
 ``` r
-# #install.packages(leaflet)
-# library(leaflet) ## For leaflet interactive maps
-# library(sf) ## For spatial data
 # library(htmltools) ## For html
 # library(leafsync) ## For placing plots side by side
 # library(kableExtra) ## Table output
@@ -625,14 +549,86 @@ weather_data %>%
 # library(rgeoboundaries) ## Administrative boundaries
 # install.packages()
 # library(sp)
-# # install.packages("rgdal")
-# # library(rgdal)
-# 
-# plant_points <- readOGR("../data/point_locations.shp")
-# leaflet(data = hurricane_plants) %>%
-#   addTiles() %>%
-# #  addProviderTiles(providers$OpenStreetMap) %>%
-#   setView(lng = -68.895, #<<
-#           lat = 44.0348, #<<
-#           zoom = 14.45) #<<
+
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(kableExtra) ## Table output
 ```
+
+    ## 
+    ## Attaching package: 'kableExtra'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     group_rows
+
+``` r
+library(stringr) ## String manipulation
+#install.packages("remotes")
+#remotes::install_gitlab("dickoa/rgeoboundaries")
+library(rgeoboundaries) ## Administrative boundaries
+```
+
+    ## Registered S3 method overwritten by 'hoardr':
+    ##   method           from
+    ##   print.cache_info httr
+
+``` r
+#install.packages()
+library(sp)
+```
+
+    ## The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+    ## which was just loaded, were retired in October 2023.
+    ## Please refer to R-spatial evolution reports for details, especially
+    ## https://r-spatial.org/r/2023/05/15/evolution4.html.
+    ## It may be desirable to make the sf package available;
+    ## package maintainers should consider adding sf to Suggests:.
+
+``` r
+# install.packages("rgdal")
+# library(rgdal)
+
+# read points
+plant_points <- read_csv("../data/hurricane_points.csv")
+```
+
+    ## Rows: 23 Columns: 5
+
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (1): Plant
+    ## dbl (4): FID, Id, x, y
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+plant_zones <- read_csv("../data/hurricane_zones.csv")
+```
+
+    ## Rows: 5 Columns: 5
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (1): Zone
+    ## dbl (4): FID, Id, Shape__Area, Shape__Length
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+# create map
+leaflet(data = plant_points) %>%
+   addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap) %>%
+   setView(lng = -68.895, #<<
+           lat = 44.0348, #<<
+           zoom = 14.45) %>% #<<
+  addCircleMarkers(~x, ~y)
+```
+
+    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2229460'
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
+
+![](analysis_files/figure-gfm/hurricane-leaflet-1.png)<!-- -->
