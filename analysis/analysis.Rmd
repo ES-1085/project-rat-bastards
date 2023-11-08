@@ -442,10 +442,10 @@ library(htmltools) ## For html
 library(leafsync) ## For placing plots side by side
 library(kableExtra) ## Table output
 library(stringr) ## String manipulation
-install.packages("remotes")
-remotes::install_gitlab("dickoa/rgeoboundaries")
+#install.packages("remotes")
+#remotes::install_gitlab("dickoa/rgeoboundaries")
 library(rgeoboundaries) ## Administrative boundaries
-install.packages()
+#install.packages()
 library(sp)
 # install.packages("rgdal")
 # library(rgdal)
