@@ -447,15 +447,18 @@ library(sf) ## For spatial data
 # library(rgeoboundaries) ## Administrative boundaries
 # install.packages()
 # library(sp)
-# # install.packages("rgdal")
-# # library(rgdal)
-# 
-# plant_points <- readOGR("../data/point_locations.shp")
-# leaflet(data = hurricane_plants) %>%
-#   addTiles() %>%
-# #  addProviderTiles(providers$OpenStreetMap) %>%
-#   setView(lng = -68.895, #<<
-#           lat = 44.0348, #<<
-#           zoom = 14.45) #<<
+# install.packages("rgdal")
+# library(rgdal)
+
+# read points
+plant_points <- st_read("../data/point_locations.shp")
+
+# create map
+leaflet(data = hurricane_plants) %>%
+   addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap) %>%
+   setView(lng = -68.895, #<<
+           lat = 44.0348, #<<
+           zoom = 14.45) #<<
 ```
 
