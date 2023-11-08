@@ -435,27 +435,27 @@ weather_data %>%
 ```
 
 ```{r hurricane-leaflet}
-#install.packages(leaflet)
+# #install.packages(leaflet)
 library(leaflet) ## For leaflet interactive maps
 library(sf) ## For spatial data
-library(htmltools) ## For html
-library(leafsync) ## For placing plots side by side
-library(kableExtra) ## Table output
-library(stringr) ## String manipulation
-install.packages("remotes")
-remotes::install_gitlab("dickoa/rgeoboundaries")
-library(rgeoboundaries) ## Administrative boundaries
-install.packages()
-library(sp)
-# install.packages("rgdal")
-# library(rgdal)
-
-plant_points <- readOGR("../data/point_locations.shp")
-leaflet(data = hurricane_plants) %>%
-  addTiles() %>%
-#  addProviderTiles(providers$OpenStreetMap) %>%
-  setView(lng = -68.895, #<<
-          lat = 44.0348, #<<
-          zoom = 14.45) #<<
+# library(htmltools) ## For html
+# library(leafsync) ## For placing plots side by side
+# library(kableExtra) ## Table output
+# library(stringr) ## String manipulation
+# install.packages("remotes")
+# remotes::install_gitlab("dickoa/rgeoboundaries")
+# library(rgeoboundaries) ## Administrative boundaries
+# install.packages()
+# library(sp)
+# # install.packages("rgdal")
+# # library(rgdal)
+# 
+# plant_points <- readOGR("../data/point_locations.shp")
+# leaflet(data = hurricane_plants) %>%
+#   addTiles() %>%
+# #  addProviderTiles(providers$OpenStreetMap) %>%
+#   setView(lng = -68.895, #<<
+#           lat = 44.0348, #<<
+#           zoom = 14.45) #<<
 ```
 
