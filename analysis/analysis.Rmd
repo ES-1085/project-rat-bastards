@@ -125,7 +125,7 @@ hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
 ```
 
-```{r phenophases-added}
+```{r phenophases}
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
@@ -322,6 +322,8 @@ hurricane_plants %>%
   scale_color_viridis_d()
 #note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
+
+
 ```{r lolipop-animation}
 my_anim <- hurricane_plants_long %>%
 ggplot(aes(group = species)) +
@@ -432,5 +434,28 @@ weather_data %>%
 #suncalc might suck. stand by
 ```
 
+```{r hurricane-leaflet}
+#install.packages(leaflet)
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(kableExtra) ## Table output
+library(stringr) ## String manipulation
+install.packages("remotes")
+remotes::install_gitlab("dickoa/rgeoboundaries")
+library(rgeoboundaries) ## Administrative boundaries
+install.packages()
+library(sp)
+# install.packages("rgdal")
+# library(rgdal)
 
+plant_points <- readOGR("../data/point_locations.shp")
+leaflet(data = hurricane_plants) %>%
+  addTiles() %>%
+#  addProviderTiles(providers$OpenStreetMap) %>%
+  setView(lng = -68.895, #<<
+          lat = 44.0348, #<<
+          zoom = 14.45) #<<
+```
 

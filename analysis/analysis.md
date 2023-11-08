@@ -516,3 +516,62 @@ weather_data %>%
 
 #suncalc might suck. stand by
 ```
+
+``` r
+#install.packages(leaflet)
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
+```
+
+    ## Linking to GEOS 3.8.0, GDAL 3.0.4, PROJ 6.3.1; sf_use_s2() is TRUE
+
+``` r
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(kableExtra) ## Table output
+```
+
+    ## 
+    ## Attaching package: 'kableExtra'
+
+    ## The following object is masked from 'package:dplyr':
+    ## 
+    ##     group_rows
+
+``` r
+library(stringr) ## String manipulation
+install.packages("remotes")
+```
+
+    ## Installing package into '/cloud/lib/x86_64-pc-linux-gnu-library/4.3'
+    ## (as 'lib' is unspecified)
+
+``` r
+remotes::install_gitlab("dickoa/rgeoboundaries")
+```
+
+    ## Skipping install of 'rgeoboundaries' from a gitlab remote, the SHA1 (973c81f5) has not changed since last install.
+    ##   Use `force = TRUE` to force installation
+
+``` r
+library(rgeoboundaries) ## Administrative boundaries
+```
+
+    ## Registered S3 method overwritten by 'hoardr':
+    ##   method           from
+    ##   print.cache_info httr
+
+``` r
+leaflet(data = hurricane_plants) %>%
+  addTiles() %>%
+#  addProviderTiles(providers$OpenStreetMap) %>%
+  setView(lng = -68.895, #<<
+          lat = 44.0348, #<<
+          zoom = 14.45) #<<
+```
+
+    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2229460'
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
+    ## TypeError: Attempting to change the setter of an unconfigurable property.
+
+![](analysis_files/figure-gfm/hurricane-leaflet-1.png)<!-- -->
