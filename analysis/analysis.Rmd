@@ -268,7 +268,6 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-
 ```{r}
 hurricane_plants_long %>%
 ggplot() +
@@ -480,10 +479,11 @@ weather_data %>%
     geom_line(aes(y = daily_max_temp), color = "red")
 ```
 
-```{r hurricane-points-and-zones-merge}
-plant_points %>%
-  mutate()
-#how to make new variable called zone where spp are assigned to zone with if/else statements
+```{r hurricane-points-and-zones-merge, message=FALSE}
+points_and_zones <- read_csv("../data/plantsandzones.csv")
+
+map_join <- plant_points %>%
+  left_join(points_and_zones, by = "Plant")
 ```
 
 ```{r hurricane-leaflet}
