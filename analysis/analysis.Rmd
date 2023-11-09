@@ -57,7 +57,7 @@ hurricane_plants <- relocate(hurricane_plants,
        unripe_seed_cone_count, 
        percent_ripe_fruits,
        dropped_fruit_count,
-       # fern data
+       # pteridophyte data
        percent_stalk_growth,
        percent_fiddlehead_unrolled,
        sporangia_presence,
