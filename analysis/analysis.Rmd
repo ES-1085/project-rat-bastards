@@ -268,6 +268,33 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
+```{r}
+hurricane_plants_long %>%
+ggplot() +
+  geom_segment(aes(x = species,
+                    y = start_date, 
+                    xend = species,
+                 yend=end_date), 
+                color = "grey") +
+  
+  geom_point(aes(x = species,
+                 y = start_date), 
+             color = "aquamarine3", 
+             size = 3 ) +
+  
+  geom_point(aes(x = species,
+                 y = end_date), 
+             color = "firebrick3", 
+             size = 3 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  facet_wrap(~ phenophase, scales = "free_y", ncol = 1) +
+  theme_minimal() +
+  theme(legend.position = "none",) +
+  labs(x = "phenophase",
+       y = "date range",
+       title = "phenophase date ranges by species")
+```
 
 ```{r faceted-lolipop-plot}
 hurricane_plants_long %>%
@@ -314,7 +341,6 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-
 ```{r overall-count-for-apple}
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
 
@@ -327,7 +353,6 @@ hurricane_plants %>%
   geom_line(aes(y = dropped_fruit_count, color = "orange"))
 #ask laurie how to make this good and normal
 ```
-
 
 ```{r berry-comparisons}
 #comparisons with raspberry, blackberry, and blueberry
@@ -357,7 +382,6 @@ hurricane_plants %>%
   scale_color_viridis_d()
 #note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
-
 
 ```{r lolipop-animation}
 my_anim <- hurricane_plants_long %>%
@@ -453,6 +477,13 @@ weather_data %>%
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "pink") +
     geom_line(aes(y = daily_max_temp), color = "red")
+```
+
+```{r hurricane-points-and-zones-merge, message=FALSE}
+points_and_zones <- read_csv("../data/plantsandzones.csv")
+
+map_join <- plant_points %>%
+  left_join(points_and_zones, by = "Plant")
 ```
 
 ```{r hurricane-leaflet}
