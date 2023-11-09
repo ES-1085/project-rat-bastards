@@ -269,7 +269,6 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-
 ```{r faceted-lolipop-plot}
 hurricane_plants_long %>%
   # filter(species == "Achillea millefolium") %>%
@@ -315,7 +314,6 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-
 ```{r overall-count-for-apple}
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
 
@@ -328,7 +326,6 @@ hurricane_plants %>%
   geom_line(aes(y = dropped_fruit_count, color = "orange"))
 #ask laurie how to make this good and normal
 ```
-
 
 ```{r berry-comparisons}
 #comparisons with raspberry, blackberry, and blueberry
@@ -358,7 +355,6 @@ hurricane_plants %>%
   scale_color_viridis_d()
 #note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
-
 
 ```{r lolipop-animation}
 my_anim <- hurricane_plants_long %>%
@@ -454,6 +450,12 @@ weather_data %>%
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "pink") +
     geom_line(aes(y = daily_max_temp), color = "red")
+```
+
+```{r hurricane-points-and-zones-merge}
+plant_points %>%
+  mutate()
+#how to make new variable called zone where spp are assigned to zone with if/else statements
 ```
 
 ```{r hurricane-leaflet}
