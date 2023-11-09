@@ -479,11 +479,17 @@ weather_data %>%
     geom_line(aes(y = daily_max_temp), color = "red")
 ```
 
-```{r hurricane-points-and-zones-merge, message=FALSE}
+```{r hurricane-points-and-zones, message=FALSE}
 points_and_zones <- read_csv("../data/plantsandzones.csv")
 
+#join plant points and points and zones
 map_join <- plant_points %>%
   left_join(points_and_zones, by = "Plant")
+
+#assign colors to zones for map
+zone_color <- colorFactor(palette = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99"),
+                          domain = c("Ice Pond", "Main Campus", "Main Garden Area", "Meadow Garden", "South End & High Cliffs"),
+                          ordered = TRUE)
 ```
 
 ```{r hurricane-leaflet}
@@ -516,7 +522,7 @@ library(sp)
 plant_points <- read_csv("../data/hurricane_points.csv")
 plant_zones <- read_csv("../data/hurricane_zones.csv")
 # create map
-leaflet(data = plant_points) %>%
+leaflet(data = map_join) %>%
    addTiles() %>%
   addProviderTiles(providers$OpenStreetMap) %>%
    setView(lng = -68.895, #<<
