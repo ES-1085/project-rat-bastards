@@ -114,7 +114,7 @@ hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
 ```
 
-```{r phenophases}
+```{r calculate-phenophases}
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
@@ -183,7 +183,7 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
-```{r}
+```{r lolipop-phenophases-by-phase}
 hurricane_plants_long %>%
 ggplot() +
   geom_segment(aes(x = species,
@@ -530,3 +530,19 @@ leaflet(data = map_join) %>%
            zoom = 14.45) %>% #<<
   addCircleMarkers(~x, ~y)
 ```
+
+```{r categories-attempt}
+# create column with woody/herbaceous/fern/coniferous
+hurricane_plants_categorized <- hurricane_plants %>%
+  mutate(plant_type = case_when(
+    common_name == "cinnamon fern" ~ "fern",
+    common_name == "red spruce" ~ "coniferous",
+    life_form == "vine" ~ "herbaceous",
+    life_form == "shrub" ~ "woody",
+    life_form == "tree" ~ "woody",
+    life_form == "herb" ~ "herbaceous",
+    life_form == "vine" ~ "herbaceous",
+    .default = "Other"
+  ))
+```
+
