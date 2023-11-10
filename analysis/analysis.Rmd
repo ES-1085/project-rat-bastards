@@ -195,12 +195,12 @@ ggplot() +
   geom_point(aes(x = species,
                  y = start_date), 
              color = "aquamarine3", 
-             size = 3 ) +
+             size = 1 ) +
   
   geom_point(aes(x = species,
                  y = end_date), 
              color = "firebrick3", 
-             size = 3 ) +
+             size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ fct_relevel(phenophase, c("dispersing",
@@ -215,6 +215,7 @@ ggplot() +
   labs(x = "phenophase",
        y = "date range",
        title = "phenophase date ranges by species")
+ggsave("phenophase_timings.png")
 ```
 
 ```{r phenophase-lolipop}
@@ -248,7 +249,7 @@ ggplot() +
                                                 "dispersing"))),
                  y = start_date), 
              color = "aquamarine3", 
-             size = 3 ) +
+             size = 1 ) +
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
@@ -257,7 +258,7 @@ ggplot() +
                                                 "dispersing"))),
                  y = end_date), 
              color = "firebrick3", 
-             size = 3 ) +
+             size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
@@ -268,7 +269,7 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-```{r}
+```{r lolipop-by-phenophase}
 hurricane_plants_long %>%
 ggplot() +
   geom_segment(aes(x = species,
@@ -280,12 +281,12 @@ ggplot() +
   geom_point(aes(x = species,
                  y = start_date), 
              color = "aquamarine3", 
-             size = 3 ) +
+             size = 1 ) +
   
   geom_point(aes(x = species,
                  y = end_date), 
              color = "firebrick3", 
-             size = 3 ) +
+             size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ phenophase, scales = "free_y", ncol = 1) +
@@ -321,7 +322,7 @@ ggplot() +
                                                 "dispersal"))),
                  y = start_date), 
              color = "aquamarine3", 
-             size = 3 ) +
+             size = 1 ) +
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
                                                 "budding", 
@@ -330,7 +331,7 @@ ggplot() +
                                                 "dispersal"))),
                  y = end_date), 
              color = "firebrick3", 
-             size = 3 ) +
+             size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
@@ -407,7 +408,7 @@ ggplot(aes(group = species)) +
                                                 "dispersal"))),
                  y = start_date), 
              color = "aquamarine3", 
-             size = 3 ) +
+             size = 1 ) +
   
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
@@ -417,7 +418,7 @@ ggplot(aes(group = species)) +
                                                 "dispersal"))),
                  y = end_date), 
              color = "firebrick3", 
-             size = 3 ) +
+             size = 1 ) +
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "none",) +
@@ -481,6 +482,9 @@ weather_data %>%
 
 ```{r hurricane-points-and-zones, message=FALSE}
 points_and_zones <- read_csv("../data/plantsandzones.csv")
+# read points
+plant_points <- read_csv("../data/hurricane_points.csv")
+plant_zones <- read_csv("../data/hurricane_zones.csv")
 
 #join plant points and points and zones
 map_join <- plant_points %>%
@@ -518,9 +522,7 @@ library(sp)
 # install.packages("rgdal")
 # library(rgdal)
 
-# read points
-plant_points <- read_csv("../data/hurricane_points.csv")
-plant_zones <- read_csv("../data/hurricane_zones.csv")
+
 # create map
 leaflet(data = map_join) %>%
    addTiles() %>%
