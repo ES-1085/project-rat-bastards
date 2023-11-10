@@ -476,8 +476,8 @@ weather_data %>%
   ggplot(aes(x = date)) +
     geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
-    geom_line(aes(y = daily_min_temp), color = "pink") +
-    geom_line(aes(y = daily_max_temp), color = "red")
+    geom_line(aes(y = daily_min_temp), color = "skyblue") +
+    geom_line(aes(y = daily_max_temp), color = "violetred3")
 ```
 
 ```{r hurricane-points-and-zones, message=FALSE}
