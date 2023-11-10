@@ -221,7 +221,7 @@ hurricane_plants <- hurricane_plants %>%
 # create fruiting phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(fruiting = case_when(
-    percent_ripe_fruits > 0 &
+    percent_ripe_fruit > 0 &
       fruit_count != NA &
       common_name %in% c("yarrow",
                          "raspberry",
@@ -626,56 +626,74 @@ weather_data %>%
 ```
 
 ```{r hurricane-points-and-zones, message=FALSE}
-# points_and_zones <- read_csv("../data/plantsandzones.csv")
-# # read points
-# plant_points <- read_csv("../data/hurricane_points.csv")
-# plant_zones <- read_csv("../data/hurricane_zones.csv")
-# 
-# #join plant points and points and zones
-# map_join <- plant_points %>%
-#   left_join(points_and_zones, by = "Plant")
-# 
-# #assign colors to zones for map
-# zone_color <- colorFactor(palette = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99"),
-#                           domain = c("Ice Pond", "Main Campus", "Main Garden Area", "Meadow Garden", "South End & High Cliffs"),
-#                           ordered = TRUE)
+# read points
+plant_points <- read_csv("../data/hurricane_points.csv")
+plant_zones <- read_csv("../data/hurricane_zones.csv")
+
+#join plant points and points and zones
+map_join <- plant_points %>%
+  left_join(points_and_zones, by = "Plant")
+
+#assign colors to zones for map
+zone_color <- colorFactor(palette = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99"),
+                          domain = c("Ice Pond", "Main Campus", "Main Garden Area", "Meadow Garden", "South End & High Cliffs"),
+                          ordered = TRUE)
 ```
 
 ```{r hurricane-leaflet}
 # #install.packages(leaflet)
-# library(leaflet) ## For leaflet interactive maps
-# library(sf) ## For spatial data
-# # library(htmltools) ## For html
-# # library(leafsync) ## For placing plots side by side
-# # library(kableExtra) ## Table output
-# # library(stringr) ## String manipulation
-# # install.packages("remotes")
-# # remotes::install_gitlab("dickoa/rgeoboundaries")
-# # library(rgeoboundaries) ## Administrative boundaries
-# # install.packages()
-# # library(sp)
-# 
+library(leaflet) ## For leaflet interactive maps
+library(sf) ## For spatial data
 # library(htmltools) ## For html
 # library(leafsync) ## For placing plots side by side
 # library(kableExtra) ## Table output
 # library(stringr) ## String manipulation
-# #install.packages("remotes")
-# #remotes::install_gitlab("dickoa/rgeoboundaries")
+# install.packages("remotes")
+# remotes::install_gitlab("dickoa/rgeoboundaries")
 # library(rgeoboundaries) ## Administrative boundaries
-# #install.packages()
+# install.packages()
 # library(sp)
-# # install.packages("rgdal")
-# # library(rgdal)
-# 
-# 
-# # create map
-# leaflet(data = map_join) %>%
-#    addTiles() %>%
-#   addProviderTiles(providers$OpenStreetMap) %>%
-#    setView(lng = -68.895, #<<
-#            lat = 44.0348, #<<
-#            zoom = 14.45) %>% #<<
-#   addCircleMarkers(~x, ~y)
+
+library(htmltools) ## For html
+library(leafsync) ## For placing plots side by side
+library(kableExtra) ## Table output
+library(stringr) ## String manipulation
+#install.packages("remotes")
+#remotes::install_gitlab("dickoa/rgeoboundaries")
+library(rgeoboundaries) ## Administrative boundaries
+#install.packages()
+library(sp)
+# install.packages("rgdal")
+# library(rgdal)
+
+
+# create map
+leaflet(data = map_join) %>%
+   addTiles() %>%
+  addProviderTiles(providers$OpenStreetMap) %>%
+   setView(lng = -68.895, #<<
+           lat = 44.0348, #<<
+           zoom = 14.45) %>% #<<
+  addCircles(~x, ~y,
+          fillColor = ~zone_color(map_join$Zone),
+             weight = 1,
+             color = "black",
+             fillOpacity = 0.7,
+             radius = 10,
+          highlight = highlightOptions(
+            weight = 3,
+            color = "blue",
+            fillOpacity = 1,
+            bringToFront = TRUE
+          ),
+          label = ~Plant) %>%
+  addLegend(
+    position = "bottomright",
+    pal = zone_color,
+    values = ~map_join$Zone,
+    title = "Plant Locations by Zone",
+    opacity = 1
+  )
 ```
 
 ```{r categories-attempt}
