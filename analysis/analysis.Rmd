@@ -487,36 +487,30 @@ map_join <- plant_points %>%
   left_join(points_and_zones, by = "Plant")
 
 #assign colors to zones for map
-zone_color <- colorFactor(palette = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99"),
+zone_color <- colorFactor(palette = c("#d7191c", "#fdae61", "#ffffbf", "#7b3294", "#2c7bb6"),
                           domain = c("Ice Pond", "Main Campus", "Main Garden Area", "Meadow Garden", "South End & High Cliffs"),
                           ordered = TRUE)
 ```
 
 ```{r hurricane-leaflet}
-# #install.packages(leaflet)
 library(leaflet) ## For leaflet interactive maps
 library(sf) ## For spatial data
-# library(htmltools) ## For html
-# library(leafsync) ## For placing plots side by side
-# library(kableExtra) ## Table output
-# library(stringr) ## String manipulation
-# install.packages("remotes")
-# remotes::install_gitlab("dickoa/rgeoboundaries")
-# library(rgeoboundaries) ## Administrative boundaries
-# install.packages()
-# library(sp)
-
 library(htmltools) ## For html
 library(leafsync) ## For placing plots side by side
 library(kableExtra) ## Table output
 library(stringr) ## String manipulation
-#install.packages("remotes")
-#remotes::install_gitlab("dickoa/rgeoboundaries")
 library(rgeoboundaries) ## Administrative boundaries
-#install.packages()
 library(sp)
-# install.packages("rgdal")
+# library(htmltools) ## For html
+# library(leafsync) ## For placing plots side by side
+# library(kableExtra) ## Table output
+# library(stringr) ## String manipulation
+# remotes::install_gitlab("dickoa/rgeoboundaries")
+# library(rgeoboundaries) ## Administrative boundaries
+# install.packages()
+# library(sp)
 # library(rgdal)
+
 
 # read points
 plant_points <- read_csv("../data/hurricane_points.csv")
@@ -528,5 +522,25 @@ leaflet(data = map_join) %>%
    setView(lng = -68.895, #<<
            lat = 44.0348, #<<
            zoom = 14.45) %>% #<<
-  addCircleMarkers(~x, ~y)
+  addCircles(~x, ~y,
+        fillColor = ~zone_color(map_join$Zone),
+             stroke = TRUE,
+             weight = 1,
+             color = "black",
+             fillOpacity = 0.7,
+             radius = 10,
+        highlight = highlightOptions(
+             weight = 3,
+             color = "blue",
+             fillOpacity = 1,
+             bringToFront = TRUE
+        ),
+        label = ~Plant) %>%
+        addLegend(
+             position = "bottomright",
+             pal = zone_color,
+             values = ~map_join$Zone,
+             title = "Plant Locations by Zone",
+             opacity = 1
+        )
 ```
