@@ -1,10 +1,13 @@
 ---
-title: Project title
-author: by Team name
+title: Hurricane Island Baseline Phenology
+author: by Alex Pesek & Asher Panikian
 output: github_document
 ---
 
 ## Summary
+
+Phenology is the study of timings of the seasonal life stages of organisms. Some examples of phenological happenings include when mammals are birthing, when birds are fledging, or when pollinators are being active. This dataset focuses on plants, whose timings are important within the context of providing resources for other organisms, such as  This project in collecting data to represent a baseline phenology of Hurricane Island 
+
 
 Write-up of your project and findings go here. 
 Think of this as the text of your presentation. 
