@@ -521,7 +521,6 @@ library(sp)
 # read points
 plant_points <- read_csv("../data/hurricane_points.csv")
 plant_zones <- read_csv("../data/hurricane_zones.csv")
-plant_zone_categories <- read_csv("../data/plantsandzones.csv")
 # create map
 leaflet(data = map_join) %>%
    addTiles() %>%
