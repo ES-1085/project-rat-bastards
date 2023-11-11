@@ -77,7 +77,7 @@ hurricane_plants <- hurricane_plants %>%
   filter(!is.na(life_form))
 ```
 
-```{r bar-chart-observations}
+```{r bar-chart-observations, fig.alt = "A bar chart showing the amount of observations made of each species observed on Hurricane Island. All of the plants but Foxglove and Calendula have over fifteen observations. Foxglove and Calendula have between ten and fifteen observations."}
 hurricane_plants %>%
   ggplot(aes(x = fct_infreq(common_name), fill = life_form)) +
   
