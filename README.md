@@ -4,8 +4,30 @@ by Alex Pesek & Asher Panikian
 
 ## Summary
 
-INTRODUCTION
-Phenology is the study of timings of the seasonal life stages of organisms. Some examples of phenological happenings include when mammals are birthing, when birds are fledging, or when pollinators are being active. This dataset focuses on plants, whose timings are important within the context of providing resources for other organisms, such as  This project in collecting data to represent a baseline phenology of Hurricane Island 
+Phenology is the study of timings of the seasonal life stages of
+organisms. Some examples of phenological happenings include when mammals
+are birthing, when birds are fledging, or when pollinators are being
+active. This dataset focuses on plants, whose timings are important
+within the context of providing resources for other organisms, such as
+pollen for insects and berries for herbivores. The purpose of this
+project is to collect a baseline of phenology data for Hurricane Island
+to be used in comparative analyses as the climate changes.
+
+Outline: Define phenophase
+
+(explain that each observaiton hast he date and then information about
+the individual; the real observations made w ere counts, percentages,
+presence/absence and one categorical variable about pollen amount being
+“none, little, or some”.)
+
+SLIDES 1-3: Set the scene Intro context to why phenology is important
+what the purpose of the project is talk a little about the data Talk
+about the problem/main question we have SLIDES 4-(WHATEVER)
+Sub-questions we have about the data what our main plots are telling us
+(our main plots are the giant lollipop phenology thing, the animation
+and the map and the berries) CONCLUSION recap main findings limitations
+and conclusions implications of the project how we would continue work
+if we had more time
 
 Write-up of your project and findings go here. Think of this as the text
 of your presentation. The length should be roughly 5 minutes when read
@@ -27,7 +49,7 @@ your project.
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html). You can update this link to a Google Slides link.
+Our presentation can be found [here](presentation/presentation.html).
 
 ## Data
 
