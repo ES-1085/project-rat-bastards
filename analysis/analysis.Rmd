@@ -212,7 +212,7 @@ ggplot() +
              ncol = 1, strip.position = "left") +
   theme_minimal() +
   theme(legend.position = "none",) +
-  labs(x = "phenophase",
+  labs(x = "",
        y = "date range",
        title = "phenophase date ranges by species")
 # ggsave("phenophase_timings.png")
