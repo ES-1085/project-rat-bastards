@@ -170,7 +170,7 @@ hurricane_plants_long <- hurricane_plants %>%
     names_to = "phenophase"
   ) %>%
   filter(value == "TRUE") %>%
-  group_by(species, phenophase) %>%
+  group_by(species, life_form, phenophase) %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 
@@ -189,8 +189,8 @@ ggplot() +
   geom_segment(aes(x = species,
                     y = start_date, 
                     xend = species,
-                 yend=end_date), 
-                color = "grey") +
+                 yend=end_date, 
+                color = life_form)) +
   
   geom_point(aes(x = species,
                  y = start_date), 
@@ -210,11 +210,13 @@ ggplot() +
                                                    "leafing out")), 
              scales = "free_y", 
              ncol = 1, strip.position = "left") +
-  theme_minimal() +
-  theme(legend.position = "none",) +
+  theme_minimal() + 
+  theme (legend.position = "bottom") +   
   labs(x = "",
        y = "date range",
-       title = "phenophase date ranges by species")
+       title = "phenophase date ranges by species",
+       color = "life form") +
+  scale_colour_viridis_d()
 # ggsave("phenophase_timings.png")
 ```
 
