@@ -460,14 +460,16 @@ ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
   geom_line() 
 ```
 
-```{r plot-temperature-ranges}
+```{r plot-temperature-ranges, warning=FALSE, fig.alt= "Ribbon plot showing daily air temperatures sources from NERACOOS buoy nearest Hurricane Island, F01, ranging from Feburary through October. The lowest temperatures dropped below -10 degrees occured in late February while the highest temperature hit 25 degrees in early September."}
 # plot ribbon of daily temperature readings
 weather_data %>%
   ggplot(aes(x = date)) +
     geom_ribbon(aes(y = daily_mean_temp, ymin = daily_min_temp, ymax = daily_max_temp), alpha = 0.3) +
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "skyblue") +
-    geom_line(aes(y = daily_max_temp), color = "violetred3")
+    geom_line(aes(y = daily_max_temp), color = "violetred3") +
+  labs(y = "daily mean temperature (celcius)",
+       title = "daily air temperatures of Hurricane Island")
 ```
 
 ```{r hurricane-points-and-zones, message=FALSE}
