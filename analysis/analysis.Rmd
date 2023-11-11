@@ -183,7 +183,7 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
-```{r lolipop-phenophases-by-phase, warning=FALSE}
+```{r lolipop-phenophases-by-phase, warning=FALSE, fig.alt = "A lolipop plot faceted by phenophase (from bottom to top; leafing out, flowering, budding, fruiting, dispersal), displaying the beginning and end dates for each phenophase as it occurs for each species. Each line is color coded by life form. The plot displays that the species with the longest leafing/needling out phase is the Red Spruce which lasted from early June through to the end of field observations in October. The Red Spruce was also the plant which began its leafing out phase the latest. The species with the shotest leafing out phase is the Red Elderberry which occured in late April. The earliest plant to bud was the Canada Mayflower whereas the latest was the Red Spruce. The Starflower had the longest fruiting period, from early June through to the end of observations in October."}
 hurricane_plants_long %>%
 ggplot() +
   geom_segment(aes(x = species,
