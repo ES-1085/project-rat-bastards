@@ -488,10 +488,8 @@ ggplot() +
 ```{r categories-attempt}
 # create column with woody/herbaceous/fern/coniferous
 hurricane_plants_categorized <- hurricane_plants %>%
-  mutate(life_form = case_when(
-    life_form = ""
-  ))
   mutate(plant_type = case_when(
+    common_name == "bull thistle" ~ "herbaceous",
     common_name == "cinnamon fern" ~ "fern",
     common_name == "red spruce" ~ "coniferous",
     life_form == "vine" ~ "herbaceous",
@@ -690,11 +688,13 @@ weather_data %>%
 # read points
 plant_points <- read_csv("../data/hurricane_points.csv")
 plant_zones <- read_csv("../data/hurricane_zones.csv")
+points_and_zones <-read_csv("../data/plantsandzones.csv")
 
 #join plant points and points and zones
 map_join <- plant_points %>%
   left_join(points_and_zones, by = "Plant")
 
+library(leaflet) ## For leaflet interactive maps
 #assign colors to zones for map
 zone_color <- colorFactor(palette = c("#a6cee3", "#1f78b4", "#b2df8a", "#33a02c", "#fb9a99"),
                           domain = c("Ice Pond", "Main Campus", "Main Garden Area", "Meadow Garden", "South End & High Cliffs"),
