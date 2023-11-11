@@ -503,7 +503,7 @@ hurricane_plants_categorized <- hurricane_plants %>%
 
 ```{r faceted-lolipop-plot, warning=FALSE}
 hurricane_plants_long %>%
- #filter(species == "Vaccinium angustifolium") %>%
+ #filter(species == "Achillea millefolium") %>%
 ggplot() +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
                                         "budding",
@@ -541,7 +541,8 @@ ggplot() +
   facet_wrap(~ species) +
   theme_minimal() +
   theme(legend.position = "none",) +
-  labs(x = "phenophase",
+  labs( x = "phenophase",
+    #x = "",
        y = "date range",
        title = "phenophase date ranges")
 ```
