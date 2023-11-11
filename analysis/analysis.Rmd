@@ -486,7 +486,7 @@ zone_color <- colorFactor(palette = c("#d7191c", "#fdae61", "#ffffbf", "#7b3294"
                           ordered = TRUE)
 ```
 
-```{r hurricane-leaflet}
+```{r hurricane-leaflet, fig.alt = "A leaflet map of Hurricane Island with points added on displaying the locations of each plant observed in the survey and a key in the bottom right corner. The points are color coded by zone. There are five plants in the Meadow Garden, three in the Ice pond, five in the Main Garden Area, four in the Main Campus, and six in the South End/High Cliffs zone."}
 library(leaflet) ## For leaflet interactive maps
 library(sf) ## For spatial data
 library(htmltools) ## For html
