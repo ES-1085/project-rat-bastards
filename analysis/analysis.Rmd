@@ -183,7 +183,7 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
-```{r lolipop-phenophases-by-phase}
+```{r lolipop-phenophases-by-phase, warning=FALSE}
 hurricane_plants_long %>%
 ggplot() +
   geom_segment(aes(x = species,
@@ -215,7 +215,7 @@ ggplot() +
   labs(x = "phenophase",
        y = "date range",
        title = "phenophase date ranges by species")
-ggsave("phenophase_timings.png")
+# ggsave("phenophase_timings.png")
 ```
 
 ```{r phenophase-lolipop}
@@ -262,34 +262,6 @@ ggplot() +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
-  theme_minimal() +
-  theme(legend.position = "none",) +
-  labs(x = "phenophase",
-       y = "date range",
-       title = "phenophase date ranges by species")
-```
-
-```{r lolipop-by-phenophase}
-hurricane_plants_long %>%
-ggplot() +
-  geom_segment(aes(x = species,
-                    y = start_date, 
-                    xend = species,
-                 yend=end_date), 
-                color = "grey") +
-  
-  geom_point(aes(x = species,
-                 y = start_date), 
-             color = "aquamarine3", 
-             size = 1 ) +
-  
-  geom_point(aes(x = species,
-                 y = end_date), 
-             color = "firebrick3", 
-             size = 1 ) +
-  #geom_line(y = min(date)) +
-  coord_flip()+
-  facet_wrap(~ phenophase, scales = "free_y", ncol = 1) +
   theme_minimal() +
   theme(legend.position = "none",) +
   labs(x = "phenophase",
