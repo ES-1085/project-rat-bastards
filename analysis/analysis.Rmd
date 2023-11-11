@@ -484,7 +484,6 @@ ggplot() +
   scale_color_viridis_d()
 ```
 
-
 ```{r categories-attempt}
 # create column with woody/herbaceous/fern/coniferous
 hurricane_plants_categorized <- hurricane_plants %>%
