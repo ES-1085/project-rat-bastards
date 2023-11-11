@@ -269,7 +269,6 @@ ggplot() +
        title = "phenophase date ranges by species")
 ```
 
-
 ```{r categories-attempt}
 # create column with woody/herbaceous/fern/coniferous
 hurricane_plants_categorized <- hurricane_plants %>%
@@ -373,7 +372,7 @@ hurricane_plants %>%
 #note that the blackberry bush was apparently huge so would have way more fruits than the other two
 ```
 
-```{r lolipop-animation}
+```{r lolipop-animation, fig.alt = "Animated gif showing multiple lolipop plots displaying the relationship between time and the following phenophases as they occur for individual plants: Leafing out, dispersing, fruiting, flowering, and budding. For the Beach Pea, most of the phenophases occur for similar lenghts of time (about two months each save for the leafing out period which was only recorded during one observation period). In comparison, the Canada Mayflower had very short leafing out, flowering, and budding phases, each lasting less than a month, but its fruiting and dispersing phases each lasted at least three months. Additionally for the Beach Pea the beginnings and endings of the phases overlap with each other broadly whereas the Canada Mayflower's appear to be more stratified."}
 my_anim <- hurricane_plants_long %>%
 ggplot(aes(group = species)) +
   geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
