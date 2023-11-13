@@ -299,43 +299,7 @@ hurricane_plants_categorized <- hurricane_plants %>%
 ```
 
 ```{r faceted-lolipop-plot, warning=FALSE}
-
-
-# hurricane_plants_long %>%
-#   ## filter(phenophase == "dispersing") %>%
-# ggplot() +
-#   geom_segment(aes(x = species,
-#                     y = start_date, 
-#                     xend = species,
-#                  yend=end_date, 
-#                 color = life_form)) +
-#   
-#   geom_point(aes(x = species,
-#                  y = start_date), 
-#              color = "aquamarine3", 
-#              size = 1 ) +
-#   
-#   geom_point(aes(x = species,
-#                  y = end_date), 
-#              color = "firebrick3", 
-#              size = 1 ) +
-#   #geom_line(y = min(date)) +
-#   coord_flip()+
-#   facet_wrap(~ fct_relevel(phenophase, c("dispersing",
-#                                                    "fruiting",
-#                                                    "flowering",
-#                                                    "budding",
-#                                                    "leafing out")), 
-#              scales = "free_y", 
-#              ncol = 1, strip.position = "left") +
-#   theme_minimal() + 
-#   theme (legend.position = "bottom") +   
-#   labs(x = "",
-#        y = "date range",
-#        title = "phenophase date ranges by species",
-#        color = "life form") +
-#   scale_colour_viridis_d()
-
+# plot of species phenophases facet by phase
 hurricane_plants_long %>%
   # filter(species == "Achillea millefolium") %>%
 ggplot() +
