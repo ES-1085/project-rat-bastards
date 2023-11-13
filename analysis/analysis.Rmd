@@ -19,6 +19,7 @@ library(dplyr)
 library(forcats)
 library(lubridate)
 library(devtools)
+#library(suncalc)
 library(visdat)
 library(naniar)                                 
 library(gganimate)
@@ -477,6 +478,7 @@ weather_data %>%
     geom_line(aes(y = daily_max_temp), color = "violetred3") +
   labs(y = "daily mean temperature (celcius)",
        title = "daily air temperatures of Hurricane Island")
+ggsave("spring-to-oct-temperatures.png")
 ```
 
 ```{r hurricane-points-and-zones, message=FALSE}
