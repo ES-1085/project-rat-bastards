@@ -17,6 +17,7 @@ library(dplyr)
 library(forcats)
 library(lubridate)
 library(devtools)
+#library(suncalc)
 library(visdat)
 library(naniar)                                 
 library(gganimate)
@@ -207,6 +208,7 @@ hurricane_plants_long <- hurricane_plants_long %>%
 
 ``` r
 hurricane_plants_long %>%
+  ## filter(phenophase == "dispersing") %>%
 ggplot() +
   geom_segment(aes(x = species,
                     y = start_date, 
@@ -244,7 +246,7 @@ ggplot() +
 <img src="analysis_files/figure-gfm/lolipop-phenophases-by-phase-1.png" alt="A lolipop plot faceted by phenophase (from bottom to top; leafing out, flowering, budding, fruiting, dispersal), displaying the beginning and end dates for each phenophase as it occurs for each species. Each line is color coded by life form. The plot displays that the species with the longest leafing/needling out phase is the Red Spruce which lasted from early June through to the end of field observations in October. The Red Spruce was also the plant which began its leafing out phase the latest. The species with the shotest leafing out phase is the Red Elderberry which occured in late April. The earliest plant to bud was the Canada Mayflower whereas the latest was the Red Spruce. The Starflower had the longest fruiting period, from early June through to the end of observations in October."  />
 
 ``` r
-# ggsave("phenophase_timings.png")
+## ggsave("dispersing_timings.png", width = 8, height = 6)
 ```
 
 ``` r
@@ -552,6 +554,10 @@ weather_data %>%
 ```
 
 <img src="analysis_files/figure-gfm/plot-temperature-ranges-1.png" alt="Ribbon plot showing daily air temperatures sources from NERACOOS buoy nearest Hurricane Island, F01, ranging from Feburary through October. The lowest temperatures dropped below -10 degrees occured in late February while the highest temperature hit 25 degrees in early September."  />
+
+``` r
+## ggsave("spring-to-oct-temperatures.png", width = 14, height = 8                                                                                                                                                                                                                                                                  )
+```
 
 ``` r
 points_and_zones <- read_csv("../data/plantsandzones.csv")
