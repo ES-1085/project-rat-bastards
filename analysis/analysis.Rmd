@@ -423,7 +423,7 @@ ggplot(aes(group = species)) +
 library(gifski)
 animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer())
 
-# anim_save(filename = "lollipop.gif")
+ anim_save(filename = "lollipop.gif")
 ```
 
 ```{r weather-initial-analysis, warning=FALSE}
