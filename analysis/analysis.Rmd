@@ -326,6 +326,9 @@ ggplot() +
   labs(x = "phenophase",
        y = "date range",
        title = "phenophase date ranges by species")
+
+
+ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
