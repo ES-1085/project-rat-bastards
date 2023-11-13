@@ -320,7 +320,11 @@ ggplot() +
              size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
-  facet_wrap(~ phenophase) +
+  facet_wrap(~ fct_relevel(phenophase, c("leafing out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))) +
   theme_minimal() +
   theme(legend.position = "none",) +
   labs(x = "phenophase",
