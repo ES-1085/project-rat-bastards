@@ -326,13 +326,14 @@ ggplot() +
                                                    "fruiting",
                                                    "dispersing"))) +
   theme_minimal() +
-  theme(legend.position = "none",) +
+  theme(legend.position = "bottom",) +
   labs(x = "phenophase",
        y = "date range",
-       title = "phenophase date ranges by species")
+       title = "phenophase date ranges by species",
+       color = "life form")
 
 
-ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+## ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
@@ -380,35 +381,35 @@ hurricane_plants %>%
 ```{r lolipop-animation, fig.alt = "Animated gif showing multiple lolipop plots displaying the relationship between time and the following phenophases as they occur for individual plants: Leafing out, dispersing, fruiting, flowering, and budding. For the Beach Pea, most of the phenophases occur for similar lenghts of time (about two months each save for the leafing out period which was only recorded during one observation period). In comparison, the Canada Mayflower had very short leafing out, flowering, and budding phases, each lasting less than a month, but its fruiting and dispersing phases each lasted at least three months. Additionally for the Beach Pea the beginnings and endings of the phases overlap with each other broadly whereas the Canada Mayflower's appear to be more stratified."}
 my_anim <- hurricane_plants_long %>%
 ggplot(aes(group = species)) +
-  geom_segment( aes(x = (fct_relevel(phenophase, c("leaf_out",
+  geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
                                                    "budding",
                                                    "flowering",
                                                    "fruiting",
-                                                   "dispersal"))), 
-                    xend = (fct_relevel(phenophase, c("leaf_out",
+                                                   "dispersing"))), 
+                    xend = (fct_relevel(phenophase, c("leafing out",
                                                       "budding",
                                                       "flowering",
                                                       "fruiting",
-                                                      "dispersal"))),
+                                                      "dispersing"))),
                     y = start_date, 
                     yend=end_date), 
                 color = "grey") +
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
-                                                "dispersal"))),
+                                                "dispersing"))),
                  y = start_date), 
              color = "aquamarine3", 
              size = 1 ) +
   
   
-  geom_point(aes(x = (fct_relevel(phenophase, c("leaf_out", 
+  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
-                                                "dispersal"))),
+                                                "dispersing"))),
                  y = end_date), 
              color = "firebrick3", 
              size = 1 ) +
@@ -422,7 +423,7 @@ ggplot(aes(group = species)) +
 library(gifski)
 animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer())
 
-anim_save(filename = "lollipop.gif")
+# anim_save(filename = "lollipop.gif")
 ```
 
 ```{r weather-initial-analysis, warning=FALSE}
