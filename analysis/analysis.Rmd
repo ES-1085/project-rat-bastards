@@ -252,14 +252,16 @@ ggplot() +
                                                       "fruiting",
                                                       "dispersing"))),
                     y = start_date, 
-                    yend=end_date), 
-                color = "grey") +
+                    yend=end_date, 
+                color = phenophase),
+                size = 1) +
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
                                                 "dispersing"))),
+                      colour = "start date",
                  y = start_date), 
              color = "aquamarine3", 
              size = 1 ) +
@@ -269,17 +271,21 @@ ggplot() +
                                                 "flowering", 
                                                 "fruiting",
                                                 "dispersing"))),
-                 y = end_date), 
+                 y = end_date,
+                 colour = "end date"), 
              color = "firebrick3", 
              size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
-  theme(legend.position = "none",) +
+  theme(legend.position = "bottom",) +
   labs(x = "phenophase",
        y = "date range",
-       title = "phenophase date ranges by species")
+       title = "phenophase date ranges by species",
+       color = "phenophase",
+       colour = "") +
+  scale_color_viridis_d()
 ```
 
 ```{r categories-attempt}
