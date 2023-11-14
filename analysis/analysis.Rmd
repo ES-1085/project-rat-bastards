@@ -426,7 +426,7 @@ ggplot(aes(group = species)) +
        y = "date range",
        title = 'species: {closest_state}') +
   transition_states(states = species) +
-  scale_color_magma()
+  scale_color_virdis_d()
 
 library(gifski)
 
