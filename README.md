@@ -49,7 +49,8 @@ your project.
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
+Our presentation can be found
+[here](https://docs.google.com/presentation/d/e/2PACX-1vTxgeyjb8A7liBnX3-0YvwXO4-eEaofFJ_npcKu5XXfZk3Apc__qR4qAybUJNb2tReXi8fSUnz4IEYF/pub?start=true&loop=false&delayms=5000).
 
 ## Data
 
