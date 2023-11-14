@@ -325,7 +325,9 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = life_form)) +
+                color = phenophase)) +
+               # position = "jitter") 
+
 
   geom_point(aes(x = species,
                  y = start_date),
@@ -337,21 +339,18 @@ ggplot() +
              color = "firebrick3",
              size = 1 ) +
   #geom_line(y = min(date)) +
-  coord_flip()+
-  facet_wrap(~ fct_relevel(phenophase, c("leafing out",
-                                                   "budding",
-                                                   "flowering",
-                                                   "fruiting",
-                                                   "dispersing"))) +
+  coord_flip() +
+  # facet_wrap(~ life_form, ncol = 1) +
   theme_minimal() +
   theme(legend.position = "bottom",) +
-  labs(x = "phenophase",
-       y = "date range",
+  labs(x = "",
+       y = "",
        title = "phenophase date ranges by species",
-       color = "life form")
+       color = "life form") +
+    scale_color_viridis_d() 
 
 
-## ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+# ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
