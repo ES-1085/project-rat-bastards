@@ -236,7 +236,19 @@ ggplot() +
 #hurricane_plants <- hurricane_plants %>%
 # full_join(hurricane_plants_join, join_by(species))
 
-
+# create color pallet for phenophases
+phenophase_color <- colorFactor(palette = c("#2b83ba", 
+                                            "#abdda4", 
+                                            "#ffffbf", 
+                                            "#fdae61", 
+                                            "#d7191c"),
+                          domain = c("leafing out",
+                                     "budding",
+                                     "flowering",
+                                     "fruiting",
+                                     "dispersing"),
+                          ordered = TRUE)
+## HOW DO I APPLY THIS TO THE PLOT?
 
 # plot
 hurricane_plants_long %>%
