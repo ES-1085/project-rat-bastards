@@ -527,7 +527,8 @@ leaflet(data = map_join) %>%
              values = ~map_join$Zone,
              title = "Plant Locations by Zone",
              opacity = 1
-        )
+        )%>%
+  addScaleBar()
 ```
 
 
