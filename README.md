@@ -30,5 +30,4 @@ Pesek, A 2023. Hurricane Phenology Data 2023, Unpublished raw data. November 8 2
 
 ## References
 
-List any references here. You should, at a minimum, list your data
-source.
+USA NPN National Phenology Network. USA National Phenology Network | USA National Phenology Network. (n.d.). [https://www.usanpn.org/usa-national-phenology-network](https://www.usanpn.org/usa-national-phenology-network) 
