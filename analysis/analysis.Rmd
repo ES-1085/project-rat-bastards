@@ -479,7 +479,7 @@ weather_data %>%
   slice_min(date, n = 1)
 ```
 
-```{r daily-mean-temp}
+```{r daily-mean-temp fig.alt = "A line plot of the average daily temperatures measured from NERACOOS buoy F01. The lowest the temperature reached was nearly -10 degrees celcius in March and the highest temperatures were almost 20 degrees celcius in July, August, and September."}
 # line plot daily mean temperature
 ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
   geom_line() 
