@@ -231,7 +231,7 @@ ggplot() +
 ## ggsave("dispersing_timings.png", width = 8, height = 6)
 ```
 
-```{r phenophase-lolipop}
+```{r phenophase-lolipop, warning=FALSE}
 # join first emergence to phenophase dataframe
 #hurricane_plants <- hurricane_plants %>%
 # full_join(hurricane_plants_join, join_by(species))
