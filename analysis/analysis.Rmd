@@ -325,7 +325,8 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = phenophase)) +
+                color = phenophase),
+               linetype = "dashed") +
                # position = "jitter") 
 
 
