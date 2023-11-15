@@ -236,7 +236,19 @@ ggplot() +
 #hurricane_plants <- hurricane_plants %>%
 # full_join(hurricane_plants_join, join_by(species))
 
-
+# create color pallet for phenophases
+phenophase_color <- colorFactor(palette = c("#2b83ba", 
+                                            "#abdda4", 
+                                            "#ffffbf", 
+                                            "#fdae61", 
+                                            "#d7191c"),
+                          domain = c("leafing out",
+                                     "budding",
+                                     "flowering",
+                                     "fruiting",
+                                     "dispersing"),
+                          ordered = TRUE)
+## HOW DO I APPLY THIS TO THE PLOT?
 
 # plot
 hurricane_plants_long %>%
@@ -252,14 +264,16 @@ ggplot() +
                                                       "fruiting",
                                                       "dispersing"))),
                     y = start_date, 
-                    yend=end_date), 
-                color = "grey") +
+                    yend=end_date, 
+                color = phenophase),
+                size = 1) +
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
                                                 "flowering", 
                                                 "fruiting",
                                                 "dispersing"))),
+                      colour = "start date",
                  y = start_date), 
              color = "aquamarine3", 
              size = 1 ) +
@@ -269,17 +283,21 @@ ggplot() +
                                                 "flowering", 
                                                 "fruiting",
                                                 "dispersing"))),
-                 y = end_date), 
+                 y = end_date,
+                 colour = "end date"), 
              color = "firebrick3", 
              size = 1 ) +
   #geom_line(y = min(date)) +
   coord_flip()+
   facet_wrap(~ species) +
   theme_minimal() +
-  theme(legend.position = "none",) +
+  theme(legend.position = "bottom",) +
   labs(x = "phenophase",
        y = "date range",
-       title = "phenophase date ranges by species")
+       title = "phenophase date ranges by species",
+       color = "phenophase",
+       colour = "") +
+  scale_color_viridis_d()
 ```
 
 ```{r categories-attempt}
@@ -307,7 +325,10 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = life_form)) +
+                color = phenophase),
+               linetype = "dashed") +
+               # position = "jitter") 
+
 
   geom_point(aes(x = species,
                  y = start_date),
@@ -319,21 +340,18 @@ ggplot() +
              color = "firebrick3",
              size = 1 ) +
   #geom_line(y = min(date)) +
-  coord_flip()+
-  facet_wrap(~ fct_relevel(phenophase, c("leafing out",
-                                                   "budding",
-                                                   "flowering",
-                                                   "fruiting",
-                                                   "dispersing"))) +
+  coord_flip() +
+  # facet_wrap(~ life_form, ncol = 1) +
   theme_minimal() +
   theme(legend.position = "bottom",) +
-  labs(x = "phenophase",
-       y = "date range",
+  labs(x = "",
+       y = "",
        title = "phenophase date ranges by species",
-       color = "life form")
+       color = "life form") +
+    scale_color_viridis_d() 
 
 
-## ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+# ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
@@ -349,7 +367,7 @@ hurricane_plants %>%
 #ask laurie how to make this good and normal
 ```
 
-```{r berry-comparisons}
+```{r berry-comparisons, fig.alt = "A"}
 #comparisons with raspberry, blackberry, and blueberry
 
 hurricane_plants %>%
@@ -392,8 +410,8 @@ ggplot(aes(group = species)) +
                                                       "fruiting",
                                                       "dispersing"))),
                     y = start_date, 
-                    yend=end_date), 
-                color = "grey") +
+                    yend=end_date, 
+                color = phenophase)) +
   
   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
                                                 "budding", 
@@ -419,11 +437,14 @@ ggplot(aes(group = species)) +
   labs(x = "phenophase",
        y = "date range",
        title = 'species: {closest_state}') +
-  transition_states(states = species)
-library(gifski)
-animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer())
+  transition_states(states = species) +
+  scale_color_viridis_d()
 
- anim_save(filename = "lollipop.gif")
+library(gifski)
+
+animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer()) 
+
+# anim_save(filename = "lollipop.gif")
 ```
 
 ```{r weather-initial-analysis, warning=FALSE}
@@ -458,7 +479,7 @@ weather_data %>%
   slice_min(date, n = 1)
 ```
 
-```{r daily-mean-temp}
+```{r daily-mean-temp fig.alt = "A line plot of the average daily temperatures measured from NERACOOS buoy F01. The lowest the temperature reached was nearly -10 degrees celcius in March and the highest temperatures were almost 20 degrees celcius in July, August, and September."}
 # line plot daily mean temperature
 ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
   geom_line() 
@@ -527,7 +548,8 @@ leaflet(data = map_join) %>%
              values = ~map_join$Zone,
              title = "Plant Locations by Zone",
              opacity = 1
-        )
+        )%>%
+  addScaleBar()
 ```
 
 

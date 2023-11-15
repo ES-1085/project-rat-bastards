@@ -19,7 +19,8 @@ Due to the nature of these data being collected as the beginning of a time serie
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
+Our presentation can be found
+[here](https://docs.google.com/presentation/d/1Sy3nJ1ISygqVOn2qDwNJ9vac_GmUvN1gNzZwY7_LHIA/edit?usp=sharing).
 
 ## Data
 
@@ -29,6 +30,8 @@ Include a citation for your data here. See
 <http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance
 on proper citation for datasets. If you got your data off the web, make
 sure to note the retrieval date.
+
+Pesek, A 2023. Hurricane Phenology Data 2023, [Unpublished raw data] <https://docs.google.com/spreadsheets/d/19T9cY0Fn4dY_5c5euMqdsVD5HlLEbqQnwAydKzz5NLk/edit?usp=sharing> November 8th 2023.
 
 ## References
 
