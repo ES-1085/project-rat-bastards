@@ -49,8 +49,8 @@ Your results with proper output and graphics go in your presentation, this space
 
 ## Presentation
 
-Our presentation can be found [here](presentation/presentation.html).
-<iframe src="https://docs.google.com/presentation/d/e/2PACX-1vTxgeyjb8A7liBnX3-0YvwXO4-eEaofFJ_npcKu5XXfZk3Apc__qR4qAybUJNb2tReXi8fSUnz4IEYF/embed?start=true&loop=true&delayms=5000" frameborder="0" width="960" height="569" allowfullscreen="true" mozallowfullscreen="true" webkitallowfullscreen="true"></iframe>
+Our presentation can be found [here](https://docs.google.com/presentation/d/1Sy3nJ1ISygqVOn2qDwNJ9vac_GmUvN1gNzZwY7_LHIA/edit?usp=sharing).
+
 
 ## Data 
 
