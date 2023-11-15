@@ -26,12 +26,7 @@ Our presentation can be found
 
 National Oceanographic and Atmospheric Administration. (2023). F01 Met - Meteorology (Unpublished Raw Data). University of   Maine. October 23, 2023. [http://www.neracoos.org/erddap/tabledap/F01_met_all.htmlTable?station%2Ctime%2Cmooring_site_desc%2Cair_temperature%2Cair_temperature_qc%2Cbarometric_pressure%2Cbarometric_pressure_qc%2Cwind_gust%2Cwind_gust_qc%2Cwind_speed%2Cwind_speed_qc%2Cwind_direction%2Cwind_direction_qc%2Cwind_2_gust%2Cwind_2_gust_qc%2Cwind_2_speed%2Cwind_2_speed_qc%2Cwind_2_direction%2Cwind_2_direction_qc%2Cvisibility%2Cvisibility_qc%2Clongitude%2Clatitude%2Cdepth&time%3E=2023-11-08T00%3A00%3A00Z&time%3C=2023-11-15T21%3A00%3A00Z](http://www.neracoos.org/erddap/tabledap/F01_met_all.htmlTable?station%2Ctime%2Cmooring_site_desc%2Cair_temperature%2Cair_temperature_qc%2Cbarometric_pressure%2Cbarometric_pressure_qc%2Cwind_gust%2Cwind_gust_qc%2Cwind_speed%2Cwind_speed_qc%2Cwind_direction%2Cwind_direction_qc%2Cwind_2_gust%2Cwind_2_gust_qc%2Cwind_2_speed%2Cwind_2_speed_qc%2Cwind_2_direction%2Cwind_2_direction_qc%2Cvisibility%2Cvisibility_qc%2Clongitude%2Clatitude%2Cdepth&time%3E=2023-11-08T00%3A00%3A00Z&time%3C=2023-11-15T21%3A00%3A00Z)
 
-Include a citation for your data here. See
-<http://libraryguides.vu.edu.au/c.php?g=386501&p=4347840> for guidance
-on proper citation for datasets. If you got your data off the web, make
-sure to note the retrieval date.
-
-Pesek, A 2023. Hurricane Phenology Data 2023, [Unpublished raw data] <https://docs.google.com/spreadsheets/d/19T9cY0Fn4dY_5c5euMqdsVD5HlLEbqQnwAydKzz5NLk/edit?usp=sharing> November 8 2023.
+Pesek, A 2023. Hurricane Phenology Data 2023, Unpublished raw data. November 8 2023. [https://docs.google.com/spreadsheets/d/19T9cY0Fn4dY_5c5euMqdsVD5HlLEbqQnwAydKzz5NLk/edit?usp=sharing](https://docs.google.com/spreadsheets/d/19T9cY0Fn4dY_5c5euMqdsVD5HlLEbqQnwAydKzz5NLk/edit?usp=sharing) 
 
 ## References
 
