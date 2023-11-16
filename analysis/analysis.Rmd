@@ -12,14 +12,14 @@ output: github_document
 # install.packages("naniar")
 # install.packages("gganimate")
 
-library(tidyverse)
+library(gifski) # for animation
+library(tidyverse) # basic
+library(dplyr)
 library(broom)
 library(readr)
-library(dplyr)
-library(forcats)
+library(forcats) # redorder/rename
 library(lubridate)
 library(devtools)
-#library(suncalc)
 library(visdat)
 library(naniar)                                 
 library(gganimate)
@@ -191,6 +191,115 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
+```{r calculate-srpuce-phenophases}
+# create breaking needle phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(breaking_needles = case_when(
+    breaking_needle_bud_count > 0 & species %in% c("Picea rubens") ~ T,
+    .default = F
+  ))
+
+# create pollen release phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(pollen_release = case_when(
+    pollen_cone_count > 0 & date < 2023-07-25 & species %in% c("Picea rubens") ~ T,
+    .default = F
+  ))
+
+# create developing seed cone phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(developing_cones = case_when(
+    unripe_seed_cone_count > 0 & ripe_seed_cone_count == 0 & species %in% c("Picea rubens") ~ T,
+    .default = F
+  ))
+
+# create ripe seed cone phennophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(ripe_cones = case_when(
+    ripe_seed_cone_count > 0 & species %in% c("Picea rubens") ~ T,
+    .default = F
+  ))
+
+# create dispersal phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(dropped_cones = case_when(
+    dropped_fruit_count > 0 & species %in% c("Picea rubens") ~ T,
+    .default = F
+  ))
+
+# pivot spruce
+hurricane_long_spruce <- hurricane_plants %>%
+  pivot_longer(
+    cols = c(breaking_needles : dropped_cones), 
+    names_to = "spruce_phenophase"
+  ) %>%
+  filter(value == "TRUE") %>%
+  group_by(species, life_form, spruce_phenophase) %>%
+  summarize(start_date = min(date), 
+            end_date = max(date))
+
+# reformat spruce phenophase labels
+# hurricane_long_spruce <- hurricane_long_spruce %>%
+#   mutate(spruce_phenophase = case_when(
+#     spruce_phenophase == "breaking_needles"        ~ "breaking needle buds",
+#     spruce_phenophase == "pollen_release"          ~ "pollen release",
+#     spruce_phenophase == "developing_cones"        ~ "immature cones",
+#     spruce_phenophase == "ripe_cones"              ~ "mature cones",
+#     spruce_phenophase == "dropped_cones"           ~ "dispersing cones"
+#     TRUE                                           ~ spruce_phenophase
+#   ))
+
+# plot spruce phenophases
+# hurricane_long_spruce %>%
+# ggplot() +
+#   geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
+#                                                    "budding",
+#                                                    "flowering",
+#                                                    "fruiting",
+#                                                    "dispersing"))), 
+#                     xend = (fct_relevel(phenophase, c("leafing out",
+#                                                       "budding",
+#                                                       "flowering",
+#                                                       "fruiting",
+#                                                       "dispersing"))),
+#                     y = start_date, 
+#                     yend=end_date, 
+#                 color = phenophase),
+#                 size = 1) +
+#   
+#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
+#                                                 "budding", 
+#                                                 "flowering", 
+#                                                 "fruiting",
+#                                                 "dispersing"))),
+#                       colour = "start date",
+#                  y = start_date), 
+#              color = "aquamarine3", 
+#              size = 1 ) +
+#   
+#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
+#                                                 "budding", 
+#                                                 "flowering", 
+#                                                 "fruiting",
+#                                                 "dispersing"))),
+#                  y = end_date,
+#                  colour = "end date"), 
+#              color = "firebrick3", 
+#              size = 1 ) +
+#   #geom_line(y = min(date)) +
+#   coord_flip()+
+#   facet_wrap(~ species) +
+#   theme_minimal() +
+#   theme(legend.position = "bottom",) +
+#   labs(x = "phenophase",
+#        y = "date range",
+#        title = "phenophase date ranges by species",
+#        color = "phenophase",
+#        colour = "") +
+#   scale_color_viridis_d()
+```
+
+
 ```{r lolipop-phenophases-by-phase, warning=FALSE, fig.alt = "A lolipop plot faceted by phenophase (from bottom to top; leafing out, flowering, budding, fruiting, dispersal), displaying the beginning and end dates for each phenophase as it occurs for each species. Each line is color coded by life form. The plot displays that the species with the longest leafing/needling out phase is the Red Spruce which lasted from early June through to the end of field observations in October. The Red Spruce was also the plant which began its leafing out phase the latest. The species with the shotest leafing out phase is the Red Elderberry which occured in late April. The earliest plant to bud was the Canada Mayflower whereas the latest was the Red Spruce. The Starflower had the longest fruiting period, from early June through to the end of observations in October."}
 hurricane_plants_long %>%
   ## filter(phenophase == "dispersing") %>%
@@ -235,20 +344,6 @@ ggplot() +
 # join first emergence to phenophase dataframe
 #hurricane_plants <- hurricane_plants %>%
 # full_join(hurricane_plants_join, join_by(species))
-
-# create color pallet for phenophases
-phenophase_color <- colorFactor(palette = c("#2b83ba", 
-                                            "#abdda4", 
-                                            "#ffffbf", 
-                                            "#fdae61", 
-                                            "#d7191c"),
-                          domain = c("leafing out",
-                                     "budding",
-                                     "flowering",
-                                     "fruiting",
-                                     "dispersing"),
-                          ordered = TRUE)
-## HOW DO I APPLY THIS TO THE PLOT?
 
 # plot
 hurricane_plants_long %>%
@@ -326,19 +421,20 @@ ggplot() +
                     xend = species,
                  yend=end_date,
                 color = phenophase),
-               linetype = "dashed") +
+               linetype = "dashed",
+               size = 1) +
                # position = "jitter") 
 
 
   geom_point(aes(x = species,
                  y = start_date),
              color = "aquamarine3",
-             size = 1 ) +
+             size = 2 ) +
 
   geom_point(aes(x = species,
                  y = end_date),
              color = "firebrick3",
-             size = 1 ) +
+             size = 2 ) +
   #geom_line(y = min(date)) +
   coord_flip() +
   # facet_wrap(~ life_form, ncol = 1) +
@@ -347,11 +443,11 @@ ggplot() +
   labs(x = "",
        y = "",
        title = "phenophase date ranges by species",
-       color = "life form") +
+       color = "") +
     scale_color_viridis_d() 
 
 
-# ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
@@ -440,8 +536,6 @@ ggplot(aes(group = species)) +
   transition_states(states = species) +
   scale_color_viridis_d()
 
-library(gifski)
-
 animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer()) 
 
 # anim_save(filename = "lollipop.gif")
@@ -479,7 +573,7 @@ weather_data %>%
   slice_min(date, n = 1)
 ```
 
-```{r daily-mean-temp fig.alt = "A line plot of the average daily temperatures measured from NERACOOS buoy F01. The lowest the temperature reached was nearly -10 degrees celcius in March and the highest temperatures were almost 20 degrees celcius in July, August, and September."}
+```{r daily-mean-temp, fig.alt = "A line plot of the average daily temperatures measured from NERACOOS buoy F01. The lowest the temperature reached was nearly -10 degrees celcius in March and the highest temperatures were almost 20 degrees celcius in July, August, and September."}
 # line plot daily mean temperature
 ggplot(weather_data, aes(x=date, y=daily_mean_temp)) +
   geom_line() 
