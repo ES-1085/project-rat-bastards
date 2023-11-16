@@ -191,7 +191,46 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
-```{r calculate-srpuce-phenophases}
+```{r faceted-lolipop-plot, warning=FALSE}
+# plot of species phenophases facet by phase
+hurricane_plants_long %>%
+  # filter(species == "Achillea millefolium") %>%
+ggplot() +
+  geom_segment(aes(x = species,
+                    y = start_date,
+                    xend = species,
+                 yend=end_date,
+                color = phenophase),
+               linetype = "dashed",
+               size = 1) +
+               # position = "jitter") 
+
+
+  geom_point(aes(x = species,
+                 y = start_date),
+             color = "aquamarine3",
+             size = 2 ) +
+
+  geom_point(aes(x = species,
+                 y = end_date),
+             color = "firebrick3",
+             size = 2 ) +
+  #geom_line(y = min(date)) +
+  coord_flip() +
+  # facet_wrap(~ life_form, ncol = 1) +
+  theme_minimal() +
+  theme(legend.position = "bottom",) +
+  labs(x = "",
+       y = "",
+       title = "phenophase date ranges by species",
+       color = "") +
+    scale_color_viridis_d() 
+
+
+ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+```
+
+```{r calculate-spruce-phenophases}
 # create breaking needle phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(breaking_needles = case_when(
@@ -409,45 +448,6 @@ hurricane_plants_categorized <- hurricane_plants %>%
     life_form == "vine" ~ "herbaceous",
     .default = "Other"
   ))
-```
-
-```{r faceted-lolipop-plot, warning=FALSE}
-# plot of species phenophases facet by phase
-hurricane_plants_long %>%
-  # filter(species == "Achillea millefolium") %>%
-ggplot() +
-  geom_segment(aes(x = species,
-                    y = start_date,
-                    xend = species,
-                 yend=end_date,
-                color = phenophase),
-               linetype = "dashed",
-               size = 1) +
-               # position = "jitter") 
-
-
-  geom_point(aes(x = species,
-                 y = start_date),
-             color = "aquamarine3",
-             size = 2 ) +
-
-  geom_point(aes(x = species,
-                 y = end_date),
-             color = "firebrick3",
-             size = 2 ) +
-  #geom_line(y = min(date)) +
-  coord_flip() +
-  # facet_wrap(~ life_form, ncol = 1) +
-  theme_minimal() +
-  theme(legend.position = "bottom",) +
-  labs(x = "",
-       y = "",
-       title = "phenophase date ranges by species",
-       color = "") +
-    scale_color_viridis_d() 
-
-
-ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
 
 ```{r overall-count-for-apple}
