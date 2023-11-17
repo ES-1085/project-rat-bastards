@@ -126,14 +126,28 @@ hurricane_plants <- hurricane_plants %>%
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
-    initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") ~ T,
-     initial_emergence == T & buds_and_flowers_count > 0 & species %in% c("Brassica rapa") ~ F, # some reason not turning F, HELP!
-     # initial_emergence == T & buds_and_flowers_count == 0 & species %in% c("Brassica rapa") & date >  ~ F,
-    leaf_presence == T ~ F,
-    breaking_leaf_buds_count > 0 & percent_unfolded_leaves < 1 ~ T,
-    percent_unfolded_leaves > 0 & percent_unfolded_leaves < 1 ~ T,
-    breaking_needle_bud_count > 0 ~ T,
-    percent_stalk_growth > 0 & percent_stalk_growth < 1 ~ T,
+    initial_emergence == T & buds_and_flowers_count == 0 & 
+      common_name %in% c("yarrow", 
+                         "water lily",
+                         "mustard",
+                         "foxglove",
+                         "Canada mayflower",
+                         "calendula",
+                         "bull thistle",
+                         "beach pea") ~ T,
+     breaking_leaf_buds_count > 0 & percent_full_size_leaf < 1 & 
+      common_name %in% c("red elderberry",
+                         "raspberry",
+                         "horse chestnut",
+                         "blueberry",
+                         "American black elderberry",
+                         "blackberry",
+                         "beach rose",
+                         "northern bayberry",
+                         "apple") ~ T,
+     initial_emergence == T & percent_full_size_leaf < 1 & 
+      common_name %in% c("peony",
+                         "") ~ T,
     .default = F
   ))
   
@@ -209,12 +223,14 @@ ggplot() +
   geom_point(aes(x = species,
                  y = start_date),
              color = "aquamarine3",
-             size = 2 ) +
+             size = 2,
+             alpha = 0.5) +
 
   geom_point(aes(x = species,
                  y = end_date),
              color = "firebrick3",
-             size = 2 ) +
+             size = 2,
+             alpha = 0.5) +
   #geom_line(y = min(date)) +
   coord_flip() +
   # facet_wrap(~ life_form, ncol = 1) +
