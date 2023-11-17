@@ -146,9 +146,13 @@ hurricane_plants <- hurricane_plants %>%
                          "American black elderberry",
                          "beach rose",
                          "apple") ~ T,
+    unfolded_leaves_count > 0 & percent_full_size_leaf < 1 &
+      common_name %in% c("garlic") ~ T,
      initial_emergence == T & percent_full_size_leaf < 1 & 
-      common_name %in% c("peony",
-                         "cinnamon fern") ~ T,
+      common_name %in% c("peony") ~ T,
+    initial_emergence == T & percent_fiddlehead_unrolled < 1 &
+      common_name %in% c("cinnamon fern") ~ T,
+    breaking_needle_bud_count > 0 ~ T,
     .default = F
   ))
   
@@ -172,8 +176,8 @@ hurricane_plants <- hurricane_plants %>%
                         "beach pea",
                         "northern bayberry",
                         "apple") ~ T,
-    sporangia_presence == T & releasing_spores == F &
-      common_name %in% c("cinnamon fern") ~ T,
+    # sporangia_presence == T & releasing_spores == F &
+    #   common_name %in% c("cinnamon fern") ~ T,
     buds_and_flowers_count > 0 & date < 2023-07-26 &
       common_name %in% c("bull thistle") ~ T,
     buds_and_flowers_count > 0 & date < 2023-06-14 &
@@ -229,7 +233,7 @@ hurricane_plants <- hurricane_plants %>%
                          "beach rose",
                          "beach pea",
                          "apple") ~ T,
-    ripe_seed_cone_count > 0 ~ T,
+    # ripe_seed_cone_count > 0 ~ T,
     fruit_count > 0 & dropped_fruit_count < 10000 &
       common_name %in% c("red elderberry") ~ T,
     .default = F
@@ -257,8 +261,8 @@ hurricane_plants <- hurricane_plants %>%
     dropped_fruit_count > 0 &
       common_name %in% c("yarrow", "starflower", "peony") ~ T,
     
-    releasing_spores == T &
-      common_name %in% c("cinnamon fern") ~ T,
+    # releasing_spores == T &
+    #   common_name %in% c("cinnamon fern") ~ T,
     .default = F
   ))
 
@@ -291,11 +295,11 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = fct_relevel(phenophase, c("dispersing",
-                                                   "fruiting",
-                                                   "flowering",
+                color = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
-                                                   "leafing out"))),
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
                linetype = "dashed",
                size = 1) +
                # position = "jitter") 
@@ -303,11 +307,11 @@ ggplot() +
 
   geom_point(aes(x = species,
                  y = start_date,
-                 shape = fct_relevel(phenophase, c("dispersing",
-                                                   "fruiting",
-                                                   "flowering",
+                 shape = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
-                                                   "leafing out"))),
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
              color = "aquamarine3",
              size = 2) +
 
@@ -324,7 +328,7 @@ ggplot() +
   coord_flip() +
   #facet_wrap(~ life_form, ncol = 1) +
   theme_minimal() +
-  theme(axis.text.y = element_text(face = "italic"),
+  theme(axis.text.y = element_text(face = "italic", size = 10),
     legend.position = "bottom",) +
   labs(x = "",
        y = "",
@@ -332,7 +336,6 @@ ggplot() +
        color = "",
        shape = "") +
     scale_color_viridis_d() 
-
 
 ggsave("facet-plot-by-phase.png", width = 12, height = 8)
 ```
