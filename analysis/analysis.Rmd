@@ -124,7 +124,7 @@ hurricane_plants <- hurricane_plants %>%
 
 ```{r categories-attempt}
 # create column with woody/herbaceous/fern/coniferous
-hurricane_plants_plants <- hurricane_plants %>%
+hurricane_plants <- hurricane_plants %>%
   mutate(plant_type = case_when(
     common_name == "bull thistle" ~ "herbaceous",
     common_name == "cinnamon fern" ~ "fern",
@@ -289,7 +289,7 @@ hurricane_plants_long <- hurricane_plants %>%
     names_to = "phenophase"
   ) %>%
   filter(value == "TRUE") %>%
-  group_by(species, life_form, phenophase) %>%
+  group_by(species, life_form, plant_type, phenophase) %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 
@@ -302,10 +302,13 @@ hurricane_plants_long <- hurricane_plants_long %>%
   ))
 ```
 
-```{r faceted-lolipop-plot, warning=FALSE}
+```{r main-lolipop-plot, warning=FALSE}
 # plot of species phenophases facet by phase
 hurricane_plants_long %>%
-  # filter(species == "Achillea millefolium") %>%
+   # filter(plant_type == "woody") %>%
+   # filter(plant_type == "herbaceous") %>%
+   # filter(plant_type == "fern") %>%
+   # filter(plant_type == "coniferous") %>%
 ggplot() +
   geom_segment(aes(x = species,
                     y = start_date,
@@ -353,7 +356,7 @@ ggplot() +
        shape = "") +
     scale_color_viridis_d() 
 
-ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+# ggsave("herbaceous-phenophases.png", width = 10, height = 6)
 ```
 
 ```{r calculate-special-phenophases, warning=FALSE}
