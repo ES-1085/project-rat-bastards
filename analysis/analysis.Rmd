@@ -506,6 +506,8 @@ ggplot() +
        colour = "") +
   scale_color_viridis_d()
 
+# ggsave("spruce-phenophases.png", width = 8, height = 6)
+
 # plot fern phenophases
 hurricane_long_special %>%
   filter(species == "Osmundastrum cinnamomeum") %>%
@@ -554,6 +556,8 @@ ggplot() +
        color = "",
        colour = "") +
   scale_color_viridis_d()
+
+ggsave("fern-phenophases.png", width = 8, height = 6)
 ```
 
 
