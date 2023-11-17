@@ -238,9 +238,26 @@ hurricane_plants <- hurricane_plants %>%
 # create dispersal phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(dispersal = case_when(
-    percent_ripe_fruits > 0 ~ T,
-    ripe_seed_cone_count > 1 ~ T,
-    dropped_fruit_count > 0 ~ T,
+    releasing_spores == T ~ T,
+    dropped_fruit_count > 0 &
+      common_name %in% c("yarrow",
+                         "starflower",
+                         "peony") ~ T,
+    dropped_fruit_count & fruit_count != NA & 
+      common_name %in% c("red elderberry",
+                         "raspberry",
+                         "mustard",
+                         "horse chestnut",
+                         "foxglove",
+                         "Canada mayflower",
+                         "calendula",
+                         "bull thistle",
+                         "blueberry",
+                         "American black elderberry",
+                         "blackberry",
+                         "beach rose",
+                         "beach pea",
+                         "apple") ~ T,
     .default = F
   ))
 
