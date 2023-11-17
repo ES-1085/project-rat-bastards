@@ -184,7 +184,7 @@ hurricane_plants <- hurricane_plants %>%
 # create flowering phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(flowering = case_when(
-    percent_open_flowers > 0 & buds_and_flowers_count != NA &
+    percent_open_flowers > 0 & !is.na(buds_and_flowers_count) &
       common_name %in% c("yarrow",
                          "starflower",
                          "red elderberry",
@@ -322,9 +322,10 @@ ggplot() +
              size = 2) +
   #geom_line(y = min(date)) +
   coord_flip() +
-  #facet_wrap(~ phenophase, ncol = 1) +
+  #facet_wrap(~ life_form, ncol = 1) +
   theme_minimal() +
-  theme(legend.position = "bottom",) +
+  theme(axis.text.y = element_text(face = "italic"),
+    legend.position = "bottom",) +
   labs(x = "",
        y = "",
        title = "phenophase date ranges by species",
