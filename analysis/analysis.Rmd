@@ -155,25 +155,83 @@ hurricane_plants <- hurricane_plants %>%
 # create budding phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(budding = case_when(
-    buds_and_flowers_count > 0 & percent_open_flowers < 1 ~ T,
-    # sporangia_presence == T ~ T,
-    pollen_cone_count > 0 ~ T,
+    buds_and_flowers_count > 0 & percent_open_flowers < 1 &
+     common_name %in% c("yarrow",
+                        "water lily",
+                        "starflower",
+                        "raspberry",
+                        "peony",
+                        "mustard",
+                        "horse chestnut",
+                        "foxglove",
+                        "Canada mayflower",
+                        "calendula",
+                        "American black elderberry",
+                        "blackberry",
+                        "beach rose",
+                        "beach pea",
+                        "northern bayberry",
+                        "apple") ~ T,
+    sporangia_presence == T & releasing_spores == F &
+      common_name %in% c("cinnamon fern") ~ T,
+    buds_and_flowers_count > 0 & date < 2023-07-26 &
+      common_name %in% c("bull thistle") ~ T,
+    buds_and_flowers_count > 0 & date < 2023-06-14 &
+      common_name %in% c("blueberry") ~ T,
     .default = F
   ))
 
 # create flowering phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(flowering = case_when(
-    percent_open_flowers > 0 & buds_and_flowers_count > 0 ~ T,
-    pollen_amount != "none" ~ T,
+    percent_open_flowers > 0 & buds_and_flowers_count != NA &
+      common_name %in% c("yarrow",
+                         "starflower",
+                         "red elderberry",
+                         "peony",
+                         "mustard",
+                         "horse chestnut",
+                         "foxglove",
+                         "Canada mayflower",
+                         "bull thistle",
+                         "blueberry",
+                         "American black elderberry",
+                         "blackberry",
+                         "beach rose",
+                         "beach pea",
+                         "northern bayberry",
+                         "apple") ~ T,
+    percent_open_flowers > 0 &
+       common_name %in% c("water lily",
+                          "calendula") ~ T,
+    percent_open_flowers > 0 & buds_and_flowers_count > 0 &
+       common_name %in% c("raspberry") ~ T,
     .default = F
   ))
 
 # create fruiting phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(fruiting = case_when(
-    fruit_count > 0 ~ T,
-    unripe_seed_cone_count > 0 ~ T,
+    percent_ripe_fruits > 0 & fruit_count != NA &
+      common_name %in% c("yarrow",
+                         "starflower",
+                         "raspberry",
+                         "peony",
+                         "mustard",
+                         "horse chestnut",
+                         "foxglove",
+                         "Canada mayflower",
+                         "calendula",
+                         "bull thistle",
+                         "blueberry",
+                         "American black elderberry",
+                         "blackberry",
+                         "beach rose",
+                         "beach pea",
+                         "apple") ~ T,
+    ripe_seed_cone_count > 0 ~ T,
+    fruit_count > 0 & dropped_fruit_count < 10000 &
+      common_name %in% c("red elderberry") ~ T,
     .default = F
   ))
 
@@ -215,7 +273,11 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = phenophase),
+                color = fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out"))),
                linetype = "dashed",
                size = 1) +
                # position = "jitter") 
