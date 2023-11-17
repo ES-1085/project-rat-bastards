@@ -122,6 +122,22 @@ hurricane_plants <- hurricane_plants %>%
   full_join(hurricane_plants_join, join_by(date, species))
 ```
 
+```{r categories-attempt}
+# create column with woody/herbaceous/fern/coniferous
+hurricane_plants_plants <- hurricane_plants %>%
+  mutate(plant_type = case_when(
+    common_name == "bull thistle" ~ "herbaceous",
+    common_name == "cinnamon fern" ~ "fern",
+    common_name == "red spruce" ~ "coniferous",
+    life_form == "vine" ~ "herbaceous",
+    life_form == "shrub" ~ "woody",
+    life_form == "tree" ~ "woody",
+    life_form == "herb" ~ "herbaceous",
+    life_form == "vine" ~ "herbaceous",
+    .default = "Other"
+  ))
+```
+
 ```{r calculate-phenophases}
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
@@ -351,7 +367,7 @@ hurricane_plants <- hurricane_plants %>%
 # create pollen release phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(pollen_release = case_when(
-    percent_open_pollen_cones > 0 & date < 2023-07-26 & 
+    percent_open_pollen_cones > 0 & date < as.numeric(2023-07-26) & 
       species %in% c("Picea rubens") ~ T,
     .default = F
   ))
@@ -633,22 +649,6 @@ ggplot() +
   scale_color_viridis_d()
 ```
 
-```{r categories-attempt}
-# create column with woody/herbaceous/fern/coniferous
-hurricane_plants_categorized <- hurricane_plants %>%
-  mutate(plant_type = case_when(
-    common_name == "bull thistle" ~ "herbaceous",
-    common_name == "cinnamon fern" ~ "fern",
-    common_name == "red spruce" ~ "coniferous",
-    life_form == "vine" ~ "herbaceous",
-    life_form == "shrub" ~ "woody",
-    life_form == "tree" ~ "woody",
-    life_form == "herb" ~ "herbaceous",
-    life_form == "vine" ~ "herbaceous",
-    .default = "Other"
-  ))
-```
-
 ```{r overall-count-for-apple}
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
 
@@ -786,10 +786,11 @@ weather_data %>%
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "skyblue") +
     geom_line(aes(y = daily_max_temp), color = "violetred3") +
-  labs(y = "daily mean temperature (celcius)",
-       title = "daily air temperatures of Hurricane Island")
+  labs(y = "daily temperature range (celcius)",
+       title = "daily air temperatures of Hurricane Island") +
+  geom_line(y = 0)
 
-## ggsave("spring-to-oct-temperatures.png", width = 14, height = 8                                                                                                                                                                                                                                                                  )
+ ggsave("spring-to-oct-temperatures.png", width = 14, height = 8)
 ```
 
 ```{r hurricane-points-and-zones, message=FALSE}
