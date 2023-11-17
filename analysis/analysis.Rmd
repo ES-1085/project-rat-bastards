@@ -212,7 +212,7 @@ hurricane_plants <- hurricane_plants %>%
 # create fruiting phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(fruiting = case_when(
-    percent_ripe_fruits > 0 & fruit_count != NA &
+    percent_ripe_fruits > 0 & !is.na(fruit_count) &
       common_name %in% c("yarrow",
                          "starflower",
                          "raspberry",
@@ -238,26 +238,27 @@ hurricane_plants <- hurricane_plants %>%
 # create dispersal phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(dispersal = case_when(
-    releasing_spores == T ~ T,
-    dropped_fruit_count > 0 &
-      common_name %in% c("yarrow",
-                         "starflower",
-                         "peony") ~ T,
-    dropped_fruit_count & fruit_count != NA & 
+        dropped_fruit_count > 0 &
+      fruit_count > 0 &
       common_name %in% c("red elderberry",
                          "raspberry",
                          "mustard",
                          "horse chestnut",
-                         "foxglove",
-                         "Canada mayflower",
+                         "foxglove", 
+                         "Canada mayflower", 
                          "calendula",
                          "bull thistle",
                          "blueberry",
-                         "American black elderberry",
-                         "blackberry",
+                         "American black elderberry", 
+                         "blackberry", 
                          "beach rose",
                          "beach pea",
                          "apple") ~ T,
+    dropped_fruit_count > 0 &
+      common_name %in% c("yarrow", "starflower", "peony") ~ T,
+    
+    releasing_spores == T &
+      common_name %in% c("cinnamon fern") ~ T,
     .default = F
   ))
 
@@ -301,16 +302,24 @@ ggplot() +
 
 
   geom_point(aes(x = species,
-                 y = start_date),
+                 y = start_date,
+                 shape = fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out"))),
              color = "aquamarine3",
-             size = 2,
-             alpha = 0.5) +
+             size = 2) +
 
   geom_point(aes(x = species,
-                 y = end_date),
+                 y = end_date,
+                 shape = fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out"))),
              color = "firebrick3",
-             size = 2,
-             alpha = 0.5) +
+             size = 2) +
   #geom_line(y = min(date)) +
   coord_flip() +
   #facet_wrap(~ phenophase, ncol = 1) +
@@ -319,7 +328,8 @@ ggplot() +
   labs(x = "",
        y = "",
        title = "phenophase date ranges by species",
-       color = "") +
+       color = "",
+       shape = "") +
     scale_color_viridis_d() 
 
 
