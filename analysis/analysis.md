@@ -156,9 +156,13 @@ hurricane_plants <- hurricane_plants %>%
                          "American black elderberry",
                          "beach rose",
                          "apple") ~ T,
+    unfolded_leaves_count > 0 & percent_full_size_leaf < 1 &
+      common_name %in% c("garlic") ~ T,
      initial_emergence == T & percent_full_size_leaf < 1 & 
-      common_name %in% c("peony",
-                         "cinnamon fern") ~ T,
+      common_name %in% c("peony") ~ T,
+    initial_emergence == T & percent_fiddlehead_unrolled < 1 &
+      common_name %in% c("cinnamon fern") ~ T,
+    breaking_needle_bud_count > 0 ~ T,
     .default = F
   ))
   
@@ -182,8 +186,8 @@ hurricane_plants <- hurricane_plants %>%
                         "beach pea",
                         "northern bayberry",
                         "apple") ~ T,
-    sporangia_presence == T & releasing_spores == F &
-      common_name %in% c("cinnamon fern") ~ T,
+    # sporangia_presence == T & releasing_spores == F &
+    #   common_name %in% c("cinnamon fern") ~ T,
     buds_and_flowers_count > 0 & date < 2023-07-26 &
       common_name %in% c("bull thistle") ~ T,
     buds_and_flowers_count > 0 & date < 2023-06-14 &
@@ -194,7 +198,7 @@ hurricane_plants <- hurricane_plants %>%
 # create flowering phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(flowering = case_when(
-    percent_open_flowers > 0 & buds_and_flowers_count != NA &
+    percent_open_flowers > 0 & !is.na(buds_and_flowers_count) &
       common_name %in% c("yarrow",
                          "starflower",
                          "red elderberry",
@@ -222,7 +226,7 @@ hurricane_plants <- hurricane_plants %>%
 # create fruiting phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(fruiting = case_when(
-    percent_ripe_fruits > 0 & fruit_count != NA &
+    percent_ripe_fruits > 0 & !is.na(fruit_count) &
       common_name %in% c("yarrow",
                          "starflower",
                          "raspberry",
@@ -239,7 +243,7 @@ hurricane_plants <- hurricane_plants %>%
                          "beach rose",
                          "beach pea",
                          "apple") ~ T,
-    ripe_seed_cone_count > 0 ~ T,
+    # ripe_seed_cone_count > 0 ~ T,
     fruit_count > 0 & dropped_fruit_count < 10000 &
       common_name %in% c("red elderberry") ~ T,
     .default = F
@@ -248,26 +252,27 @@ hurricane_plants <- hurricane_plants %>%
 # create dispersal phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(dispersal = case_when(
-    releasing_spores == T ~ T,
-    dropped_fruit_count > 0 &
-      common_name %in% c("yarrow",
-                         "starflower",
-                         "peony") ~ T,
-    dropped_fruit_count & fruit_count != NA & 
+        dropped_fruit_count > 0 &
+      fruit_count > 0 &
       common_name %in% c("red elderberry",
                          "raspberry",
                          "mustard",
                          "horse chestnut",
-                         "foxglove",
-                         "Canada mayflower",
+                         "foxglove", 
+                         "Canada mayflower", 
                          "calendula",
                          "bull thistle",
                          "blueberry",
-                         "American black elderberry",
-                         "blackberry",
+                         "American black elderberry", 
+                         "blackberry", 
                          "beach rose",
                          "beach pea",
                          "apple") ~ T,
+    dropped_fruit_count > 0 &
+      common_name %in% c("yarrow", "starflower", "peony") ~ T,
+    
+    # releasing_spores == T &
+    #   common_name %in% c("cinnamon fern") ~ T,
     .default = F
   ))
 
@@ -305,36 +310,46 @@ ggplot() +
                     y = start_date,
                     xend = species,
                  yend=end_date,
-                color = fct_relevel(phenophase, c("dispersing",
-                                                   "fruiting",
-                                                   "flowering",
+                color = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
-                                                   "leafing out"))),
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
                linetype = "dashed",
                size = 1) +
                # position = "jitter") 
 
 
   geom_point(aes(x = species,
-                 y = start_date),
+                 y = start_date,
+                 shape = fct_relevel(phenophase, c("leafing out",
+                                                   "budding",
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
              color = "aquamarine3",
-             size = 2,
-             alpha = 0.5) +
+             size = 2) +
 
   geom_point(aes(x = species,
-                 y = end_date),
+                 y = end_date,
+                 shape = fct_relevel(phenophase, c("dispersing",
+                                                   "fruiting",
+                                                   "flowering",
+                                                   "budding",
+                                                   "leafing out"))),
              color = "firebrick3",
-             size = 2,
-             alpha = 0.5) +
+             size = 2) +
   #geom_line(y = min(date)) +
   coord_flip() +
-  #facet_wrap(~ phenophase, ncol = 1) +
+  #facet_wrap(~ life_form, ncol = 1) +
   theme_minimal() +
-  theme(legend.position = "bottom",) +
+  theme(axis.text.y = element_text(face = "italic", size = 10),
+    legend.position = "bottom",) +
   labs(x = "",
        y = "",
        title = "phenophase date ranges by species",
-       color = "") +
+       color = "",
+       shape = "") +
     scale_color_viridis_d() 
 ```
 
@@ -355,7 +370,8 @@ hurricane_plants <- hurricane_plants %>%
 # create pollen release phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(pollen_release = case_when(
-    pollen_cone_count > 0 & date < 2023-07-25 & species %in% c("Picea rubens") ~ T,
+    percent_open_pollen_cones > 0 & date < 2023-07-26 & 
+      species %in% c("Picea rubens") ~ T,
     .default = F
   ))
 
@@ -380,14 +396,46 @@ hurricane_plants <- hurricane_plants %>%
     .default = F
   ))
 
-# pivot spruce
-hurricane_long_spruce <- hurricane_plants %>%
+# create unrolling phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(unrolling = case_when(
+    initial_emergence == T & percent_fiddlehead_unrolled < 1 & 
+      common_name %in% c("cinnamon fern") ~ T,
+    .default = F
+  ))
+
+# create ripening sporangia phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(unripe_spores = case_when(
+    sporangia_presence == T & releasing_spores == F & 
+      common_name %in% c("cinnamon fern") ~ T,
+    .default = F
+  ))
+
+# create spore release phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(sporing = case_when(
+    releasing_spores == T &
+      common_name %in% c("cinnamon fern") ~ T,
+    .default = F
+  ))
+
+# create fall colors phenophase
+hurricane_plants <- hurricane_plants %>%
+  mutate(fall_colors = case_when(
+    percent_leaves_colorful > 0 & 
+      common_name %in% c("cinnamon fern") ~ T,
+    .default = F
+  ))
+
+# pivot special
+hurricane_long_special <- hurricane_plants %>%
   pivot_longer(
-    cols = c(breaking_needles : dropped_cones), 
-    names_to = "spruce_phenophase"
+    cols = c(breaking_needles : fall_colors), 
+    names_to = "special_phenophase"
   ) %>%
   filter(value == "TRUE") %>%
-  group_by(species, life_form, spruce_phenophase) %>%
+  group_by(species, life_form, special_phenophase) %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 ```
@@ -396,66 +444,128 @@ hurricane_long_spruce <- hurricane_plants %>%
     ## using the `.groups` argument.
 
 ``` r
-# reformat spruce phenophase labels
-# hurricane_long_spruce <- hurricane_long_spruce %>%
-#   mutate(spruce_phenophase = case_when(
-#     spruce_phenophase == "breaking_needles"        ~ "breaking needle buds",
-#     spruce_phenophase == "pollen_release"          ~ "pollen release",
-#     spruce_phenophase == "developing_cones"        ~ "immature cones",
-#     spruce_phenophase == "ripe_cones"              ~ "mature cones",
-#     spruce_phenophase == "dropped_cones"           ~ "dispersing cones"
-#     TRUE                                           ~ spruce_phenophase
-#   ))
+# reformat special phenophase labels
+hurricane_long_special <- hurricane_long_special %>%
+  mutate(special_phenophase = case_when(
+    special_phenophase == "breaking_needles"        ~ "breaking needle buds",
+    special_phenophase == "pollen_release"          ~ "pollen release",
+    special_phenophase == "developing_cones"        ~ "immature cones",
+    special_phenophase == "ripe_cones"              ~ "mature cones",
+    special_phenophase == "dropped_cones"           ~ "dispersing cones",
+    special_phenophase == "unripe_spores"           ~ "sporangia emergence",
+    special_phenophase == "unrolling"               ~ "fiddlehead unrolling",
+    special_phenophase == "fall_colors"             ~ "leaves changing",
+    TRUE                                            ~ special_phenophase
+  ))
 
 # plot spruce phenophases
-# hurricane_long_spruce %>%
-# ggplot() +
-#   geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
-#                                                    "budding",
-#                                                    "flowering",
-#                                                    "fruiting",
-#                                                    "dispersing"))), 
-#                     xend = (fct_relevel(phenophase, c("leafing out",
-#                                                       "budding",
-#                                                       "flowering",
-#                                                       "fruiting",
-#                                                       "dispersing"))),
-#                     y = start_date, 
-#                     yend=end_date, 
-#                 color = phenophase),
-#                 size = 1) +
-#   
-#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
-#                                                 "budding", 
-#                                                 "flowering", 
-#                                                 "fruiting",
-#                                                 "dispersing"))),
-#                       colour = "start date",
-#                  y = start_date), 
-#              color = "aquamarine3", 
-#              size = 1 ) +
-#   
-#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
-#                                                 "budding", 
-#                                                 "flowering", 
-#                                                 "fruiting",
-#                                                 "dispersing"))),
-#                  y = end_date,
-#                  colour = "end date"), 
-#              color = "firebrick3", 
-#              size = 1 ) +
-#   #geom_line(y = min(date)) +
-#   coord_flip()+
-#   facet_wrap(~ species) +
-#   theme_minimal() +
-#   theme(legend.position = "bottom",) +
-#   labs(x = "phenophase",
-#        y = "date range",
-#        title = "phenophase date ranges by species",
-#        color = "phenophase",
-#        colour = "") +
-#   scale_color_viridis_d()
+hurricane_long_special %>%
+  filter(species == "Picea rubens") %>%
+ggplot() +
+  geom_segment(aes(x = (fct_relevel(special_phenophase, 
+                                    c("breaking needle buds",
+                                      "pollen release",
+                                      "immature cones",
+                                      "mature cones",
+                                      "dispersing cones"))),
+                    xend = (fct_relevel(special_phenophase, 
+                                        c("breaking needle buds",
+                                      "pollen release",
+                                      "immature cones",
+                                      "mature cones",
+                                      "dispersing cones"))),
+                    y = start_date,
+                    yend=end_date,
+                color = special_phenophase),
+                size = 1) +
+
+  geom_point(aes(x = (fct_relevel(special_phenophase, c("breaking needle buds",
+                                      "pollen release",
+                                      "immature cones",
+                                      "mature cones",
+                                      "dispersing cones"))),
+                      colour = "start date",
+                 y = start_date),
+             color = "aquamarine3",
+             size = 1 ) +
+
+  geom_point(aes(x = (fct_relevel(special_phenophase, c("breaking needle buds",
+                                      "pollen release",
+                                      "immature cones",
+                                      "mature cones",
+                                      "dispersing cones"))),
+                 y = end_date,
+                 colour = "end date"),
+             color = "firebrick3",
+             size = 1 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  #facet_wrap(~ species) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "italic")) +
+  labs(x = "",
+       y = "",
+       title = "Picea rubens",
+       color = "",
+       colour = "") +
+  scale_color_viridis_d()
 ```
+
+![](analysis_files/figure-gfm/calculate-special-phenophases-1.png)<!-- -->
+
+``` r
+# plot fern phenophases
+hurricane_long_special %>%
+  filter(species == "Osmundastrum cinnamomeum") %>%
+ggplot() +
+  geom_segment(aes(x = (fct_relevel(special_phenophase, 
+                                    c("fiddlehead unrolling",
+                                      "sporangia emergence",
+                                      "sporing",
+                                      "leaves changing"))),
+                    xend = (fct_relevel(special_phenophase, 
+                                        c("fiddlehead unrolling",
+                                      "sporangia emergence",
+                                      "sporing",
+                                      "leaves changing"))),
+                    y = start_date,
+                    yend=end_date,
+                color = special_phenophase),
+                size = 1) +
+
+  geom_point(aes(x = (fct_relevel(special_phenophase, c("fiddlehead unrolling",
+                                      "sporangia emergence",
+                                      "sporing",
+                                      "leaves changing"))),
+                      colour = "start date",
+                 y = start_date),
+             color = "aquamarine3",
+             size = 1 ) +
+
+  geom_point(aes(x = (fct_relevel(special_phenophase, c("fiddlehead unrolling",
+                                      "sporangia emergence",
+                                      "sporing",
+                                      "leaves changing"))),
+                 y = end_date,
+                 colour = "end date"),
+             color = "firebrick3",
+             size = 1 ) +
+  #geom_line(y = min(date)) +
+  coord_flip()+
+  #facet_wrap(~ species) +
+  theme_minimal() +
+  theme(legend.position = "bottom",
+        plot.title = element_text(face = "italic")) +
+  labs(x = "",
+       y = "",
+       title = "Osmundastrum cinnamomeum",
+       color = "",
+       colour = "") +
+  scale_color_viridis_d()
+```
+
+![](analysis_files/figure-gfm/calculate-special-phenophases-2.png)<!-- -->
 
 ``` r
 hurricane_plants_long %>%
@@ -679,11 +789,6 @@ ggplot(aes(group = species)) +
 
 animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer()) 
 ```
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
 
     ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
 
