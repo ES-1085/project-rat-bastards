@@ -137,7 +137,42 @@ hurricane_plants <- hurricane_plants %>%
     .default = "Other"
   ))
 ```
-
+```{r locational-categories}
+# create column with IcePond/MainCampus/MainGardenArea/MeadowGarden/SouthEnd&HighCliffs
+hurricane_plants <- hurricane_plants %>%
+  mutate(location = case_when(
+    # main garden plants
+    common_name == "apple" ~ "main garden area",
+    common_name == "northern bayberry" ~ "main garden area",
+    common_name == "garlic" ~ "main garden area",
+    common_name == "horse chestnut" ~ "main garden area",
+    common_name == "yarrow" ~ "main garden area",
+    # south end/high cliffs plants
+    common_name == "beach pea" ~ "south end & high cliffs",
+    common_name == "blackberry" ~ "south end & high cliffs",
+    common_name == "blueberry" ~ "south end & high cliffs",
+    common_name == "Canada mayflower" ~ "south end & high cliffs",
+    common_name == "sarsaparilla" ~ "south end & high cliffs",
+    common_name == "starflower" ~ "south end & high cliffs",
+    # main campus plants
+    common_name == "beach rose" ~ "main campus",
+    common_name == "American black elderberry" ~ "main campus",
+    common_name == "peony" ~ "main campus",
+    common_name == "raspberry" ~ "main campus",
+    # meadow garden plants
+    common_name == "bull thistle" ~ "meadow garden",
+    common_name == "calendula" ~ "meadow garden",
+    common_name == "foxglove" ~ "meadow garden",
+    common_name == "mustard" ~ "meadow garden",
+    common_name == "red elderberry" ~ "meadow garden",
+    # ice pond plants
+    common_name == "cinnamon fern" ~ "ice pond",
+    common_name == "red spruce" ~ "ice pond",
+    common_name == "water lily" ~ "ice pond",
+    
+    .default = "Other"
+  ))
+```
 ```{r calculate-phenophases}
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
@@ -289,7 +324,7 @@ hurricane_plants_long <- hurricane_plants %>%
     names_to = "phenophase"
   ) %>%
   filter(value == "TRUE") %>%
-  group_by(species, life_form, plant_type, phenophase) %>%
+  group_by(species, life_form, plant_type, phenophase, location) %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 
@@ -301,34 +336,11 @@ hurricane_plants_long <- hurricane_plants_long %>%
     TRUE                                           ~ phenophase
   ))
 ```
-```{r locational-categories}
-# create column with IcePond/MainCampus/MainGardenArea/MeadowGarden/SouthEnd&HighCliffs
-hurricane_plants <- hurricane_plants %>%
-  mutate(plant_type = case_when(
-    common_name == "apple" ~ "main garden area",
-    common_name == "northern bayberry" ~ "main garden area",
-    common_name == "beach pea" ~ "south end & high cliffs",
-    common_name == "beach rose" ~ "main campus",
-    common_name == "blackberry" ~ "south end & high cliffs",
-    common_name == "American black elderberry" ~ "main campus",
-    common_name == "blueberry" ~ "south end & high cliffs",
-    common_name == "bull thistle" ~ "meadow garden",
-    common_name == "calendula" ~ "meadow garden",
-    common_name == "Canada mayflower" ~ "south end & high cliffs",  
-    common_name == "cinnamon fern" ~ "ice pond",
-    
-    common_name == "red spruce" ~ "ice pond",
-    .default = "Other"
-  ))
-```
+
 
 ```{r main-lolipop-plot, warning=FALSE}
-# plot of species phenophases facet by phase
+# plot of species phenophases facet by location
 hurricane_plants_long %>%
-   # filter(plant_type == "woody") %>%
-   # filter(plant_type == "herbaceous") %>%
-   # filter(plant_type == "fern") %>%
-   # filter(plant_type == "coniferous") %>%
 ggplot() +
   geom_segment(aes(x = fct_rev(species),
                     y = start_date,
@@ -340,9 +352,7 @@ ggplot() +
                                                    "fruiting",
                                                    "dispersing"))),
                linetype = "dashed",
-               size = 1.5) +
-               # position = "jitter") 
-
+               size = 1) +
 
   geom_point(aes(x = fct_rev(species),
                  y = start_date,
@@ -352,31 +362,32 @@ ggplot() +
                                                    "fruiting",
                                                    "dispersing"))),
              color = "aquamarine3",
-             size = 3) +
+             size = 2) +
 
   geom_point(aes(x = fct_rev(species),
                  y = end_date,
-                 shape = fct_relevel(phenophase, c("dispersing",
-                                                   "fruiting",
-                                                   "flowering",
+                 shape = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
-                                                   "leafing out"))),
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
              color = "firebrick3",
-             size = 3) +
+             size = 2) +
   #geom_line(y = min(date)) +
   coord_flip() +
-  #facet_wrap(~ life_form, ncol = 1) +
+    # facet_wrap(~ plant_type, ncol = 1, scale = "free_y", strip.position = "left") +
+  facet_wrap(~ location, ncol = 1, scale = "free_y", strip.position = "left") +
   theme_minimal() +
   theme(axis.text.y = element_text(face = "italic", size = 10),
     legend.position = "bottom",) +
   labs(x = "",
        y = "",
-       title = "phenophase date ranges by species",
+       title = "phenophase date ranges by location",
        shape = "",
        color = "") +
     scale_color_viridis_d() 
 
- ggsave("herbaceous-phenophases.png", width = 10, height = 6)
+ ggsave("locational-phenophases.png", width = 8, height = 10)
 ```
 
 ```{r calculate-special-phenophases, warning=FALSE}

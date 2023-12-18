@@ -133,6 +133,59 @@ hurricane_plants <- hurricane_plants %>%
 ```
 
 ``` r
+# create column with woody/herbaceous/fern/coniferous
+hurricane_plants <- hurricane_plants %>%
+  mutate(plant_type = case_when(
+    common_name == "bull thistle" ~ "herbaceous",
+    common_name == "cinnamon fern" ~ "fern",
+    common_name == "red spruce" ~ "coniferous",
+    life_form == "vine" ~ "herbaceous",
+    life_form == "shrub" ~ "woody",
+    life_form == "tree" ~ "woody",
+    life_form == "herb" ~ "herbaceous",
+    life_form == "vine" ~ "herbaceous",
+    .default = "Other"
+  ))
+```
+
+``` r
+# create column with IcePond/MainCampus/MainGardenArea/MeadowGarden/SouthEnd&HighCliffs
+hurricane_plants <- hurricane_plants %>%
+  mutate(location = case_when(
+    # main garden plants
+    common_name == "apple" ~ "main garden area",
+    common_name == "northern bayberry" ~ "main garden area",
+    common_name == "garlic" ~ "main garden area",
+    common_name == "horse chestnut" ~ "main garden area",
+    common_name == "yarrow" ~ "main garden area",
+    # south end/high cliffs plants
+    common_name == "beach pea" ~ "south end & high cliffs",
+    common_name == "blackberry" ~ "south end & high cliffs",
+    common_name == "blueberry" ~ "south end & high cliffs",
+    common_name == "Canada mayflower" ~ "south end & high cliffs",
+    common_name == "sarsaparilla" ~ "south end & high cliffs",
+    common_name == "starflower" ~ "south end & high cliffs",
+    # main campus plants
+    common_name == "beach rose" ~ "main campus",
+    common_name == "American black elderberry" ~ "main campus",
+    common_name == "peony" ~ "main campus",
+    common_name == "raspberry" ~ "main campus",
+    # meadow garden plants
+    common_name == "bull thistle" ~ "meadow garden",
+    common_name == "calendula" ~ "meadow garden",
+    common_name == "foxglove" ~ "meadow garden",
+    common_name == "mustard" ~ "meadow garden",
+    common_name == "red elderberry" ~ "meadow garden",
+    # ice pond plants
+    common_name == "cinnamon fern" ~ "ice pond",
+    common_name == "red spruce" ~ "ice pond",
+    common_name == "water lily" ~ "ice pond",
+    
+    .default = "Other"
+  ))
+```
+
+``` r
 # create leafing out phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(leaf_out = case_when(
@@ -283,13 +336,13 @@ hurricane_plants_long <- hurricane_plants %>%
     names_to = "phenophase"
   ) %>%
   filter(value == "TRUE") %>%
-  group_by(species, life_form, phenophase) %>%
+  group_by(species, life_form, plant_type, phenophase, location) %>%
   summarize(start_date = min(date), 
             end_date = max(date))
 ```
 
-    ## `summarise()` has grouped output by 'species', 'life_form'. You can override
-    ## using the `.groups` argument.
+    ## `summarise()` has grouped output by 'species', 'life_form', 'plant_type',
+    ## 'phenophase'. You can override using the `.groups` argument.
 
 ``` r
 # reformat phenophase labels
@@ -302,13 +355,12 @@ hurricane_plants_long <- hurricane_plants_long %>%
 ```
 
 ``` r
-# plot of species phenophases facet by phase
+# plot of species phenophases facet by location
 hurricane_plants_long %>%
-  # filter(species == "Achillea millefolium") %>%
 ggplot() +
-  geom_segment(aes(x = species,
+  geom_segment(aes(x = fct_rev(species),
                     y = start_date,
-                    xend = species,
+                    xend = fct_rev(species),
                  yend=end_date,
                 color = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
@@ -317,10 +369,8 @@ ggplot() +
                                                    "dispersing"))),
                linetype = "dashed",
                size = 1) +
-               # position = "jitter") 
 
-
-  geom_point(aes(x = species,
+  geom_point(aes(x = fct_rev(species),
                  y = start_date,
                  shape = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
@@ -330,33 +380,34 @@ ggplot() +
              color = "aquamarine3",
              size = 2) +
 
-  geom_point(aes(x = species,
+  geom_point(aes(x = fct_rev(species),
                  y = end_date,
-                 shape = fct_relevel(phenophase, c("dispersing",
-                                                   "fruiting",
-                                                   "flowering",
+                 shape = fct_relevel(phenophase, c("leafing out",
                                                    "budding",
-                                                   "leafing out"))),
+                                                   "flowering",
+                                                   "fruiting",
+                                                   "dispersing"))),
              color = "firebrick3",
              size = 2) +
   #geom_line(y = min(date)) +
   coord_flip() +
-  #facet_wrap(~ life_form, ncol = 1) +
+    # facet_wrap(~ plant_type, ncol = 1, scale = "free_y", strip.position = "left") +
+  facet_wrap(~ location, ncol = 1, scale = "free_y", strip.position = "left") +
   theme_minimal() +
   theme(axis.text.y = element_text(face = "italic", size = 10),
     legend.position = "bottom",) +
   labs(x = "",
        y = "",
-       title = "phenophase date ranges by species",
-       color = "",
-       shape = "") +
+       title = "phenophase date ranges by location",
+       shape = "",
+       color = "") +
     scale_color_viridis_d() 
 ```
 
-![](analysis_files/figure-gfm/faceted-lolipop-plot-1.png)<!-- -->
+![](analysis_files/figure-gfm/main-lolipop-plot-1.png)<!-- -->
 
 ``` r
-ggsave("facet-plot-by-phase.png", width = 12, height = 8)
+ ggsave("locational-phenophases.png", width = 8, height = 10)
 ```
 
 ``` r
@@ -370,7 +421,7 @@ hurricane_plants <- hurricane_plants %>%
 # create pollen release phenophase
 hurricane_plants <- hurricane_plants %>%
   mutate(pollen_release = case_when(
-    percent_open_pollen_cones > 0 & date < 2023-07-26 & 
+    percent_open_pollen_cones > 0 & date < as.numeric(2023-07-26) & 
       species %in% c("Picea rubens") ~ T,
     .default = F
   ))
@@ -515,6 +566,8 @@ ggplot() +
 ![](analysis_files/figure-gfm/calculate-special-phenophases-1.png)<!-- -->
 
 ``` r
+# ggsave("spruce-phenophases.png", width = 8, height = 6)
+
 # plot fern phenophases
 hurricane_long_special %>%
   filter(species == "Osmundastrum cinnamomeum") %>%
@@ -566,6 +619,10 @@ ggplot() +
 ```
 
 ![](analysis_files/figure-gfm/calculate-special-phenophases-2.png)<!-- -->
+
+``` r
+ggsave("fern-phenophases.png", width = 8, height = 6)
+```
 
 ``` r
 hurricane_plants_long %>%
@@ -668,22 +725,6 @@ ggplot() +
 ![](analysis_files/figure-gfm/phenophase-lolipop-1.png)<!-- -->
 
 ``` r
-# create column with woody/herbaceous/fern/coniferous
-hurricane_plants_categorized <- hurricane_plants %>%
-  mutate(plant_type = case_when(
-    common_name == "bull thistle" ~ "herbaceous",
-    common_name == "cinnamon fern" ~ "fern",
-    common_name == "red spruce" ~ "coniferous",
-    life_form == "vine" ~ "herbaceous",
-    life_form == "shrub" ~ "woody",
-    life_form == "tree" ~ "woody",
-    life_form == "herb" ~ "herbaceous",
-    life_form == "vine" ~ "herbaceous",
-    .default = "Other"
-  ))
-```
-
-``` r
 #do breaking leaf buds, buds and flowers, fruit count, dropped fruit count. Just for apple, do it as line
 
 hurricane_plants %>%
@@ -744,200 +785,51 @@ hurricane_plants %>%
 ```
 
 ``` r
-my_anim <- hurricane_plants_long %>%
-ggplot(aes(group = species)) +
-  geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
-                                                   "budding",
-                                                   "flowering",
-                                                   "fruiting",
-                                                   "dispersing"))), 
-                    xend = (fct_relevel(phenophase, c("leafing out",
-                                                      "budding",
-                                                      "flowering",
-                                                      "fruiting",
-                                                      "dispersing"))),
-                    y = start_date, 
-                    yend=end_date, 
-                color = phenophase)) +
-  
-  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
-                                                "budding", 
-                                                "flowering", 
-                                                "fruiting",
-                                                "dispersing"))),
-                 y = start_date), 
-             color = "aquamarine3", 
-             size = 1 ) +
-  
-  
-  geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
-                                                "budding", 
-                                                "flowering", 
-                                                "fruiting",
-                                                "dispersing"))),
-                 y = end_date), 
-             color = "firebrick3", 
-             size = 1 ) +
-  coord_flip() +
-  theme_minimal() +
-  theme(legend.position = "none") +
-  labs(x = "phenophase",
-       y = "date range",
-       title = 'species: {closest_state}') +
-  transition_states(states = species) +
-  scale_color_viridis_d()
+# my_anim <- hurricane_plants_long %>%
+# ggplot(aes(group = species)) +
+#   geom_segment( aes(x = (fct_relevel(phenophase, c("leafing out",
+#                                                    "budding",
+#                                                    "flowering",
+#                                                    "fruiting",
+#                                                    "dispersing"))), 
+#                     xend = (fct_relevel(phenophase, c("leafing out",
+#                                                       "budding",
+#                                                       "flowering",
+#                                                       "fruiting",
+#                                                       "dispersing"))),
+#                     y = start_date, 
+#                     yend=end_date, 
+#                 color = phenophase)) +
+#   
+#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
+#                                                 "budding", 
+#                                                 "flowering", 
+#                                                 "fruiting",
+#                                                 "dispersing"))),
+#                  y = start_date), 
+#              color = "aquamarine3", 
+#              size = 1 ) +
+#   
+#   
+#   geom_point(aes(x = (fct_relevel(phenophase, c("leafing out", 
+#                                                 "budding", 
+#                                                 "flowering", 
+#                                                 "fruiting",
+#                                                 "dispersing"))),
+#                  y = end_date), 
+#              color = "firebrick3", 
+#              size = 1 ) +
+#   coord_flip() +
+#   theme_minimal() +
+#   theme(legend.position = "none") +
+#   labs(x = "phenophase",
+#        y = "date range",
+#        title = 'species: {closest_state}') +
+#   transition_states(states = species) +
+#   scale_color_viridis_d()
+# 
+# animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer()) 
 
-animate(my_anim, duration = 30, fps = 20, width = 900, height = 900, res = 200, renderer = gifski_renderer()) 
-```
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_segment()`).
-
-    ## Warning: Removed 1 rows containing missing values (`geom_point()`).
-    ## Removed 1 rows containing missing values (`geom_point()`).
-
-<img src="analysis_files/figure-gfm/lolipop-animation-1.gif" alt="Animated gif showing multiple lolipop plots displaying the relationship between time and the following phenophases as they occur for individual plants: Leafing out, dispersing, fruiting, flowering, and budding. For the Beach Pea, most of the phenophases occur for similar lenghts of time (about two months each save for the leafing out period which was only recorded during one observation period). In comparison, the Canada Mayflower had very short leafing out, flowering, and budding phases, each lasting less than a month, but its fruiting and dispersing phases each lasted at least three months. Additionally for the Beach Pea the beginnings and endings of the phases overlap with each other broadly whereas the Canada Mayflower's appear to be more stratified."  />
-
-``` r
 # anim_save(filename = "lollipop.gif")
 ```
 
@@ -1007,14 +899,15 @@ weather_data %>%
     # geom_line(aes(y = daily_mean_temp), color = "blue") +
     geom_line(aes(y = daily_min_temp), color = "skyblue") +
     geom_line(aes(y = daily_max_temp), color = "violetred3") +
-  labs(y = "daily mean temperature (celcius)",
-       title = "daily air temperatures of Hurricane Island")
+  labs(y = "daily temperature range (celcius)",
+       title = "daily air temperatures of Hurricane Island") +
+  geom_line(y = 0)
 ```
 
 <img src="analysis_files/figure-gfm/plot-temperature-ranges-1.png" alt="Ribbon plot showing daily air temperatures sources from NERACOOS buoy nearest Hurricane Island, F01, ranging from Feburary through October. The lowest temperatures dropped below -10 degrees occured in late February while the highest temperature hit 25 degrees in early September."  />
 
 ``` r
-## ggsave("spring-to-oct-temperatures.png", width = 14, height = 8                                                                                                                                                                                                                                                                  )
+ ggsave("spring-to-oct-temperatures.png", width = 14, height = 8)
 ```
 
 ``` r
@@ -1035,65 +928,36 @@ zone_color <- colorFactor(palette = c("#d7191c", "#fdae61", "#ffffbf", "#7b3294"
 
 ``` r
 # read points
-plant_points <- read_csv("../data/hurricane_points.csv")
-```
+# plant_points <- read_csv("../data/hurricane_points.csv")
+# plant_zones <- read_csv("../data/hurricane_zones.csv")
 
-    ## Rows: 23 Columns: 5
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (1): Plant
-    ## dbl (4): FID, Id, x, y
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
-plant_zones <- read_csv("../data/hurricane_zones.csv")
-```
-
-    ## Rows: 5 Columns: 5
-    ## ── Column specification ────────────────────────────────────────────────────────
-    ## Delimiter: ","
-    ## chr (1): Zone
-    ## dbl (4): FID, Id, Shape__Area, Shape__Length
-    ## 
-    ## ℹ Use `spec()` to retrieve the full column specification for this data.
-    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
-``` r
 # create map
-leaflet(data = map_join) %>%
-   addTiles() %>%
-  addProviderTiles(providers$OpenStreetMap) %>%
-   setView(lng = -68.895, #<<
-           lat = 44.0348, #<<
-           zoom = 14.45) %>% #<<
-  addCircles(~x, ~y,
-        fillColor = ~zone_color(map_join$Zone),
-             stroke = TRUE,
-             weight = 1,
-             color = "black",
-             fillOpacity = 0.7,
-             radius = 10,
-        highlight = highlightOptions(
-             weight = 3,
-             color = "blue",
-             fillOpacity = 1,
-             bringToFront = TRUE
-        ),
-        label = ~Plant) %>%
-        addLegend(
-             position = "bottomright",
-             pal = zone_color,
-             values = ~map_join$Zone,
-             title = "Plant Locations by Zone",
-             opacity = 1
-        )%>%
-  addScaleBar()
+# leaflet(data = map_join) %>%
+#    addTiles() %>%
+#   addProviderTiles(providers$OpenStreetMap) %>%
+#    setView(lng = -68.895, #<<
+#            lat = 44.0348, #<<
+#            zoom = 14.45) %>% #<<
+#   addCircles(~x, ~y,
+#         fillColor = ~zone_color(map_join$Zone),
+#              stroke = TRUE,
+#              weight = 1,
+#              color = "black",
+#              fillOpacity = 0.7,
+#              radius = 10,
+#         highlight = highlightOptions(
+#              weight = 3,
+#              color = "blue",
+#              fillOpacity = 1,
+#              bringToFront = TRUE
+#         ),
+#         label = ~Plant) %>%
+#         addLegend(
+#              position = "bottomright",
+#              pal = zone_color,
+#              values = ~map_join$Zone,
+#              title = "Plant Locations by Zone",
+#              opacity = 1
+#         )%>%
+#   addScaleBar()
 ```
-
-    ## QStandardPaths: XDG_RUNTIME_DIR not set, defaulting to '/tmp/runtime-r2229460'
-    ## TypeError: Attempting to change the setter of an unconfigurable property.
-    ## TypeError: Attempting to change the setter of an unconfigurable property.
-
-<img src="analysis_files/figure-gfm/hurricane-leaflet-1.png" alt="A leaflet map of Hurricane Island with points added on displaying the locations of each plant observed in the survey and a key in the bottom right corner. The points are color coded by zone. There are five plants in the Meadow Garden, three in the Ice pond, five in the Main Garden Area, four in the Main Campus, and six in the South End/High Cliffs zone."  />
